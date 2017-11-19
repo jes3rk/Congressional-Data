@@ -2,6 +2,7 @@ var apiKey = "NpjePSNP3ovrBFufOHvGfsX43BDQrce4HkWHoTyi";
 var baseUrl = "https://api.propublica.org/congress/v1"
 var congressNum = "/115";
 var chambers = ["house", "senate"];
+var click = 0;
 
 var searchOut = [];
 
@@ -48,23 +49,30 @@ function displayRes(result, house) {
   // Trigger member search
   $('.name').on('click', function() {
     event.preventDefaults;
-    detailMem($(this).data('id'));
+    if (click < 1) {
+      console.log('click');
+      detailMem($(this).data('id'));
+    };
+    click++;
   });
 }
 
 function detailMem(memNum) {
+  console.log("detailMem");
   $.ajax({
     url: baseUrl + "/members/" + memNum + ".json",
     type: "GET",
     dataType: "json",
     headers: {'X-API-Key': apiKey}
   }).done(function(data) {
+    console.log("dataRet");
     console.log(data);
   });
 }
 
 // Get a list of members
 $(document).ready(function() {
+  click = 0;
   $('#searchQuery').on('click', function(event) {
     event.preventDefaults;
 
