@@ -44,6 +44,12 @@ function displayRes(result, house) {
   row.append(chamber);
 
   $('table').append(row);
+
+  // Trigger member search
+  $('.name').on('click', function() {
+    event.preventDefaults;
+    detailMem($(this).data('id'));
+  });
 }
 
 function detailMem(memNum) {
