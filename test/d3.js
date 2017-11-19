@@ -19,27 +19,31 @@ function getMem(cham, name1, name2) {
     for (var i = 0; i < res.length; i++) {
       if (res[i].first_name === name1 || res[i].last_name === name1 || res[i].first_name === name2 || res[i].last_name === name2) {
         // Display search results
-        var row = $('<tr/>');
-        var name = $('<td/>');
-        var state = $('<td/>');
-        var chamber = $('<td/>');
-
-        name.text(res[i].first_name + " " + res[i].last_name);
-        name.attr({
-          class: "name",
-          "data-id": res[i].id
-        });
-        state.text(res[i].state);
-        chamber.text(cham[0].toUpperCase() + cham.slice(1));
-
-        row.append(name);
-        row.append(state);
-        row.append(chamber);
-
-        $('table').append(row);
+        displayRes(res[i], cham);
       };
     };
   });
+}
+
+function displayRes(result, house) {
+  var row = $('<tr/>');
+  var name = $('<td/>');
+  var state = $('<td/>');
+  var chamber = $('<td/>');
+
+  name.text(result.first_name + " " + result.last_name);
+  name.attr({
+    class: "name",
+    "data-id": result.id
+  });
+  state.text(result.state);
+  chamber.text(house[0].toUpperCase() + house.slice(1));
+
+  row.append(name);
+  row.append(state);
+  row.append(chamber);
+
+  $('table').append(row);
 }
 
 function detailMem(memNum) {
