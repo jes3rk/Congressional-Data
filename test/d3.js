@@ -50,7 +50,6 @@ function displayRes(result, house) {
   $('.name').on('click', function() {
     event.preventDefaults;
     if (click < 1) {
-      console.log('click');
       detailMem($(this).data('id'));
     };
     click++;
@@ -58,14 +57,12 @@ function displayRes(result, house) {
 }
 
 function detailMem(memNum) {
-  console.log("detailMem");
   $.ajax({
     url: baseUrl + "/members/" + memNum + ".json",
     type: "GET",
     dataType: "json",
     headers: {'X-API-Key': apiKey}
   }).done(function(data) {
-    console.log("dataRet");
     console.log(data);
   });
 }
