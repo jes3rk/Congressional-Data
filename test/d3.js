@@ -75,7 +75,7 @@ $(document).ready(function() {
   click = 0;
   $('#searchQuery').on('click', function(event) {
     event.preventDefaults;
-
+    click = 0;
     var query = $('#searchText').val().split(" ");
     var fixQ = [];
     // format the search function for proPublica
