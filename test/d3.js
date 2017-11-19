@@ -86,7 +86,7 @@ function detailMem(memNum) {
       }
     };
 
-    // console.log(memDetail);
+    console.log(memDetail);
   });
 }
 
