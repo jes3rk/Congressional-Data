@@ -18,7 +18,7 @@ function getMem(cham, name1, name2) {
     var res = data.results[0].members;
     // Search parameters
     for (var i = 0; i < res.length; i++) {
-      if (res[i].first_name === name1 || res[i].last_name === name1 || res[i].first_name === name2 || res[i].last_name === name2) {
+      if (res[i].first_name === name1 || res[i].last_name === name2) {
         // Display search results
         displayRes(res[i], cham);
       };
@@ -26,6 +26,7 @@ function getMem(cham, name1, name2) {
   });
 }
 
+// This pushes the search results to a table to display
 function displayRes(result, house) {
   var row = $('<tr/>');
   var name = $('<td/>');
@@ -52,10 +53,12 @@ function displayRes(result, house) {
     if (click < 1) {
       detailMem($(this).data('id'));
     };
+    // using a click interval to enforce a one-search-per-page-load rule
     click++;
   });
 }
 
+// Searches detailed bio and history for the chose member
 function detailMem(memNum) {
   $.ajax({
     url: baseUrl + "/members/" + memNum + ".json",
@@ -65,13 +68,15 @@ function detailMem(memNum) {
   }).done(function(data) {
     // console.log(data);
     var basic = data.results[0];
-
+    // Cleaning the data to make life easier and lower load times
     memDetail = {
       name: basic.first_name + " " + basic.last_name,
-      congressNum: basic.crp_id,
+      congressNum: basic.member_id,
+      photo: "https://theunitedstates.io/images/congress/225x275/" + basic.member_id + ".jpg",
       party: basic.current_party,
       gender: basic.gender,
       dob: basic.date_of_birth,
+      title: basic.roles[0].short_title,
       roles: basic.roles,
       contact: {
         facebook: "https://www.facebook.com/" + basic.facebook_account,
@@ -81,7 +86,7 @@ function detailMem(memNum) {
       }
     };
 
-    console.log(memDetail);
+    // console.log(memDetail);
   });
 }
 
