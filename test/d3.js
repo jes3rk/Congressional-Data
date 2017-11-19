@@ -3,6 +3,8 @@ var baseUrl = "https://api.propublica.org/congress/v1"
 var congressNum = "/115";
 var chamber = ["/house", "/senate"];
 
+// GET https://api.propublica.org/congress/v1/members/{member-id}.json
+
 // using name1 and name2 in case the user reverses the first and last in the search box
 function getMem(index, name1, name2) {
   // Ajax call to get the data
@@ -22,8 +24,22 @@ function getMem(index, name1, name2) {
   });
 }
 
+function detailMem(memNum) {
+  $.ajax({
+    url: baseUrl + "/members/" + memNum + ".json",
+    type: "GET",
+    dataType: "json",
+    headers: {'X-API-Key': apiKey}
+  }).done(function(data) {
+    console.log(data);
+  });
+}
+
+var testNum = "H000338";
 
 // Get a list of members
 $(document).ready(function() {
 
+
+  detailMem(testNum);
 })
