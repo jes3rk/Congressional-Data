@@ -4,7 +4,7 @@ var congressNum = "/115";
 var chambers = ["house", "senate"];
 var click = 0;
 
-var searchOut = [];
+var memDetail = {};
 
 // using name1 and name2 in case the user reverses the first and last in the search box
 function getMem(cham, name1, name2) {
@@ -63,7 +63,25 @@ function detailMem(memNum) {
     dataType: "json",
     headers: {'X-API-Key': apiKey}
   }).done(function(data) {
-    console.log(data);
+    // console.log(data);
+    var basic = data.results[0];
+
+    memDetail = {
+      name: basic.first_name + " " + basic.last_name,
+      congressNum: basic.crp_id,
+      party: basic.current_party,
+      gender: basic.gender,
+      dob: basic.date_of_birth,
+      roles: basic.roles,
+      contact: {
+        facebook: "https://www.facebook.com/" + basic.facebook_account,
+        twiiter: "https://www.twitter.com/" + basic.twitter_account,
+        website: basic.url,
+        phone: basic.roles[0].phone
+      }
+    };
+
+    console.log(memDetail);
   });
 }
 
