@@ -25,20 +25,12 @@ background-color: white;
 
 }
 
-/*#frontpage {
+#frontpage {
   display:inline-flex;
   align-items: center;
-  margin-left: 450px;
-  margin-right:450px;
   margin-top:-20px;
   background-color: white;
-  text-align: center;
-  align-items: center;
-  /*margin: auto;
-  /*width: 25%;*/
-
-
-
+}
 input[type=text] {
     width: 130px;
     -webkit-transition: width 0.4s ease-in-out;
@@ -46,19 +38,14 @@ input[type=text] {
 
 }
 
-/*#constitution{
+#constitution{
 background-color: #F1F1D4;
 text-align: center;
-margin-left: 450px;
-margin-right: 450px;
-float: right;
 display:block;
 text-align: center;
-align-items: center;
-/*width: 300px;*/
 }*/
 
-left;#datapull{
+#datapull{
 text-align: center;
 margin-left: 300px;
 margin-right: 300px;
