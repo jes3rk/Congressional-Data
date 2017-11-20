@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>HTML5 boilerplate – all you really need…</title>
+  <title>CongressWatch</title>
   <link rel="stylesheet" href="../css/custom.css">
   <link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/cmu-serif" type="text/css" />
   <script
@@ -36,33 +36,36 @@
   <section id="datapull">
 
 
-    <ul>
+    <ul style="list-style:none;">
       <li>
-        <h2 id="congressname">Name</h2></li>
+        <h2 id="congressname">Mitch Mconnell</h2></li>
       <li>
-        <div id="congressphoto">Picture</div>
+        <div id="congressphoto"><img src="https://theunitedstates.io/images/congress/225x275/M000355.jpg" alt="Mitch McConnell"></div>
       </li>
       <li>
-        <p id="congresshouse">House</p>
+        <p id="congresshouse">Senate</p>
       </li>
       <li>
-        <p id="congressstate">State</p>
+        <p id="congressrank">Majority Leader</p>
       </li>
       <li>
-        <p id="dob">Date of birth</p>
+        <p id="congressstate">Kentucky</p>
       </li>
       <li>
-        <a href="javascript:void(0);" onclick="show();">History</a>
-         <div id="congressdrop" style="display: none"> <section id="history"> Assuming this works, history will go here.</section</div>
+        <p id="congressdob">02/20/1942</p>
+      </li>
+      <li>
+        <a onclick="show();">History</a>
+         <div id="congressdrop" style="display: none"> <section id="history"> Senior Senator from Kentucky. President pro-Tem of the Senate</section</div>
       </li>
 
       <li>
-        <a href="javascript:void(0);" onclick="show2();">Present/Absent</a>
-         <div id="congressdrop2" style="display: none"> <section id="Voting"> Histogram?.</section</div>
+        <a onclick="show2();">Present/Absent</a>
+         <div id="congressdrop2" style="display: none"> <section id="Voting"> Votes and doesn't vote.</section</div>
       </li>
       <li>
-        <a href="javascript:void(0);" onclick="show3();">Aye/Nay/Abstain</a>
-         <div id="congressdrop3" style="display: none"> <section id="AyeNay"> Another histogram.</section</div>
+        <a onclick="show3();">Aye/Nay/Abstain</a>
+         <div id="congressdrop3" style="display: none"> <section id="AyeNay"> Aye sometimes, nay othertimes</section</div>
       </li>
 
     </ul>

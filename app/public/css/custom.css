@@ -33,3 +33,16 @@ input[type=text] {
     transition: width 0.4s ease-in-out;
 
 }
+
+#constitution{
+background-color: #F1F1D4;
+text-align: center;
+margin-left: 300px;
+margin-right: 300px;
+}
+
+#datapull{
+text-align: center;
+margin-left: 300px;
+margin-right: 300px;
+}
