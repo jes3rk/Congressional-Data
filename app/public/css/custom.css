@@ -17,15 +17,27 @@ font-weight: bold;
 font-style: normal;
 text-transform: uppercase;
 background-color: white;
-margin-left: 450px;
-margin-right:450px;
-margin-top:-20px;
+
 }
 
 #searchbar{
   text-align: center;
 
 }
+
+/*#frontpage {
+  display:inline-flex;
+  align-items: center;
+  margin-left: 450px;
+  margin-right:450px;
+  margin-top:-20px;
+  background-color: white;
+  text-align: center;
+  align-items: center;
+  /*margin: auto;
+  /*width: 25%;*/
+
+
 
 input[type=text] {
     width: 130px;
@@ -34,14 +46,19 @@ input[type=text] {
 
 }
 
-#constitution{
+/*#constitution{
 background-color: #F1F1D4;
 text-align: center;
-margin-left: 300px;
-margin-right: 300px;
-}
+margin-left: 450px;
+margin-right: 450px;
+float: right;
+display:block;
+text-align: center;
+align-items: center;
+/*width: 300px;*/
+}*/
 
-#datapull{
+left;#datapull{
 text-align: center;
 margin-left: 300px;
 margin-right: 300px;
