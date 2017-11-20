@@ -1,0 +1,35 @@
+#home {
+
+
+  background-color: grey;
+}
+
+#results {
+
+  background-color: grey;
+}
+
+.title{
+color: black;
+text-align: center;
+font-family: 'CMUSerifRoman';
+font-weight: bold;
+font-style: normal;
+text-transform: uppercase;
+background-color: white;
+margin-left: 450px;
+margin-right:450px;
+margin-top:-20px;
+}
+
+#searchbar{
+  text-align: center;
+
+}
+
+input[type=text] {
+    width: 130px;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+
+}
