@@ -107,3 +107,6 @@ $(document).ready(function() {
     getMem(chambers[1], fixQ[0], fixQ[1]);
   });
 })
+// var usioImage = $("https://theunitedstates.io/images/congress/225x275/" + basic.member_id + ".jpg"); //Equivalent: $(document.createElement('img'))
+// img.attr('src', responseObject.imgurl);
+// img.appendTo('#congressphoto');
