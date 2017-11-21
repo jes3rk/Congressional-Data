@@ -11,6 +11,7 @@
     <h1>Testing D3</h1>
     <input id="searchText" type="text" name="searchQ" value="">
     <button id="searchQuery"type="button" name="search">Search</button>
+    <button id="d3-btn" type="button" name="button">Run D3</button>
     <table>
       <tr>
         <th>Name</th>
@@ -24,5 +25,26 @@
         text-decoration: underline;
       }
     </style>
+    <script type="text/javascript">
+
+      $('#d3-btn').on('click', function() {
+        d3Test();
+      });
+
+      // clean the data
+      var pctData = [];
+      for (var i = 0; i < houseData.length; i++) {
+        if (houseData[i].vote_with_party_pct !== undefined) {
+          var obj = {
+            id: houseData[i].id,
+            name: houseData[i].first_name + " " + houseData[i].last_name,
+            partyVote: houseData[i].vote_with_party_pct,
+            missVote: houseData[i].missed_votes_pct
+          };
+        };
+      }
+
+
+    </script>
   </body>
 </html>
