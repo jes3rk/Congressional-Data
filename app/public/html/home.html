@@ -6,11 +6,14 @@
 
 	<title>CongressWatch</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<link rel="stylesheet" href="../css/custom.css">
-	<link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/cmu-serif" type="text/css" />
+	<!-- <link rel="stylesheet" href="../css/custom.css"> -->
+	<!-- <link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/cmu-serif" type="text/css" /> -->
 	<link href="https://fonts.googleapis.com/css?family=Great+Vibes" rel="stylesheet">
-	<link rel="stylesheet" href="../css/reset.css">
-
+	<!-- <link rel="stylesheet" href="../css/reset.css"> -->
+	<script
+		src="https://code.jquery.com/jquery-3.2.1.min.js"
+		integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+		crossorigin="anonymous"></script>
 
 </head>
 
@@ -20,11 +23,11 @@
 			<div class="col-md-3"></div>
 			<div class = "col-md-6">
 <section id="frontpage">
-	<div class="flag1"><img src="../images/usflag1.png" alt="american flag"></div>
+	<!-- <div class="flag1"><img src="../images/usflag1.png" alt="american flag"></div>
 	<div class="title">
 		<h1>CongressWatch</h1></div>
 		<div class="flag2"><img src="../images/usflag2.png" alt="american flag"></div>
-	</section>
+	</section> -->
 </div>
 </div class="col-md-3"></div>
 </div>
@@ -54,11 +57,33 @@
 
 
 			<section id="searchbar">
-				<input type="text" name="search" placeholder="Enter a Congressman"> </input>
+				<input id="searchText" type="text" name="search" placeholder="Enter a Congressman"> </input>
 				<button id="clickButton">Search</button>
 			</section>
 
 </div>
+<script type="text/javascript">
+	$(document).ready(function() {
+		click = 0;
+		$('#clickButton').on('click', function(event) {
+			event.preventDefault();
+			click = 0;
+			var query = $('#searchText').val().split(" ");
+			var fixQ = [];
+			// format the search function for proPublica
+			query.forEach(function(element) {
+				fixQ.push(element[0].toUpperCase() + element.slice(1));
+			});
+
+			console.log(fixQ);
+			$.post("/api/getMem", {object: fixQ}, function(result) {
+				console.log(result);
+			});
+			// getMem(chambers[0], fixQ[0], fixQ[1]);
+			// getMem(chambers[1], fixQ[0], fixQ[1]);
+		});
+	})
+</script>
 </body>
 
 </html>

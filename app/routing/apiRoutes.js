@@ -1,72 +1,47 @@
 var apiKey = require("../data/keys.js");
 var baseUrl = "https://api.propublica.org/congress/v1"
-var congressNum = "/115";
-var chambers = ["house", "senate"];
+var congressNum = "115";
+
 var path = require("path");
 var request = require("request");
+var Congress = require( 'propublica-congress-node' );
+var client = new Congress(apiKey.proPublica);
 
 
 module.exports = function(app) {
 
-  console.log('in here')
-//==================================Get 1st info===========================
-  app.get('/api/congress', function(req,res){
+  app.post("/api/getMem", function(req, res) {
+    var params = req.body.object;
+    var output;
+    var houseData = [];
+    var senateData = [];
+    // console.log(params);
 
-    getMem('mark','mark','mark')
-    res.json()
-
-
-  })
-
-  function getMem(cham, name1, name2) {
-
-      var queryUrl = baseUrl + congressNum + "/" + cham + "/members.json";
-      request(queryUrl, function(error, response, body) {
-        if(!error && response.statusCode ===200){
-          var res = data.result[0].members;
-          for (i = 0; i < data.reasult[0].members; i++){
-            if(res[i].first_name === name1 || res[i].last_name === name2) {
-              console.log(res);
-            }
-          }
-        }
-      });
-
-      console.log(JSON.parse(body));
-  }
-
-//==================================Function of getting Detail Memeber============================
-  function detailMem(memNum) {
-    $.ajax({
-      url: baseUrl + "/members/" + memNum + ".json",
-      type: "GET",
-      dataType: "json",
-      headers: {'X-API-Key': apiKey}
-    }).done(function(data) {
-      // console.log(data);
-      var basic = data.results[0];
-      // Cleaning the data to make life easier and lower load times
-      memDetail = {
-        name: basic.first_name + " " + basic.last_name,
-        congressNum: basic.member_id,
-        photo: "https://theunitedstates.io/images/congress/225x275/" + basic.member_id + ".jpg",
-        party: basic.current_party,
-        gender: basic.gender,
-        dob: basic.date_of_birth,
-        title: basic.roles[0].short_title,
-        roles: basic.roles,
-        contact: {
-          facebook: "https://www.facebook.com/" + basic.facebook_account,
-          twiiter: "https://www.twitter.com/" + basic.twitter_account,
-          website: basic.url,
-          phone: basic.roles[0].phone
-        }
-      };
-
-      console.log(memDetail);
+    // node api caller
+    client.memberLists({
+      congressNumber: congressNum,
+      // grab the house data
+      chamber: 'house'
+    }).then(function(res) {
+      // houseData.push(res);
+      houseData = res;
+      console.log(houseData);
+      // console.log(res);
     });
-  }
-//==============================List of Memeber==============================
 
+    client.memberLists({
+      congressNumber: congressNum,
+      // grab the senate data
+      chamber: 'senate'
+    }).then(function(res) {
+      // senateData.push(res);
+      senateData = res;
+      console.log(senateData)
+      // console.log(res);
+    });
 
-}//Module export
+    // console.log(houseData, senateData);
+
+    res.json(output);
+  });
+};
