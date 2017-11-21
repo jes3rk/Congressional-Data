@@ -1,38 +1,76 @@
 #home {
+  text-align: center;
+  align-items: center;
+background-image: url("../images/capitolW.jpg");
+background-size: 100% 100%;
+background-repeat: no-repeat;
+background-size:cover;
+overflow:hidden;
+}
 
-
-  background-color: grey;
+img.bg{
+  min-height:100%;
+  min-width:1024px;
+  width:100%;
+  height:auto;
+  position:fixed;
+  top:0;
+  left:0;
 }
 
 #results {
-
+  text-align: center;
   background-color: grey;
 }
 
-.title{
-color: black;
-text-align: center;
-font-family: 'CMUSerifRoman';
-font-weight: bold;
-font-style: normal;
-text-transform: uppercase;
-background-color: white;
+/*.center{
+  text-align: center;
+}*/
 
+.flagPin{
+
+  height: 100px;
 }
 
+
+.title{
+color: white;
+font-family: 'Spectral SC', serif;
+font-style: bold;
+font-weight: 600;
+/*height: 5%;*/
+text-transform: uppercase;
+background: repeating-linear-gradient(
+  120deg,
+  #E0162B,
+  #E0162B 10px,
+  #0052A5 10px,
+  #0052A5 20px
+);
+
+display: inline-flex;
+align-items: center;
+/*margin-top:-30px;*/
+}
+
+#homepage{
+
+  display:block;
+
+}
 #searchbar{
   text-align: center;
 
 }
 
-#frontpage {
+/*#frontpage {
   display:inline-flex;
   align-items: center;
   margin-top:-20px;
-  background-color: white;
+  background-color: white;*/
 }
 input[type=text] {
-    width: 130px;
+    width: 200px;
     -webkit-transition: width 0.4s ease-in-out;
     transition: width 0.4s ease-in-out;
 
@@ -40,13 +78,30 @@ input[type=text] {
 
 #constitution{
 background-color: #F1F1D4;
-text-align: center;
-display:block;
-text-align: center;
-}*/
+font-family: 'Great Vibes', cursive;
+opacity: 0.1;
+}
+
+#constitution:hover {
+    opacity: 1;
+
+
+}
+
+#manual{
+  background-color: green;
+  opacity:0.4;
+}
+#manual:hover{
+  opacity:1;
+}
 
 #datapull{
 text-align: center;
 margin-left: 300px;
 margin-right: 300px;
+}
+
+#turtleButton{
+  background-color:purple;
 }

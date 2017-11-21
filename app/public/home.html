@@ -5,60 +5,94 @@
 	<meta charset="utf-8">
 
 	<title>CongressWatch</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="./css/reset.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" href="./css/custom.css">
 	<link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/cmu-serif" type="text/css" />
 	<link href="https://fonts.googleapis.com/css?family=Great+Vibes" rel="stylesheet">
-	<link rel="stylesheet" href="./css/reset.css">
+	<link href="https://fonts.googleapis.com/css?family=Spectral+SC" rel="stylesheet">
+	<script
+	  src="https://code.jquery.com/jquery-3.2.1.min.js"
+	  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+	  crossorigin="anonymous"></script>
+
 
 
 </head>
 
 <body id="home">
-	<div class="container">
+
+
 		<div class="row">
 			<div class="col-md-3"></div>
-			<div class = "col-md-6">
-<section id="frontpage">
-	<div class="flag1"><img src="./images/usflag1.png" alt="american flag"></div>
-	<div class="title">
-		<h1>CongressWatch</h1></div>
-		<div class="flag2"><img src="./images/usflag2.png" alt="american flag"></div>
-	</section>
-</div>
-</div class="col-md-3"></div>
-</div>
+			<div class="col-md-6 center">
+				<div class="title">
+					<img src="./images/usflag1.png" alt="american flag" class="flagPin">
+					<h2>CongressWatch</h2>
+					<img src="./images/usflag2.png" alt="american flag" class="flagPin">
+				</div>
+			</div>
+			<div class="col-md-3"></div>
+		</div>
 
-</br>
+		</br>
 
-</div>
-<div class="row">
-	<div class="col-md-3"></div>
- <div class="col-md-6">
-	<div id="constitution">
-		<p>We the People of the United States, in Order to form a more perfect Union, establish Justice, insure domestic Tranquility, provide for the common defence, promote the general Welfare, and secure the Blessings of Liberty to ourselves and our Posterity,
-			do ordain and establish this Constitution for the United States of America</p>
+		<div class="row">
+			<div class="col-md-3"></div>
+			<div class="col-md-6">
+				<div id="constitution">
+					<p>We the People of the United States, in Order to form a more perfect Union, establish Justice, insure domestic Tranquility, provide for the common defence, promote the general Welfare, and secure the Blessings of Liberty to ourselves and our Posterity,
+						do ordain and establish this Constitution for the United States of America</p>
 
-		<p>All legislative Powers herein granted shall be vested in a Congress of the United States, which shall consist of a Senate and House of Representatives.</p>
+					<p>All legislative Powers herein granted shall be vested in a Congress of the United States, which shall consist of a Senate and House of Representatives.</p>
 
-		<p>The House of Representatives shall be composed of Members chosen every second Year by the People of the several States, and the Electors in each State shall have the Qualifications requisite for Electors of the most numerous Branch of the State Legislature...</p>
+					<p>The House of Representatives shall be composed of Members chosen every second Year by the People of the several States, and the Electors in each State shall have the Qualifications requisite for Electors of the most numerous Branch of the State Legislature...
+					</p>
 
-		<p>...The Senate of the United States shall be composed of two Senators from each State, chosen by the Legislature thereof, for six Years; and each Senator shall have one Vote.</p>
+					<p>...The Senate of the United States shall be composed of two Senators from each State, chosen by the Legislature thereof, for six Years; and each Senator shall have one Vote.</p>
+				</div>
+			</div>
+		</div class="col-md-3">
 	</div>
-</div>
-</div class="col-md-3"></div>
-</div>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+<section id="functionalbar">
+	<div class="row">
+		<div class="col-md-3"></div>
+		<div class="col-md-6">
+			<div id="manual">Using our service, you can look up your congressman and see how they've voted, how often they've voted, and how often they've supported their party.</div>
+		</div>
+		<div class="col-md-3"></div>
+	</div>
 
-<div id="manual">Using our service, you can look up your congressman and see how they've voted, how often they've voted, and how often they've supported their party.</div>
 
 
-
-			<section id="searchbar">
-				<input type="text" name="search" placeholder="Enter a Congressman"> </input>
-				<button id="clickButton">Search</button>
-			</section>
-
-</div>
+	<div id="searchbar">
+		<input type="text" placeholder="Enter a Congressman" id="congressBar"> </input>
+		<button id="turtleButton">Search</button>
+	</div>
+</section>
 </body>
+<script type="text/javascript">
+	// Question: What does this code do?
+	$("#turtleButton").on("click", function(event) {
+		event.preventDefault();
+		var congressSearch = $("#congressBar").val().trim()
+		console.log(congressSearch)
 
+	$.post("/api/new", congressSearch)
+.done(function(data) {
+	console.log(data);
+	alert("Getting Information.");
+});
+});
+
+</script>
 </html>
