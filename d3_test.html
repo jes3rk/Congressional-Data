@@ -24,6 +24,8 @@
         color: blue;
         text-decoration: underline;
       }
+
+      rect.bar { fill: steelblue; }
     </style>
     <script type="text/javascript">
 
@@ -31,8 +33,9 @@
         d3Test();
       });
 
-      var pctData = [];
+      var cleanData = [];
       var rejectData = [];
+      var pctData = [];
 
 
       function d3Test() {
@@ -48,7 +51,7 @@
             missVote: houseData[i].missed_votes_pct
           };
           if (houseData[i].votes_with_party_pct !== undefined || houseData[i].missed_votes_pct === undefined) {
-            pctData.push(obj);
+            cleanData.push(obj);
           } else {
             rejectData.push(obj);
           };
@@ -63,11 +66,18 @@
             missVote: senateData[i].missed_votes_pct
           };
           if (senateData[i].votes_with_party_pct !== undefined || senateData[i].missed_votes_pct === undefined) {
-            pctData.push(obj);
+            cleanData.push(obj);
           } else {
             rejectData.push(obj);
           };
         };
+
+        for (var i = 0; i < cleanData.length; i++) {
+          pctData.push(cleanData[i].partyVote);
+        };
+
+        // pctData = JSON.stringify(pctData);
+        // console.log(pctData);
 
         // set the dimensions and margins of the graph
         var margin = {top: 10, right: 30, bottom: 30, left: 40},
@@ -76,16 +86,16 @@
 
         // set the ranges
         var x = d3.scaleLinear()
-                  .domain([d3.min(pctData), d3.max(pctData)])
+                  .domain([60, 100])
                   .rangeRound([0, width]);
         var y = d3.scaleLinear()
                   .range([height, 0]);
 
         // set the parameters for the histogram
         var histogram = d3.histogram()
-                  .value(function(d) { return d.partyVote; })
+                  .value(function(d) { return d; })
                   .domain(x.domain())
-                  .thresholds(x.ticks());
+                  .thresholds(250);
 
         // append the svg object to the body of the page
         // append a 'group' element to 'svg'
@@ -96,8 +106,14 @@
                   .append("g")
                   .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+                  // format the data
+        // pctData.forEach(function(d) {
+        //     d.pct = d.partyVote;
+        // });
+
         // group the data for the bars
         var bins = histogram(pctData);
+        console.log(bins);
 
         // Scale the range of the data in the y domain
         y.domain([0, d3.max(bins, function(d) { return d.length; })]);
@@ -108,10 +124,10 @@
           .enter().append("rect")
             .attr("class", "bar")
             .attr("x", 1)
-            // .attr("transform", function(d) {
-      		  // return "translate(" + x(d.x0) + "," + y(d.length) + ")"; })
-            // .attr("width", function(d) { return x(d.x1) - x(d.x0) -1 ; })
-            // .attr("height", function(d) { return height - y(d.length); });
+            .attr("transform", function(d) {
+      		  return "translate(" + x(d.x0) + "," + y(d.length) + ")"; })
+            .attr("width", function(d) { return x(d.x1) - x(d.x0) -1 ; })
+            .attr("height", function(d) { return height - y(d.length); });
 
         // add the x Axis
         svg.append("g")
@@ -126,5 +142,8 @@
 
 
     </script>
+    <style media="screen">
+      re
+    </style>
   </body>
 </html>
