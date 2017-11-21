@@ -68,23 +68,23 @@
 </div>
 <script type="text/javascript">
 
-	function displayRes(result, house) {
+	function displayRes(result) {
 		var row = $('<tr/>');
 		var name = $('<td/>');
 		var state = $('<td/>');
-		var chamber = $('<td/>');
+		// var chamber = $('<td/>');
 
-		name.text(result.first_name + " " + result.last_name);
+		name.text(result.short_title + " " + result.first_name + " " + result.last_name);
 		name.attr({
 			class: "name",
 			"data-id": result.id
 		});
 		state.text(result.state);
-		chamber.text(house[0].toUpperCase() + house.slice(1));
+		// chamber.text(house[0].toUpperCase() + house.slice(1));
 
 		row.append(name);
 		row.append(state);
-		row.append(chamber);
+		// row.append(chamber);
 
 		$('table').append(row);
 
@@ -115,9 +115,12 @@
 			console.log(fixQ);
 			$.post("/api/getMem", {object: fixQ}, function(result) {
 				console.log(result);
+				for (var i = 0; i < result.length; i++) {
+					displayRes(result[i]);
+				}
 			});
 		});
-	})
+	});
 </script>
 </body>
 
