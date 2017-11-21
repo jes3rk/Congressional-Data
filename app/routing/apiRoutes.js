@@ -15,7 +15,10 @@ module.exports = function(app) {
 
   app.post("/api/getMem", function(req, res) {
     var params = req.body.object;
-    var output;
+    var output = [];
+    var finishedHouse = false;
+    var finishedSenate = false;
+    var when = true;
     // console.log(params);
 
     // node api caller
@@ -29,6 +32,9 @@ module.exports = function(app) {
       for (var i = 0; i < query.length; i++) {
         if (query[i].first_name === params[0] || query[i].last_name === params[1]) {
           output.push(query[i]);
+        };
+        if (i === query.length-1) {
+          finishedHouse = true;
         };
       };
     });
@@ -44,9 +50,18 @@ module.exports = function(app) {
         if (query[i].first_name === params[0] || query[i].last_name === params[1]) {
           output.push(query[i]);
         };
+        if (i === query.length-1) {
+          finishedSenate = true;
+        };
       };
     });
 
-    // res.json(output);
+    while (when === true) {
+      if (finishedHouse  === true && finishedSenate === true) {
+        res.json(output);
+        when = false;
+      };
+    };
+
   }); // End of the first api call
 };

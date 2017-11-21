@@ -112,6 +112,7 @@
 				fixQ.push(element[0].toUpperCase() + element.slice(1));
 			});
 
+			console.log(fixQ);
 			$.post("/api/getMem", {object: fixQ}, function(result) {
 				console.log(result);
 			});
