@@ -20,6 +20,7 @@ module.exports = function(app) {
     var finishedSenate = false;
     var when = true;
     // console.log(params);
+    console.log(params);
 
     // node api caller
     client.memberLists({
@@ -35,6 +36,9 @@ module.exports = function(app) {
         };
         if (i === query.length-1) {
           finishedHouse = true;
+          if (finishedSenate === true) {
+            push();
+          };
         };
       };
     });
@@ -52,16 +56,17 @@ module.exports = function(app) {
         };
         if (i === query.length-1) {
           finishedSenate = true;
+          if (finishedHouse === true) {
+            push();
+          };
         };
       };
     });
 
-    while (when === true) {
-      if (finishedHouse  === true && finishedSenate === true) {
-        res.json(output);
-        when = false;
-      };
+    function push() {
+      return res.json(output);
     };
+
 
   }); // End of the first api call
 };
