@@ -17,6 +17,9 @@ app.use(express.static(path.join(__dirname, '/app/public')));
 require("./app/routing/apiRoutes")(app);
 require("./app/routing/htmlRoutes")(app);
 
+// app.post("/api/congress", function(req, res){
+//   preventDefault()
+// });
 
 
 // Listener

@@ -87,7 +87,7 @@
 		var congressSearch = $("#congressBar").val().trim()
 		console.log(congressSearch)
 
-	$.post("/api/new", congressSearch)
+	$.post("/api/congress", congressSearch)
 .done(function(data) {
 	console.log(data);
 	alert("Getting Information.");
