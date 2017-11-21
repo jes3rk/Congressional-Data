@@ -9,12 +9,13 @@ var client = new Congress(apiKey.proPublica);
 
 
 module.exports = function(app) {
+// these are out here so I can access them later
+  var houseData = [];
+  var senateData = [];
 
   app.post("/api/getMem", function(req, res) {
     var params = req.body.object;
     var output;
-    var houseData = [];
-    var senateData = [];
     // console.log(params);
 
     // node api caller
@@ -23,10 +24,13 @@ module.exports = function(app) {
       // grab the house data
       chamber: 'house'
     }).then(function(res) {
-      // houseData.push(res);
       houseData = res;
-      console.log(houseData);
-      // console.log(res);
+      var query =  res.results[0].members;
+      for (var i = 0; i < query.length; i++) {
+        if (query[i].first_name === params[0] || query[i].last_name === params[1]) {
+          output.push(query[i]);
+        };
+      };
     });
 
     client.memberLists({
@@ -34,14 +38,15 @@ module.exports = function(app) {
       // grab the senate data
       chamber: 'senate'
     }).then(function(res) {
-      // senateData.push(res);
       senateData = res;
-      console.log(senateData)
-      // console.log(res);
+      var query =  res.results[0].members;
+      for (var i = 0; i < query.length; i++) {
+        if (query[i].first_name === params[0] || query[i].last_name === params[1]) {
+          output.push(query[i]);
+        };
+      };
     });
 
-    // console.log(houseData, senateData);
-
-    res.json(output);
-  });
+    // res.json(output);
+  }); // End of the first api call
 };
