@@ -24,7 +24,7 @@ function getMem(cham, name1, name2) {
         break;
       case "senate":
         senateData = res;
-        break;  
+        break;
     };
     // Search parameters
     for (var i = 0; i < res.length; i++) {
@@ -116,7 +116,4 @@ $(document).ready(function() {
     getMem(chambers[0], fixQ[0], fixQ[1]);
     getMem(chambers[1], fixQ[0], fixQ[1]);
   });
-})
-// var usioImage = $("https://theunitedstates.io/images/congress/225x275/" + basic.member_id + ".jpg"); //Equivalent: $(document.createElement('img'))
-// img.attr('src', responseObject.imgurl);
-// img.appendTo('#congressphoto');
+});
