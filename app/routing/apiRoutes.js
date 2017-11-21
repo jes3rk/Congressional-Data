@@ -1,39 +1,70 @@
 var apiKey = require("../data/keys.js");
-var baseUrl = "https://api.propublica.org/congress/v1"
-var congressNum = "/115";
+var baseUrl = "https://api.propublica.org/congress/v1/"
+var congressNum = "115";
 var chambers = ["house", "senate"];
 var path = require("path");
 var request = require("request");
 
+//GET https://api.propublica.org/congress/v1/{congress}/{chamber}/members.json
+
+
+
 
 module.exports = function(app) {
 
+
   console.log('in here')
 //==================================Get 1st info===========================
-  app.get('/api/congress', function(req,res){
+app.get('/api/congress', function(req,res){
 
-    getMem('mark','mark','mark')
-    res.json()
+//Declare variable form "HOUSE"
+    var house = {
+    url: baseUrl + congressNum + '/' + chambers[0] + '/members.json',
+    headers: {'X-API-Key': 'NpjePSNP3ovrBFufOHvGfsX43BDQrce4HkWHoTyi'},
+    };
+//Declar variable for "Senate?
+    var  senate = {
+    url: baseUrl + congressNum + '/' + chambers[1] + '/members.json',
+    headers: {'X-API-Key': 'NpjePSNP3ovrBFufOHvGfsX43BDQrce4HkWHoTyi'},
+    }
+//Retrive information from "HOUSE"
+    request.get(house, function(error, response, body){
+      if (!error && response.statusCode === 200){
+        console.log(body);
+      }
+      else {
+        console.log(error);
+      }
+    });
+//Retrive infomration from "Senate"
+    request.get(senate, function(error, response, body){
+      if (!error && response.statusCode === 200){
+        console.log(body);
+      }
+      else {
+        console.log(error);
+      }
+    });
 
 
+  //
   })
 
-  function getMem(cham, name1, name2) {
-
-      var queryUrl = baseUrl + congressNum + "/" + cham + "/members.json";
-      request(queryUrl, function(error, response, body) {
-        if(!error && response.statusCode ===200){
-          var res = data.result[0].members;
-          for (i = 0; i < data.reasult[0].members; i++){
-            if(res[i].first_name === name1 || res[i].last_name === name2) {
-              console.log(res);
-            }
-          }
-        }
-      });
-
-      console.log(JSON.parse(body));
-  }
+  // function getMem(cham, name1, name2) {
+  //     var queryUrl = baseUrl + congressNum + "/" + cham + "/members.json";
+  //     request(queryUrl, function(error, response, body) {
+  //       if(!error && response.statusCode ===200){
+  //         var res = data.result[0].members;
+  //         for (i = 0; i < data.reasult[0].members; i++){
+  //           if(res[i].first_name === name1 || res[i].last_name === name2) {
+  //             console.log(res);
+  //           }
+  //         }
+  //       }
+  //     });
+  //
+  //     console.log(JSON.parse(body));
+  // }
 
 //==================================Function of getting Detail Memeber============================
   function detailMem(memNum) {
