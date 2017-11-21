@@ -5,6 +5,8 @@ var chambers = ["house", "senate"];
 var click = 0;
 
 var memDetail = {};
+var houseData = {};
+var senateData = {};
 
 // using name1 and name2 in case the user reverses the first and last in the search box
 function getMem(cham, name1, name2) {
@@ -16,6 +18,14 @@ function getMem(cham, name1, name2) {
      headers: {'X-API-Key': apiKey}
   }).done(function(data) {
     var res = data.results[0].members;
+    switch (cham) {
+      case "house":
+        houseData = res;
+        break;
+      case "senate":
+        senateData = res;
+        break;  
+    };
     // Search parameters
     for (var i = 0; i < res.length; i++) {
       if (res[i].first_name === name1 || res[i].last_name === name2) {
