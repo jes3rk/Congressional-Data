@@ -4,7 +4,9 @@
     <meta charset="utf-8">
     <title>Test</title>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <!-- D3 js -->
     <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
     <script src="./test/d3.js" charset="utf-8"></script>
   </head>
   <body>
@@ -45,8 +47,9 @@
         for (var i = 0; i < houseData.length; i++) {
           var obj = {
             id: houseData[i].id,
-            name: houseData[i].first_name + " " + houseData[i].last_name,
+            name: "Rep. " + houseData[i].first_name + " " + houseData[i].last_name,
             chamber: "house",
+            party: houseData[i].party,
             partyVote: houseData[i].votes_with_party_pct,
             missVote: houseData[i].missed_votes_pct
           };
@@ -60,8 +63,9 @@
         for (var i = 0; i < senateData.length; i++) {
           var obj = {
             id: senateData[i].id,
-            name: senateData[i].first_name + " " + senateData[i].last_name,
+            name: "Sen. " + senateData[i].first_name + " " + senateData[i].last_name,
             chamber: "senate",
+            party: senateData[i].party,
             partyVote: senateData[i].votes_with_party_pct,
             missVote: senateData[i].missed_votes_pct
           };
@@ -93,9 +97,9 @@
 
         // set the parameters for the histogram
         var histogram = d3.histogram()
-                  .value(function(d) { return d; })
+                  .value(function(d) { return d.partyVote; })
                   .domain(x.domain())
-                  .thresholds(250);
+                  .thresholds(300);
 
         // append the svg object to the body of the page
         // append a 'group' element to 'svg'
@@ -106,15 +110,16 @@
                   .append("g")
                   .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-                  // format the data
-        // pctData.forEach(function(d) {
-        //     d.pct = d.partyVote;
-        // });
+          // Define the div for the tooltip
+          var div = d3.select("body").append("div")
+              .attr("class", "tooltip")
+              .style("opacity", 0);
 
         // group the data for the bars
-        var bins = histogram(pctData);
+        var bins = histogram(cleanData);
         console.log(bins);
 
+        // svg.call(tip);
         // Scale the range of the data in the y domain
         y.domain([0, d3.max(bins, function(d) { return d.length; })]);
 
@@ -126,8 +131,21 @@
             .attr("x", 1)
             .attr("transform", function(d) {
       		  return "translate(" + x(d.x0) + "," + y(d.length) + ")"; })
-            .attr("width", function(d) { return x(d.x1) - x(d.x0) -1 ; })
-            .attr("height", function(d) { return height - y(d.length); });
+            .attr("width", function(d) { return x(d.x1) - x(d.x0) - 0.5 ; })
+            .attr("height", function(d) { return height - y(d.length); })
+            .on("mouseover", function(d) {
+              div.transition()
+                .duration(200)
+                .style("opacity", .9);
+                div.html(d.name + ", "  + d.party)
+                .style("left", (d3.event.pageX) + "px")
+                .style("top", (d3.event.pageY - 28) + "px");
+              })
+            .on("mouseout", function(d) {
+              div.transition()
+                .duration(500)
+                .style("opacity", 0);
+        });
 
         // add the x Axis
         svg.append("g")
