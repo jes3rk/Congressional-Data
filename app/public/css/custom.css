@@ -8,6 +8,16 @@ background-size:cover;
 overflow:hidden;
 }
 
+#results {
+  text-align: center;
+  align-items: center;
+  background-image:url("../images/houseinterior.jpg");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow:hidden;
+}
+
 img.bg{
   min-height:100%;
   min-width:1024px;
@@ -18,10 +28,7 @@ img.bg{
   left:0;
 }
 
-#results {
-  text-align: center;
-  background-color: grey;
-}
+
 
 /*.center{
   text-align: center;
@@ -30,9 +37,13 @@ img.bg{
 .flagPin{
 
   height: 100px;
+  /*transform-origin:50% 50%;
+  animation:2s rotateRight infinite linear;*/
 }
 
-
+/*@keyframes rotateRight{
+    100%{ transform:rotate(360deg); }
+}*/
 .title{
 color: white;
 font-family: 'Spectral SC', serif;
@@ -63,12 +74,7 @@ align-items: center;
 
 }
 
-/*#frontpage {
-  display:inline-flex;
-  align-items: center;
-  margin-top:-20px;
-  background-color: white;*/
-}
+
 input[type=text] {
     width: 200px;
     -webkit-transition: width 0.4s ease-in-out;
@@ -84,8 +90,6 @@ opacity: 0.1;
 
 #constitution:hover {
     opacity: 1;
-
-
 }
 
 #manual{
@@ -96,10 +100,21 @@ opacity: 0.1;
   opacity:1;
 }
 
+/*#congressphoto{
+height:20px;
+width:20px;
+}*/
+
 #datapull{
 text-align: center;
 margin-left: 300px;
 margin-right: 300px;
+opacity: 0.5;
+height:40%;
+width:40%;
+}
+#datapull:hover{
+  opacity:1;
 }
 
 #turtleButton{
