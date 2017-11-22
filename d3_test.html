@@ -35,7 +35,12 @@
     </style>
     <script type="text/javascript">
 
+    // params are partyVote and missVote
+
       $('#d3-btn').on('click', function() {
+        var title = $('<h3/>');
+        title.text("How often does your member vote with their party?");
+        $('.chart').append(title);
         d3Test();
       });
 

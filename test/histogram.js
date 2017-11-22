@@ -2,7 +2,7 @@ var cleanData = [];
 var rejectData = [];
 
 
-function d3Test(param) {
+function d3Test() {
 // clean the data
 
   // ... for the house
@@ -10,6 +10,7 @@ function d3Test(param) {
     var obj = {
       id: houseData[i].id,
       name: "Rep. " + houseData[i].first_name + " " + houseData[i].last_name,
+      state: houseData[i].state,
       chamber: "house",
       party: houseData[i].party,
       partyVote: houseData[i].votes_with_party_pct,
@@ -26,6 +27,7 @@ function d3Test(param) {
     var obj = {
       id: senateData[i].id,
       name: "Sen. " + senateData[i].first_name + " " + senateData[i].last_name,
+      state: senateData[i].state,
       chamber: "senate",
       party: senateData[i].party,
       partyVote: senateData[i].votes_with_party_pct,
@@ -53,7 +55,7 @@ function d3Test(param) {
 
   // set the parameters for the histogram
   var histogram = d3.histogram()
-            .value(function(d) { return d.param; })
+            .value(function(d) { return d.partyVote; })
             .domain(x.domain())
             .thresholds(200);
 
@@ -66,16 +68,14 @@ function d3Test(param) {
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    // Define the div for the tooltip
-    var div = d3.select("body").append("div")
-        .attr("class", "tooltip")
-        .style("opacity", 0);
+  // Define the div for the tooltip
+  var div = d3.select("body").append("div")
+      .attr("class", "tooltip")
+      .style("opacity", 0);
 
   // group the data for the bars
   var bins = histogram(cleanData);
-  console.log(bins);
 
-  // svg.call(tip);
   // Scale the range of the data in the y domain
   y.domain([0, d3.max(bins, function(d) { return d.length; })]);
 
@@ -93,16 +93,16 @@ function d3Test(param) {
         div.transition()
           .duration(200)
           .style("opacity", .9);
-          div.text(function() {
+          div.html(function() {
             var nameArr = [];
             for (var i = 0; i < d.length; i++) {
-              nameArr.push(d[i].name);
+              nameArr.push(d[i].name + "(" + d[i].party + "-" + d[i].state + ")");
             };
             return nameArr;
           })
-          .style("left", (d3.event.pageX) + "px")
-          .style("top", (d3.event.pageY - 28) + "px");
-        })
+          .style("right", (d3.event.pageX) + "px")
+          .style("top", (d3.event.pageY - height) + "px");
+         })
       .on("mouseout", function(d) {
         div.transition()
           .duration(500)
@@ -117,5 +117,9 @@ function d3Test(param) {
   // add the y Axis
   svg.append("g")
       .call(d3.axisLeft(y));
+
+
+  // transition
+
 
 }; // End of function
