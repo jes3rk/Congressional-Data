@@ -3,6 +3,7 @@ var rejectData = [];
 var testID = "R000570";
 var missMinMax = [];
 var partyMinMax = [];
+var statsParty = {};
 
 function dataCleaner() {
   // ... for the house
@@ -44,8 +45,12 @@ function dataCleaner() {
     var missArr = [];
     var voteArr = [];
     for (var i = 0; i < cleanData.length; i++) {
-      missArr.push(cleanData[i].missVote);
-      voteArr.push(cleanData[i].partyVote);
+      if (cleanData[i].partyVote >= 60) {
+        voteArr.push(cleanData[i].partyVote);
+      };
+      if (cleanData[i].missVote <= 45) {
+        missArr.push(cleanData[i].missVote);
+      };
     };
     var missMin = d3.min(missArr);
     var missMax = d3.max(missArr);
@@ -53,7 +58,12 @@ function dataCleaner() {
     var partyMax = d3.max(voteArr);
     missMinMax.push(missMin, missMax);
     partyMinMax.push(partyMin, partyMax);
-    console.log(missMinMax, partyMinMax);
+    //stats
+    statsParty.mean = d3.mean(voteArr);
+    statsParty.median = d3.median(voteArr);
+    statsParty.sd = d3.deviation(voteArr);
+    statsParty.firstSD = [statsParty.mean - statsParty.sd, statsParty.mean + statsParty.sd]
+    console.log(statsParty);
   };
 }
 

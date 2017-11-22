@@ -3,6 +3,7 @@ var rejectData = [];
 var testID = "R000570";
 var missMinMax = [];
 var partyMinMax = [];
+var statsParty = {};
 
 
 function hist() {
@@ -47,8 +48,12 @@ function hist() {
     var missArr = [];
     var voteArr = [];
     for (var i = 0; i < cleanData.length; i++) {
-      missArr.push(cleanData[i].missVote);
-      voteArr.push(cleanData[i].partyVote);
+      if (cleanData[i].partyVote >= 60) {
+        voteArr.push(cleanData[i].partyVote);
+      };
+      if (cleanData[i].missVote <= 45) {
+        missArr.push(cleanData[i].missVote);
+      };
     };
     var missMin = d3.min(missArr);
     var missMax = d3.max(missArr);
@@ -57,6 +62,13 @@ function hist() {
     missMinMax.push(missMin, missMax);
     partyMinMax.push(partyMin, partyMax);
     console.log(missMinMax, partyMinMax);
+    // meanPartyVote = d3.mean(voteArr);
+
+    //stats
+    statsParty.mean = d3.mean(voteArr);
+    statsParty.sd = d3.deviation(voteArr);
+    statsParty.firstSD = [statsParty.mean - statsParty.sd, statsParty.mean + statsParty.sd]
+    console.log(statsParty);
   };
 
 
@@ -69,7 +81,8 @@ function hist() {
 
   // set the ranges
   var x = d3.scaleLinear()
-            .domain([missMinMax[0], 45])
+            // .domain([missMinMax[0], 45])
+            .domain([60, partyMinMax[1]])
             .rangeRound([0, width]);
 
   var y = d3.scaleLinear()
@@ -77,7 +90,7 @@ function hist() {
 
   // set the parameters for the histogram
   var histogram = d3.histogram()
-            .value(function(d) { return d.missVote; })
+            .value(function(d) { return d.partyVote; })
             .domain(x.domain())
             .thresholds(200);
 
