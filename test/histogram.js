@@ -1,5 +1,6 @@
 var cleanData = [];
 var rejectData = [];
+var testID = "R000570";
 
 
 function d3Test() {
@@ -89,6 +90,13 @@ function d3Test() {
       return "translate(" + x(d.x0) + "," + y(d.length) + ")"; })
       .attr("width", function(d) { return x(d.x1) - x(d.x0) - 0.5 ; })
       .attr("height", function(d) { return height - y(d.length); })
+      .style("fill", function(d) {
+        for (var i = 0; i < d.length; i++) {
+          if (d[i].id === testID) {
+            return "red";
+          };
+        };
+      })
       .on("mouseover", function(d) {
         div.transition()
           .duration(200)
