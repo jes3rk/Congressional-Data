@@ -3,7 +3,7 @@ var rejectData = [];
 var testID = "R000570";
 
 
-function d3Test() {
+function hist() {
 // clean the data
 
   // ... for the house
@@ -69,6 +69,13 @@ function d3Test() {
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+  // have it fade into existence
+  d3.select("div.chart")
+      .style("opacity", 0)
+      .transition()
+          .duration(1000)
+          .style("opacity", 1)
+
   // Define the div for the tooltip
   var div = d3.select("body").append("div")
       .attr("class", "tooltip")
@@ -90,6 +97,7 @@ function d3Test() {
       return "translate(" + x(d.x0) + "," + y(d.length) + ")"; })
       .attr("width", function(d) { return x(d.x1) - x(d.x0) - 0.5 ; })
       .attr("height", function(d) { return height - y(d.length); })
+      // conditional formatting for a specific individual
       .style("fill", function(d) {
         for (var i = 0; i < d.length; i++) {
           if (d[i].id === testID) {
@@ -108,8 +116,8 @@ function d3Test() {
             };
             return nameArr;
           })
-          .style("right", (d3.event.pageX) + "px")
-          .style("top", (d3.event.pageY - height) + "px");
+          // .style("right", (d3.event.pageX) + "px")
+          // .style("top", (d3.event.pageY - height) + "px");
          })
       .on("mouseout", function(d) {
         div.transition()
@@ -125,9 +133,6 @@ function d3Test() {
   // add the y Axis
   svg.append("g")
       .call(d3.axisLeft(y));
-
-
-  // transition
 
 
 }; // End of function
