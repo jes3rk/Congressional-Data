@@ -41,7 +41,9 @@
         var title = $('<h3/>');
         title.text("How often does your member vote with their party?");
         $('.chart').append(title);
-        hist();
+        dataCleaner();
+        stats();
+        donut(testID, "party");
       });
 
 

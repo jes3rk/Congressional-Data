@@ -4,6 +4,7 @@ var testID = "R000570";
 var missMinMax = [];
 var partyMinMax = [];
 var statsParty = {};
+var statsMiss = {};
 
 function dataCleaner() {
   // ... for the house
@@ -40,36 +41,44 @@ function dataCleaner() {
       rejectData.push(obj);
     };
   };
-
-  function minMax() {
-    var missArr = [];
-    var voteArr = [];
-    for (var i = 0; i < cleanData.length; i++) {
-      if (cleanData[i].partyVote >= 60) {
-        voteArr.push(cleanData[i].partyVote);
-      };
-      if (cleanData[i].missVote <= 45) {
-        missArr.push(cleanData[i].missVote);
-      };
-    };
-    var missMin = d3.min(missArr);
-    var missMax = d3.max(missArr);
-    var partyMin = d3.min(voteArr);
-    var partyMax = d3.max(voteArr);
-    missMinMax.push(missMin, missMax);
-    partyMinMax.push(partyMin, partyMax);
-    //stats
-    statsParty.mean = d3.mean(voteArr);
-    statsParty.median = d3.median(voteArr);
-    statsParty.sd = d3.deviation(voteArr);
-    statsParty.firstSD = [statsParty.mean - statsParty.sd, statsParty.mean + statsParty.sd]
-    console.log(statsParty);
-  };
 }
 
+function stats() {
+  var missArr = [];
+  var voteArr = [];
+  for (var i = 0; i < cleanData.length; i++) {
+    if (cleanData[i].partyVote >= 60) {
+      voteArr.push(cleanData[i].partyVote);
+    };
+    if (cleanData[i].missVote <= 45) {
+      missArr.push(cleanData[i].missVote);
+    };
+  };
+  var missMin = d3.min(missArr);
+  var missMax = d3.max(missArr);
+  var partyMin = d3.min(voteArr);
+  var partyMax = d3.max(voteArr);
+  missMinMax.push(missMin, missMax);
+  partyMinMax.push(partyMin, partyMax);
+
+  //stats
+  statsParty.mean = d3.mean(voteArr);
+  statsParty.sd = d3.deviation(voteArr);
+  statsParty.firstSD = [statsParty.mean - statsParty.sd, statsParty.mean + statsParty.sd]
+  statsParty.median = d3.median(voteArr);
+  statsParty.quartiles = [d3.min(voteArr), d3.quantile(voteArr.sort(), 0.25), d3.quantile(voteArr.sort(), 0.5), d3.quantile(voteArr.sort(), 0.75), d3.max(voteArr)]
+  console.log(statsParty);
+
+  statsMiss.mean = d3.mean(missArr);
+  statsMiss.sd = d3.deviation(missArr);
+  statsMiss.firstSD = [statsMiss.mean - statsMiss.sd, statsMiss.mean + statsMiss.sd]
+  statsMiss.median = d3.median(missArr);
+  statsMiss.quartiles = [d3.min(missArr), d3.quantile(missArr.sort(), 0.25), d3.quantile(missArr.sort(), 0.5), d3.quantile(missArr.sort(), 0.75), d3.max(missArr)]
+  console.log(statsMiss)
+};
 
 function pctPartyVote(id) {
-  minMax();
+  stats();
   // set the dimensions and margins of the graph
   var margin = {top: 10, right: 30, bottom: 30, left: 40},
       width = 960 - margin.left - margin.right,
@@ -167,7 +176,7 @@ function pctPartyVote(id) {
 }; // End of function
 
 function pctMissVote(id) {
-  minMax();
+  stats();
   // set the dimensions and margins of the graph
   var margin = {top: 10, right: 30, bottom: 30, left: 40},
       width = 960 - margin.left - margin.right,
