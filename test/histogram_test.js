@@ -161,7 +161,6 @@ function stats() {
   statsParty.firstSD = [statsParty.mean - statsParty.sd, statsParty.mean + statsParty.sd];
   statsParty.median = d3.median(voteArr);
   statsParty.quartiles = [d3.min(voteArr), d3.quantile(voteArr.sort(), 0.25), d3.quantile(voteArr.sort(), 0.5), d3.quantile(voteArr.sort(), 0.75), d3.max(voteArr)];
-  console.log(statsParty);
 
       // for pct missed votes
   statsMiss.mean = d3.mean(missArr);
@@ -169,12 +168,10 @@ function stats() {
   statsMiss.firstSD = [statsMiss.mean - statsMiss.sd, statsMiss.mean + statsMiss.sd];
   statsMiss.median = d3.median(missArr);
   statsMiss.quartiles = [d3.min(missArr), d3.quantile(missArr.sort(), 0.25), d3.quantile(missArr.sort(), 0.5), d3.quantile(missArr.sort(), 0.75), d3.max(missArr)];
-  console.log(statsMiss);
 
   var statsList = [statsD.house.missed, statsD.house.party, statsD.senate.missed, statsD.senate.party, statsR.house.missed, statsR.house.party, statsR.senate.missed, statsR.senate.party];
 
   var arrList = [houseMissD, houseVoteD, senateMissD, senateVoteD, houseMissR, houseVoteR, senateMissR, senateVoteR];
-  console.log(arrList);
 
   for (var i = 0; i < statsList.length; i++) {
     statsList[i].mean = d3.mean(arrList[i]);
@@ -308,11 +305,11 @@ function donut(id, target) {
     case "party":
       var dataSet = [
         {
-          label: "Voted with their party",
+          label: member.name + " voted with their party",
           count: member.partyVote
         },
         {
-          label: "Voted against their party",
+          label: member.name + " voted against their party",
           count: 100-member.partyVote
         }
       ];
@@ -321,11 +318,11 @@ function donut(id, target) {
     case "miss":
       var dataSet = [
         {
-          label: "Missed votes",
+          label: member.name + " missed a vote",
           count: member.missVote
         },
         {
-          label: "Voted",
+          label: member.name + " voted",
           count: 100-member.missVote
         }
       ];
@@ -341,9 +338,6 @@ function donut(id, target) {
   var radius = Math.min(width, height) / 2;
   var donutWidth = 75;
 
-  // var color = d3.scaleOrdinal()
-  //     .domain([0, 1])
-  //     .range(['#FF0000', 'blue']);
   switch (member.party) { // Changes color based on party affiliation
     case "R":
       var color = d3.scaleOrdinal()
@@ -406,7 +400,7 @@ function donut(id, target) {
     var percent = Math.round(1000 * d.data.count / total) / 10;
 
     tooltip.select('.label').html(d.data.label);
-    tooltip.select('.count').html(percent + '%');
+    tooltip.select('.count').html(percent + '% of the time');
     tooltip.style('display', 'block');
   });
 
