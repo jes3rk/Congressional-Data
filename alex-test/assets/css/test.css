@@ -1,0 +1,48 @@
+
+
+#test1 {
+   margin:0;
+   padding:0;
+   height:100%;
+}
+#container {
+   min-height:100%;
+   position:relative;
+}
+#header {
+   background:#ff0;
+   padding:10px;
+}
+#body {
+   padding:10px;
+   padding-bottom:60px;   /* Height of the footer */
+}
+#footer {
+   position:absolute;
+   bottom:0;
+   width:100%;
+   height:60px;   /* Height of the footer */
+   background:#6cf;
+}
+
+#container {
+   height:100%;
+}
+
+#seal{
+
+  max-width: 100px;
+  max-width: 100px;
+  opacity: 0.6  ;
+  background-color: white;
+
+}
+
+#seal:hover{
+  transform-origin:50% 50%;
+  animation:10s rotate linear;
+}
+
+@keyframes rotate{
+    100%{ transform:rotate(360deg); }
+}
