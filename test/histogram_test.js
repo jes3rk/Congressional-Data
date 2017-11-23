@@ -42,6 +42,7 @@ function dataCleaner() {
     if (houseData[i].votes_with_party_pct !== undefined || houseData[i].missed_votes_pct === undefined) {
       cleanData.push(obj);
     } else {
+      console.log(obj.name + "'s data is corrupted. Sorry");
       rejectData.push(obj);
     };
   };
@@ -65,6 +66,7 @@ function dataCleaner() {
 }
 
 function stats() {
+  // arranges useful stats into arrays and objects for recall
   var missArr = [];
   var voteArr = [];
   var houseMissR =[];
@@ -180,8 +182,8 @@ function stats() {
     statsList[i].median = d3.median(arrList[i]);
     statsList[i].quartiles = [d3.min(arrList[i]), d3.quantile(arrList[i].sort(), 0.25), d3.quantile(arrList[i].sort(), 0.5), d3.quantile(arrList[i].sort(), 0.75), d3.max(arrList[i])];
   };
-  console.log(statsD);
-  console.log(statsR);
+  // console.log(statsD);
+  // console.log(statsR);
 };
 
 function hist() {
@@ -283,10 +285,197 @@ function hist() {
 
 }; // End of function
 
+function partyDonut(party, q) {
+  var dataSet = [];
+  // console.log(dataSet);
+  switch (party) {
+    case "R":
+      switch (q) {
+        case "miss":
+          dataSet = [
+            {
+              label: "The average Republican missed ",
+              count: d3.mean([statsR.house.missed.mean, statsR.senate.missed.mean])
+            },
+            {
+              label: "The average Repblican voted ",
+              count: 1-d3.mean([statsR.house.missed.mean, statsR.senate.missed.mean])
+            }
+          ];
+        break;
 
-function donut(id, target) {
-// id is the id of the congressperson you want to find
-// target can be two things...
+        case "party":
+          dataSet = [
+            {
+              label: "The average Republican voted with their party",
+              count: d3.mean([statsR.house.party.mean, statsR.senate.party.mean])
+            },
+            {
+              label: "The average Repblican voted with their party",
+              count: 1-d3.mean([statsR.house.party.mean, statsR.senate.party.mean])
+            }
+          ];
+        break;
+        default:
+          console.log(q);
+        break;
+      };
+    break;
+
+    case "D":
+      switch (q) {
+        case "miss":
+          dataSet = [
+            {
+              label: "The average Democrat missed ",
+              count: d3.mean([statsD.house.missed.mean, statsD.senate.missed.mean])
+            },
+            {
+              label: "The average Democrat voted ",
+              count: 100-d3.mean([statsD.house.missed.mean, statsD.senate.missed.mean])
+            }
+          ];
+        break;
+
+        case "party":
+          dataSet = [
+            {
+              label: "The average Democrat voted with their party",
+              count: d3.mean([statsD.house.party.mean, statsD.senate.party.mean])
+            },
+            {
+              label: "The average Democrat voted against their party",
+              count: 100-d3.mean([statsD.house.party.mean, statsD.senate.party.mean])
+            }
+          ];
+        break;
+        default:
+          console.log(q);
+        break;
+      };
+    break;
+
+    default:
+      console.log(error);
+    break;
+  };
+
+  console.log(statsD);
+  console.log(dataSet);
+
+  var width = 360;
+  var height = 360;
+  var radius = Math.min(width, height) / 2;
+  var donutWidth = 75;
+
+  switch (party) { // Changes color based on party affiliation
+    case "R":
+      var color = d3.scaleOrdinal()
+          .domain([dataSet[0].label, dataSet[1].label])
+          .range(['red', 'blue']);
+      break;
+
+    case "D":
+      var color = d3.scaleOrdinal()
+          .domain([dataSet[0].label, dataSet[1].label])
+          .range(['blue', 'red']);
+      break;
+
+    default:
+      var color = d3.scaleOrdinal()
+          .domain([dataSet[0].label, dataSet[1].label])
+          .range(['green', 'yellow']);
+  };
+
+  // create the chart for the individual
+  var svg = d3.select('.partyAvg')
+      .append('svg')
+      .attr('width', width)
+      .attr('height', height)
+      .append('g')
+        .attr('transform', 'translate(' + (width / 2) + ',' + (height / 2) + ')');
+
+  var arc = d3.arc()
+      .innerRadius(radius - donutWidth)
+      .outerRadius(radius);
+
+  var pie = d3.pie()
+      .value(function(d) { return d.count; })
+      .sort(null);
+
+  var path = svg.selectAll('path')
+      .data(pie(dataSet))
+        .enter()
+      .append('path')
+      .attr('d', arc)
+      .attr('fill', function(d, i) {
+        return color(d.data.label);
+      });
+
+  // tooltip
+  var tooltip = d3.select('.partyAvg')
+      .append('div')
+      .attr('class', 'tooltip');
+
+  tooltip.append('div')
+      .attr('class', 'label');
+
+  tooltip.append('div')
+      .attr('class', 'count');
+
+  path.on('mouseover', function(d) {
+
+    var total = d3.sum(dataSet.map(function(d) {
+        return d.count;
+      }));
+    var percent = Math.round(1000 * d.data.count / total) / 10;
+
+    tooltip.select('.label').html(d.data.label);
+    tooltip.select('.count').html(percent + '% of the time');
+    tooltip.style('display', 'block');
+  });
+
+  path.on('mouseout', function() {
+    tooltip.style('display', 'none');
+  });
+
+
+  // legend needs to be discussed
+
+  // var legendRectSize = 18;
+  // var legendSpacing = 4;
+  //
+  // var legend = svg.selectAll('.legend')
+  //     .data(color.domain())
+  //     .enter()
+  //     .append('g')
+  //       .attr('class', 'legend')
+  //       .attr('transform', function(d, i) {
+  //
+  //         var height = legendRectSize + legendSpacing;
+  //         var offset =  height * color.domain().length / 2;
+  //         var horz = -2 * legendRectSize;
+  //         var vert = i * height - offset;
+  //
+  //         return 'translate(' + horz + ',' + vert + ')';
+  //       });
+  //
+  // legend.append('rect')
+  //   .attr('width', legendRectSize)
+  //   .attr('height', legendRectSize)
+  //   .style('fill', color)
+  //   .style('stroke', color);
+  //
+  // legend.append('text')
+  //   .attr('x', legendRectSize + legendSpacing)
+  //   .attr('y', legendRectSize - legendSpacing)
+  //   .text(function(d) { return d; });
+};
+
+
+function memDonut(id, target) {
+  // id is the id of the congressperson you want to find
+  // target can be two things...
   // ... party means voting with their party
   // ... miss means missed votes vs attended votes
 
@@ -299,6 +488,8 @@ function donut(id, target) {
   };
   // console.log(member);
 
+
+  partyDonut(member.party, target);
   var dataSet = {};
 
   switch (target) {
@@ -341,23 +532,24 @@ function donut(id, target) {
   switch (member.party) { // Changes color based on party affiliation
     case "R":
       var color = d3.scaleOrdinal()
-          .domain([0, 1])
+          .domain([dataSet[0].label, dataSet[1].label])
           .range(['red', 'blue']);
       break;
 
     case "D":
       var color = d3.scaleOrdinal()
-          .domain([0, 1])
+          .domain([dataSet[0].label, dataSet[1].label])
           .range(['blue', 'red']);
       break;
 
     default:
       var color = d3.scaleOrdinal()
-          .domain([0, 1])
+          .domain([dataSet[0].label, dataSet[1].label])
           .range(['green', 'yellow']);
   };
 
-  var svg = d3.select('.chart')
+  // create the chart for the individual
+  var svg = d3.select('.individual')
       .append('svg')
       .attr('width', width)
       .attr('height', height)
@@ -382,7 +574,7 @@ function donut(id, target) {
       });
 
   // tooltip
-  var tooltip = d3.select('.chart')
+  var tooltip = d3.select('.individual')
       .append('div')
       .attr('class', 'tooltip');
 
@@ -407,4 +599,36 @@ function donut(id, target) {
   path.on('mouseout', function() {
     tooltip.style('display', 'none');
   });
+
+
+  // legend needs to be discussed
+
+  // var legendRectSize = 18;
+  // var legendSpacing = 4;
+  //
+  // var legend = svg.selectAll('.legend')
+  //     .data(color.domain())
+  //     .enter()
+  //     .append('g')
+  //       .attr('class', 'legend')
+  //       .attr('transform', function(d, i) {
+  //
+  //         var height = legendRectSize + legendSpacing;
+  //         var offset =  height * color.domain().length / 2;
+  //         var horz = -2 * legendRectSize;
+  //         var vert = i * height - offset;
+  //
+  //         return 'translate(' + horz + ',' + vert + ')';
+  //       });
+  //
+  // legend.append('rect')
+  //   .attr('width', legendRectSize)
+  //   .attr('height', legendRectSize)
+  //   .style('fill', color)
+  //   .style('stroke', color);
+  //
+  // legend.append('text')
+  //   .attr('x', legendRectSize + legendSpacing)
+  //   .attr('y', legendRectSize - legendSpacing)
+  //   .text(function(d) { return d; });
 };

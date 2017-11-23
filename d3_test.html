@@ -23,7 +23,15 @@
       </tr>
     </table>
     <div class="chart">
+      <div class="individual">
 
+      </div>
+      <div class="partyAvg">
+
+      </div>
+      <div class="chamberAvg">
+
+      </div>
     </div>
     <style media="screen">
       .name:hover {
@@ -60,7 +68,7 @@
         $('.chart').append(title);
         dataCleaner();
         stats();
-        donut(testID, "party");
+        memDonut(testID, "party");
       });
 
 
