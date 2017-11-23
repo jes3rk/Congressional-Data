@@ -5,6 +5,26 @@ var missMinMax = [];
 var partyMinMax = [];
 var statsParty = {};
 var statsMiss = {};
+var statsR = {
+  house: {
+    missed: {},
+    party: {}
+  },
+  senate: {
+    missed: {},
+    party: {}
+  }
+};
+var statsD = {
+  house: {
+    missed: {},
+    party: {}
+  },
+  senate: {
+    missed: {},
+    party: {}
+  }
+};
 
 
 function dataCleaner() {
@@ -47,12 +67,83 @@ function dataCleaner() {
 function stats() {
   var missArr = [];
   var voteArr = [];
+  var houseMissR =[];
+  var houseMissD = [];
+  var senateMissR = [];
+  var senateMissD =[];
+  var houseVoteR = [];
+  var houseVoteD = [];
+  var senateVoteR = [];
+  var senateVoteD = [];
+
+
   for (var i = 0; i < cleanData.length; i++) {
+    // vote
     if (cleanData[i].partyVote >= 60) {
       voteArr.push(cleanData[i].partyVote);
+      switch (cleanData[i].chamber) {
+
+        case "senate":
+          switch (cleanData[i].party) {
+            case "R":
+              senateVoteR.push(cleanData[i].partyVote);
+            break;
+
+            case "D":
+              senateVoteD.push(cleanData[i].partyVote);
+            break;
+          };
+        break;
+
+        case "house":
+          switch (cleanData[i].party) {
+
+            case "R":
+              houseVoteR.push(cleanData[i].partyVote);
+            break;
+
+            case "D":
+              houseVoteD.push(cleanData[i].partyVote);
+            break;
+          };
+        break;
+      };
     };
+
     if (cleanData[i].missVote <= 45) {
+      // missed votes
       missArr.push(cleanData[i].missVote);
+      switch (cleanData[i].chamber) {
+        case "senate":
+          switch (cleanData[i].party) {
+            case "R":
+              senateMissR.push(cleanData[i].missVote);
+            break;
+
+            case "D":
+              senateMissD.push(cleanData[i].missVote);
+            break;
+
+            default:
+          }
+        break;
+
+        case "house":
+          switch (cleanData[i].party) {
+            case "R":
+              houseMissR.push(cleanData[i].missVote);
+            break;
+
+            case "D":
+              houseMissD.push(cleanData[i].missVote);
+            break;
+
+            default:
+          }
+        break;
+        default:
+
+      }
     };
   };
   var missMin = d3.min(missArr);
@@ -63,19 +154,37 @@ function stats() {
   partyMinMax.push(partyMin, partyMax);
 
   //stats
+    // total stats across both chambers and parties
+      // for pct vote with party
   statsParty.mean = d3.mean(voteArr);
   statsParty.sd = d3.deviation(voteArr);
-  statsParty.firstSD = [statsParty.mean - statsParty.sd, statsParty.mean + statsParty.sd]
+  statsParty.firstSD = [statsParty.mean - statsParty.sd, statsParty.mean + statsParty.sd];
   statsParty.median = d3.median(voteArr);
-  statsParty.quartiles = [d3.min(voteArr), d3.quantile(voteArr.sort(), 0.25), d3.quantile(voteArr.sort(), 0.5), d3.quantile(voteArr.sort(), 0.75), d3.max(voteArr)]
+  statsParty.quartiles = [d3.min(voteArr), d3.quantile(voteArr.sort(), 0.25), d3.quantile(voteArr.sort(), 0.5), d3.quantile(voteArr.sort(), 0.75), d3.max(voteArr)];
   console.log(statsParty);
 
+      // for pct missed votes
   statsMiss.mean = d3.mean(missArr);
   statsMiss.sd = d3.deviation(missArr);
-  statsMiss.firstSD = [statsMiss.mean - statsMiss.sd, statsMiss.mean + statsMiss.sd]
+  statsMiss.firstSD = [statsMiss.mean - statsMiss.sd, statsMiss.mean + statsMiss.sd];
   statsMiss.median = d3.median(missArr);
-  statsMiss.quartiles = [d3.min(missArr), d3.quantile(missArr.sort(), 0.25), d3.quantile(missArr.sort(), 0.5), d3.quantile(missArr.sort(), 0.75), d3.max(missArr)]
-  console.log(statsMiss)
+  statsMiss.quartiles = [d3.min(missArr), d3.quantile(missArr.sort(), 0.25), d3.quantile(missArr.sort(), 0.5), d3.quantile(missArr.sort(), 0.75), d3.max(missArr)];
+  console.log(statsMiss);
+
+  var statsList = [statsD.house.missed, statsD.house.party, statsD.senate.missed, statsD.senate.party, statsR.house.missed, statsR.house.party, statsR.senate.missed, statsR.senate.party];
+
+  var arrList = [houseMissD, houseVoteD, senateMissD, senateVoteD, houseMissR, houseVoteR, senateMissR, senateVoteR];
+  console.log(arrList);
+
+  for (var i = 0; i < statsList.length; i++) {
+    statsList[i].mean = d3.mean(arrList[i]);
+    statsList[i].sd = d3.deviation(arrList[i]);
+    statsList[i].firstSD = [statsList[i].mean - statsList[i].sd, statsList[i].mean + statsList[i].sd];
+    statsList[i].median = d3.median(arrList[i]);
+    statsList[i].quartiles = [d3.min(arrList[i]), d3.quantile(arrList[i].sort(), 0.25), d3.quantile(arrList[i].sort(), 0.5), d3.quantile(arrList[i].sort(), 0.75), d3.max(arrList[i])];
+  };
+  console.log(statsD);
+  console.log(statsR);
 };
 
 function hist() {
@@ -179,6 +288,11 @@ function hist() {
 
 
 function donut(id, target) {
+// id is the id of the congressperson you want to find
+// target can be two things...
+  // ... party means voting with their party
+  // ... miss means missed votes vs attended votes
+
   // find data from id
   var member = {};
   for (var i = 0; i < cleanData.length; i++) {
@@ -186,7 +300,7 @@ function donut(id, target) {
       member = cleanData[i];
     };
   };
-  console.log(member);
+  // console.log(member);
 
   var dataSet = {};
 
@@ -202,7 +316,8 @@ function donut(id, target) {
           count: 100-member.partyVote
         }
       ];
-      break;
+    break;
+
     case "miss":
       var dataSet = [
         {
@@ -214,7 +329,8 @@ function donut(id, target) {
           count: 100-member.missVote
         }
       ];
-      break;
+    break;
+
     default:
       console.log(error);
 
@@ -223,31 +339,78 @@ function donut(id, target) {
   var width = 360;
   var height = 360;
   var radius = Math.min(width, height) / 2;
-  var donutWidth = 75;                            // NEW
+  var donutWidth = 75;
 
-  var color = d3.scaleOrdinal()
-      .domain([0, 1])
-      .range(['#FF0000', 'blue']);
+  // var color = d3.scaleOrdinal()
+  //     .domain([0, 1])
+  //     .range(['#FF0000', 'blue']);
+  switch (member.party) { // Changes color based on party affiliation
+    case "R":
+      var color = d3.scaleOrdinal()
+          .domain([0, 1])
+          .range(['red', 'blue']);
+      break;
+
+    case "D":
+      var color = d3.scaleOrdinal()
+          .domain([0, 1])
+          .range(['blue', 'red']);
+      break;
+
+    default:
+      var color = d3.scaleOrdinal()
+          .domain([0, 1])
+          .range(['green', 'yellow']);
+  };
 
   var svg = d3.select('.chart')
-    .append('svg')
-    .attr('width', width)
-    .attr('height', height)
-    .append('g')
-      .attr('transform', 'translate(' + (width / 2) + ',' + (height / 2) + ')');
-          var arc = d3.arc()
-            .innerRadius(radius - donutWidth)             // UPDATED
-            .outerRadius(radius);
-          var pie = d3.pie()
-            .value(function(d) { return d.count; })
-            .sort(null);
-          var path = svg.selectAll('path')
-            .data(pie(dataSet))
-            .enter()
-            .append('path')
-            .attr('d', arc)
-            .attr('fill', function(d, i) {
-              return color(d.data.label);
-            });
+      .append('svg')
+      .attr('width', width)
+      .attr('height', height)
+      .append('g')
+        .attr('transform', 'translate(' + (width / 2) + ',' + (height / 2) + ')');
 
-}
+  var arc = d3.arc()
+      .innerRadius(radius - donutWidth)
+      .outerRadius(radius);
+
+  var pie = d3.pie()
+      .value(function(d) { return d.count; })
+      .sort(null);
+
+  var path = svg.selectAll('path')
+      .data(pie(dataSet))
+        .enter()
+      .append('path')
+      .attr('d', arc)
+      .attr('fill', function(d, i) {
+        return color(d.data.label);
+      });
+
+  // tooltip
+  var tooltip = d3.select('.chart')
+      .append('div')
+      .attr('class', 'tooltip');
+
+  tooltip.append('div')
+      .attr('class', 'label');
+
+  tooltip.append('div')
+      .attr('class', 'count');
+
+  path.on('mouseover', function(d) {
+
+    var total = d3.sum(dataSet.map(function(d) {
+        return d.count;
+      }));
+    var percent = Math.round(1000 * d.data.count / total) / 10;
+
+    tooltip.select('.label').html(d.data.label);
+    tooltip.select('.count').html(percent + '%');
+    tooltip.style('display', 'block');
+  });
+
+  path.on('mouseout', function() {
+    tooltip.style('display', 'none');
+  });
+};
