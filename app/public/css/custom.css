@@ -1,7 +1,7 @@
 #home {
   text-align: center;
   align-items: center;
-background-image: url("./images/capitolW.jpg");
+background-image: url("../images/capitol.jpg");
 background-size: 100% 100%;
 background-repeat: no-repeat;
 background-size:cover;
@@ -11,7 +11,7 @@ overflow:hidden;
 #results {
   text-align: center;
   align-items: center;
-  background-image:url("./images/houseinterior.jpg");
+  background-image:url("../images/houseinterior.jpg");
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-size: cover;
