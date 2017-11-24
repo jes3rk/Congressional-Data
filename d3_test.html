@@ -23,13 +23,13 @@
       </tr>
     </table>
     <div class="chart">
-      <div class="individual">
+      <div class="individual donut">
 
       </div>
-      <div class="partyAvg">
+      <div class="partyAvg donut">
 
       </div>
-      <div class="chamberAvg">
+      <div class="chamberAvg donut">
 
       </div>
     </div>
@@ -59,13 +59,17 @@
         color: #fff;
         border-radius: 2px;
   	  }
+
+      .donut {
+        min-height: 450px;
+      }
     </style>
     <script type="text/javascript">
 
       $('#d3-btn').on('click', function() {
         var title = $('<h3/>');
         title.text("How often does your member vote with their party?");
-        $('.chart').append(title);
+        $('.chart').prepend(title);
         dataCleaner();
         stats();
         memDonut(testID, "party");
