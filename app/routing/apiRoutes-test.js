@@ -105,7 +105,7 @@ module.exports = function(app) {
   app.post("/api/search", function(req, res) {
     var initialRes = [];
     var searchQ = req.body.object;
-    console.log(searchQ);
+    // console.log(searchQ);
 
     for (var i = 0; i < cleanData.length; i++) {
       if (cleanData[i].first_name === searchQ[0] || cleanData[i].last_name === searchQ[1] || cleanData[i].first_name === searchQ[1] || cleanData[i].last_name === searchQ[1]) {

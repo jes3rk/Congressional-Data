@@ -1,7 +1,7 @@
 #home {
   text-align: center;
   align-items: center;
-/*background-image: url("../images/capitol.jpg");*/
+background-image: url("../images/capitol.jpg");
 background-size: 100% 100%;
 background-repeat: no-repeat;
 background-size:cover;
