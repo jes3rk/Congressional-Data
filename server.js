@@ -14,7 +14,8 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '/app/public')));
 // Search for and find the routes
-require("./app/routing/apiRoutes")(app);
+// require("./app/routing/apiRoutes")(app);
+require("./app/routing/apiRoutes-test")(app);
 require("./app/routing/htmlRoutes")(app);
 
 // app.post("/api/congress", function(req, res){
