@@ -25,6 +25,7 @@ var houseData = [];
 var cleanData = [];
 var rejectData = [];
 var initialRes = [];
+var memDetail = {};
 
 function dataCleaner() {
   // ... for the house
@@ -106,5 +107,36 @@ module.exports = function(app) {
       };
     };
     res.json(initialRes);
+  });
+
+  // get a specific member
+  app.post("/api/member", function(req, res) {
+    var memId = req.body;
+    var memUrl = baseUrl + "/members/" + memId + ".json"
+
+    // https://api.propublica.org/congress/v1/members/{member-id}.json
+    request.get(memUrl, function(error, response, body) {
+      if (!error && response.statusCode === 200) {
+        var data = json.parse(body);
+        var basic = data.results[0];
+        // Cleaning the data to make life easier and lower load times
+        memDetail = {
+          name: basic.first_name + " " + basic.last_name,
+          congressNum: basic.member_id,
+          photo: "https://theunitedstates.io/images/congress/225x275/" + basic.member_id + ".jpg",
+          party: basic.current_party,
+          gender: basic.gender,
+          dob: basic.date_of_birth,
+          title: basic.roles[0].short_title,
+          roles: basic.roles,
+          contact: {
+            facebook: "https://www.facebook.com/" + basic.facebook_account,
+            twiiter: "https://www.twitter.com/" + basic.twitter_account,
+            website: basic.url,
+            phone: basic.roles[0].phone
+          }
+        };
+      };
+    });
   });
 };
