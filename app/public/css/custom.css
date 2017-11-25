@@ -1,7 +1,7 @@
 #home {
   text-align: center;
   align-items: center;
-background-image: url("../images/capitol.jpg");
+/*background-image: url("../images/capitol.jpg");*/
 background-size: 100% 100%;
 background-repeat: no-repeat;
 background-size:cover;
@@ -11,12 +11,18 @@ overflow:hidden;
 #results {
   text-align: center;
   align-items: center;
-  background-image:url("../images/houseinterior.jpg");
+  /*background-image:url("../images/houseinterior.jpg");*/
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-size: cover;
   overflow:hidden;
+  margin: 0 auto;
 }
+
+.row{
+  margin: 0 auto;
+}
+
 
 img.bg{
   min-height:100%;
@@ -27,7 +33,6 @@ img.bg{
   top:0;
   left:0;
 }
-
 
 
 /*.center{
@@ -119,4 +124,19 @@ width:40%;
 
 #turtleButton{
   background-color:purple;
+}
+#seal{
+
+  max-width: 30px;
+  max-width: 30px;
+  opacity:0.7;
+}
+
+#seal:hover{
+  transform-origin:50% 50%;
+  animation:10s rotate linear;
+}
+
+@keyframes rotate{
+    100%{ transform:rotate(360deg); }
 }
