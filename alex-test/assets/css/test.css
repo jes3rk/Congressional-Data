@@ -9,12 +9,16 @@
    min-height:100%;
    position:relative;
 }
-#header {
-   background:#ff0;
-   padding:10px;
+
+
+html,body {
+
+  height: 100%;
 }
+
 #body {
    padding:10px;
+   padding-top: 60px;
    padding-bottom:60px;   /* Height of the footer */
 }
 #footer {
@@ -31,10 +35,12 @@
 
 #seal{
 
-  max-width: 100px;
-  max-width: 100px;
+  max-width: 60px;
+  max-width: 60px;
   opacity: 0.6  ;
   background-color: white;
+  display: block;
+  margin: 0 auto;
 
 }
 
