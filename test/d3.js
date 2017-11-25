@@ -28,7 +28,8 @@ function getMem(cham, name1, name2) {
     };
     // Search parameters
     for (var i = 0; i < res.length; i++) {
-      if (res[i].first_name === name1 || res[i].last_name === name2) {
+      // if (res[i].first_name === name1 ||res[i].last_name === name2) {
+      if (res[i].last_name === name2)  {
         // Display search results
         displayRes(res[i], cham);
       };
