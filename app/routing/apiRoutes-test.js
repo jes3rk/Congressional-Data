@@ -24,7 +24,7 @@ var houseData = [];
 // useful variables
 var cleanData = [];
 var rejectData = [];
-var initialRes = [];
+// var initialRes = [];
 var memDetail = {};
 
 function dataCleaner() {
@@ -33,6 +33,8 @@ function dataCleaner() {
     var obj = {
       id: houseData[i].id,
       name: "Rep. " + houseData[i].first_name + " " + houseData[i].last_name,
+      first_name: houseData[i].first_name,
+      last_name: houseData[i].last_name,
       state: houseData[i].state,
       chamber: "house",
       party: houseData[i].party,
@@ -51,6 +53,8 @@ function dataCleaner() {
     var obj = {
       id: senateData[i].id,
       name: "Sen. " + senateData[i].first_name + " " + senateData[i].last_name,
+      first_name: senateData[i].first_name,
+      last_name: senateData[i].last_name,
       state: senateData[i].state,
       chamber: "senate",
       party: senateData[i].party,
@@ -63,7 +67,8 @@ function dataCleaner() {
       rejectData.push(obj);
     };
   };
-  console.log(cleanData);
+  console.log("Data recieved");
+  // console.log(cleanData);
 };
 
 // get initial data
@@ -98,6 +103,7 @@ module.exports = function(app) {
 
   // user triggered search
   app.post("/api/search", function(req, res) {
+    var initialRes = [];
     var searchQ = req.body;
     var results = [];
 
@@ -114,29 +120,36 @@ module.exports = function(app) {
     var memId = req.body;
     var memUrl = baseUrl + "/members/" + memId + ".json"
 
-    // https://api.propublica.org/congress/v1/members/{member-id}.json
-    request.get(memUrl, function(error, response, body) {
-      if (!error && response.statusCode === 200) {
-        var data = json.parse(body);
-        var basic = data.results[0];
-        // Cleaning the data to make life easier and lower load times
-        memDetail = {
-          name: basic.first_name + " " + basic.last_name,
-          congressNum: basic.member_id,
-          photo: "https://theunitedstates.io/images/congress/225x275/" + basic.member_id + ".jpg",
-          party: basic.current_party,
-          gender: basic.gender,
-          dob: basic.date_of_birth,
-          title: basic.roles[0].short_title,
-          roles: basic.roles,
-          contact: {
-            facebook: "https://www.facebook.com/" + basic.facebook_account,
-            twiiter: "https://www.twitter.com/" + basic.twitter_account,
-            website: basic.url,
-            phone: basic.roles[0].phone
-          }
-        };
+    // make sure we have clean data on the person
+    for (var i = 0; i < cleanData.length; i++) {
+      if (cleanData[i].id === memId) {
+        // perform the get call from proPublica
+        request.get(memUrl, function(error, response, body) {
+          if (!error && response.statusCode === 200) {
+            var data = json.parse(body);
+            var basic = data.results[0];
+            // Cleaning the data to make life easier and lower load times
+            memDetail = {
+              name: basic.first_name + " " + basic.last_name,
+              congressNum: basic.member_id,
+              photo: "https://theunitedstates.io/images/congress/225x275/" + basic.member_id + ".jpg",
+              party: basic.current_party,
+              gender: basic.gender,
+              dob: basic.date_of_birth,
+              title: basic.roles[0].short_title,
+              roles: basic.roles,
+              contact: {
+                facebook: "https://www.facebook.com/" + basic.facebook_account,
+                twiiter: "https://www.twitter.com/" + basic.twitter_account,
+                website: basic.url,
+                phone: basic.roles[0].phone
+              }
+            };
+            console.log(memDetail);
+            res.json(memDetail);
+          };
+        });
       };
-    });
+    };
   });
 };

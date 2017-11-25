@@ -81,18 +81,26 @@
 </section>
 </body>
 <script type="text/javascript">
+
+	var click = 0;
 	// Question: What does this code do?
 	$("#turtleButton").on("click", function(event) {
 		event.preventDefault();
-		var congressSearch = $("#congressBar").val().trim()
+		var congressSearch = $("#congressBar").val().split(" ");
+		congressSearch.forEach(function(str) {
+			return str[0].toUpperCase() + str.split(1);
+		});
 		console.log(congressSearch)
 
-	$.post("/api/congress", congressSearch)
-.done(function(data) {
-	console.log(data);
-	alert("Getting Information.");
-});
-});
+		if (click < 1) {
+			$.post("/api/search", congressSearch)
+					.done(function(data) {
+						console.log(data);
+						alert("Getting Information.");
+					});
+			click = 0;
+		};
+	});
 
 </script>
 </html>
