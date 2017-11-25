@@ -85,7 +85,7 @@ request.get(house, function(error, response, body) {
   };
 });
   // ... for the senate
-request.get(house, function(error, response, body) {
+request.get(senate, function(error, response, body) {
   if (!error && response.statusCode === 200) {
     var initData = JSON.parse(body);
     senateData = initData.results[0].members
@@ -104,12 +104,11 @@ module.exports = function(app) {
   // user triggered search
   app.post("/api/search", function(req, res) {
     var initialRes = [];
-    var searchQ = req.body;
-    console.log(req.body);
-    var results = [];
+    var searchQ = req.body.object;
+    console.log(searchQ);
 
     for (var i = 0; i < cleanData.length; i++) {
-      if (cleanData[i].first_name === req.body[0] || cleanData[i].last_name === req.body[0] || cleanData[i].first_name === req.body[1] || cleanData[i].last_name === req.body[1]) {
+      if (cleanData[i].first_name === searchQ[0] || cleanData[i].last_name === searchQ[1] || cleanData[i].first_name === searchQ[1] || cleanData[i].last_name === searchQ[1]) {
         initialRes.push(cleanData[i]);
       };
     };

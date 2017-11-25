@@ -20,7 +20,7 @@
 
 </head>
 
-<body id="home" style="background-image:url(./images/capitol.jpg)">
+<body id="home">
 
 
 		<div class="row">
@@ -94,7 +94,7 @@
 		console.log(congressSearch)
 
 		if (click < 1) {
-			$.post("/api/search", congressSearch)
+			$.post("/api/search", {object: congressSearch})
 					.done(function(data) {
 						console.log(data);
 						alert("Getting Information.");
