@@ -86,9 +86,10 @@
 	// Question: What does this code do?
 	$("#turtleButton").on("click", function(event) {
 		event.preventDefault();
-		var congressSearch = $("#congressBar").val().split(" ");
-		congressSearch.forEach(function(str) {
-			return str[0].toUpperCase() + str.split(1);
+		var initSearch = $("#congressBar").val().split(" ");
+		var congressSearch = [];
+		initSearch.forEach(function(element) {
+			congressSearch.push(element[0].toUpperCase() + element.slice(1));
 		});
 		console.log(congressSearch)
 

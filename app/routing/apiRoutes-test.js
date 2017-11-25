@@ -105,6 +105,7 @@ module.exports = function(app) {
   app.post("/api/search", function(req, res) {
     var initialRes = [];
     var searchQ = req.body;
+    console.log(searchQ);
     var results = [];
 
     for (var i = 0; i < cleanData.length; i++) {
