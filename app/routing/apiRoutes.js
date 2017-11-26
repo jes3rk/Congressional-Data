@@ -31,12 +31,12 @@ module.exports = function(app) {
     request.get(house, function(error, response, body){
       if (!error && response.statusCode === 200){
         var jsonHouse = JSON.parse(body);
-        var arrayHouse;
+        var arrayHouse = [];
         for (var i = 0; i <jsonHouse.results.length; i++ ){
           arrayHouse = jsonHouse.results[i]
           for(var j = 0; j < arrayHouse.members.length; j++){
-            // houseID.push(arrayHouse.members[j].id);
-            // console.log(houseID);
+            houseID.push(arrayHouse.members[j].id);
+            console.log(arrayHouse);
           }
         }
       }

@@ -97,11 +97,30 @@
 			$.post("/api/search", {object: congressSearch})
 					.done(function(data) {
 						console.log(data);
-						alert("Getting Information.");
+						// alert("Getting Information.");
 					});
+
 			click = 0;
 		};
-	});
+		});
+// Fill in the button for user interface
+		$("").on("click", function(event){
+			event.preventDefault();
+			var initSearch = $("").val().split(" ");
+			var congressDetail = [];
+			initSearch.forEach(function(element){
+				congressDetail.push(element[0].toUpperCase() + element.slice(1));
+			});
+
+			if (click < 1) {
+				$.post("/api/member"), {object: congressDetail})
+					.done(function(data){
+						console.log(data)
+					});
+				click = 0;
+			};
+
+		});
 
 </script>
 </html>

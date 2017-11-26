@@ -24,6 +24,7 @@ var houseData = [];
 // useful variables
 var cleanData = [];
 var rejectData = [];
+console.log[cleanData];
 // var initialRes = [];
 var memDetail = {};
 
@@ -43,6 +44,7 @@ function dataCleaner() {
     };
     if (houseData[i].votes_with_party_pct !== undefined || houseData[i].missed_votes_pct === undefined) {
       cleanData.push(obj);
+      // console.log(obj);
     } else {
       console.log(obj.name + "'s data is corrupted. Sorry");
       rejectData.push(obj);
@@ -63,6 +65,7 @@ function dataCleaner() {
     };
     if (senateData[i].votes_with_party_pct !== undefined || senateData[i].missed_votes_pct === undefined) {
       cleanData.push(obj);
+      // console.log(obj)
     } else {
       rejectData.push(obj);
     };
@@ -128,6 +131,7 @@ module.exports = function(app) {
           if (!error && response.statusCode === 200) {
             var data = json.parse(body);
             var basic = data.results[0];
+            console.log(body);
             // Cleaning the data to make life easier and lower load times
             memDetail = {
               name: basic.first_name + " " + basic.last_name,
