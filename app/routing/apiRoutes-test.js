@@ -120,8 +120,14 @@ module.exports = function(app) {
 
   // get a specific member
   app.post("/api/member", function(req, res) {
-    var memId = req.body;
-    var memUrl = baseUrl + "/members/" + memId + ".json"
+    var memId = req.body.object;
+    var  memUrl = {
+        url: baseUrl + "members/" + memId + ".json",
+        headers: {'X-API-Key': apiKey.proPublica}
+      };
+
+    // console.log(memId);
+    // console.log(memUrl);
 
     // make sure we have clean data on the person
     for (var i = 0; i < cleanData.length; i++) {
@@ -129,7 +135,7 @@ module.exports = function(app) {
         // perform the get call from proPublica
         request.get(memUrl, function(error, response, body) {
           if (!error && response.statusCode === 200) {
-            var data = json.parse(body);
+            var data = JSON.parse(body);
             var basic = data.results[0];
             console.log(body);
             // Cleaning the data to make life easier and lower load times
@@ -151,6 +157,8 @@ module.exports = function(app) {
             };
             console.log(memDetail);
             res.json(memDetail);
+          } else {
+            console.log(error);
           };
         });
       };
