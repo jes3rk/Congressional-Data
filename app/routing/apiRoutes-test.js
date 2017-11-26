@@ -138,7 +138,7 @@ module.exports = function(app) {
           if (!error && response.statusCode === 200) {
             var data = JSON.parse(body);
             var basic = data.results[0];
-            console.log(body);
+            // console.log(body);
             // Cleaning the data to make life easier and lower load times
             memDetail = {
               name: basic.first_name + " " + basic.last_name,
@@ -158,7 +158,7 @@ module.exports = function(app) {
                 phone: basic.roles[0].phone
               }
             };
-            console.log(memDetail);
+            // console.log(memDetail);
             res.json(memDetail);
           } else {
             console.log(error);
