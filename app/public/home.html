@@ -107,7 +107,7 @@
 // Fill in the button for user interface
 		$("#detailBtn").on("click", function(event){
 			event.preventDefault();
-			var congressDetail = [];
+			var memID = "";
 			var testID = "G000584";
 
 			$.post("/api/member", {object: testID})
