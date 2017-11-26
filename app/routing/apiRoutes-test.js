@@ -111,7 +111,8 @@ module.exports = function(app) {
     // console.log(searchQ);
 
     for (var i = 0; i < cleanData.length; i++) {
-      if (cleanData[i].first_name === searchQ[0] || cleanData[i].last_name === searchQ[1] || cleanData[i].first_name === searchQ[1] || cleanData[i].last_name === searchQ[1]) {
+      // if (cleanData[i].first_name === searchQ[0] || cleanData[i].last_name === searchQ[1] || cleanData[i].first_name === searchQ[1] || cleanData[i].last_name === searchQ[1]) {
+      if (cleanData[i].last_name === searchQ[1]) {
         initialRes.push(cleanData[i]);
       };
     };

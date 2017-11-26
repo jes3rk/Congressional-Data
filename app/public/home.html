@@ -83,7 +83,17 @@
 </body>
 <script type="text/javascript">
 
+	var testID = "G000584";
+	var memID = "";
 	var click = 0;
+
+	// function for detailed API call
+	function detailCall() {
+		$.post("/api/member", {object: memID})
+			.done(function(data){
+				console.log(data);
+		});
+	};
 	// Question: What does this code do?
 	$("#turtleButton").on("click", function(event) {
 		event.preventDefault();
@@ -98,23 +108,20 @@
 			$.post("/api/search", {object: congressSearch})
 					.done(function(data) {
 						console.log(data);
+						if (data.length === 1) {
+							memID = data[0].id;
+							detailCall();
+						};
 						// alert("Getting Information.");
 					});
 
 			click = 0;
 		};
-		});
+	});
 // Fill in the button for user interface
 		$("#detailBtn").on("click", function(event){
 			event.preventDefault();
-			var memID = "";
-			var testID = "G000584";
-
-			$.post("/api/member", {object: testID})
-				.done(function(data){
-					console.log(data);
-			});
-
+			detailCall();
 		});
 
 </script>
