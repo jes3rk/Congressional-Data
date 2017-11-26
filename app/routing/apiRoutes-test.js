@@ -141,6 +141,8 @@ module.exports = function(app) {
             // Cleaning the data to make life easier and lower load times
             memDetail = {
               name: basic.first_name + " " + basic.last_name,
+              first_name: basic.first_name,
+              last_name: basic.last_name,
               congressNum: basic.member_id,
               photo: "https://theunitedstates.io/images/congress/225x275/" + basic.member_id + ".jpg",
               party: basic.current_party,
@@ -150,7 +152,7 @@ module.exports = function(app) {
               roles: basic.roles,
               contact: {
                 facebook: "https://www.facebook.com/" + basic.facebook_account,
-                twiiter: "https://www.twitter.com/" + basic.twitter_account,
+                twitter: "https://www.twitter.com/" + basic.twitter_account,
                 website: basic.url,
                 phone: basic.roles[0].phone
               }
