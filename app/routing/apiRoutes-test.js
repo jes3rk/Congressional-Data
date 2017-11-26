@@ -167,4 +167,9 @@ module.exports = function(app) {
       };
     };
   });
+
+  // additional call to bring down the clean data for analysis
+  app.get("/api/clean", function(req, res) {
+    res.json(cleanData);
+  });
 };
