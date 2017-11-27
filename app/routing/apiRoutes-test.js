@@ -26,7 +26,7 @@ var memID = "";
 // useful variables
 var cleanData = [];
 var rejectData = [];
-console.log[cleanData];
+
 // var initialRes = [];
 var memDetail = {};
 

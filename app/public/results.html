@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <title>CongressWatch</title>
-  <link rel="stylesheet" href="./css/reset.css">
+  <!-- <link rel="stylesheet" href="./css/reset.css"> -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" href="./css/custom.css">
   <link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/cmu-serif" type="text/css" />
@@ -53,6 +53,67 @@
       </div>
     </div>
     <div class="col-md-3"></div>
+  </div>
+  <div class="thing">
+    <!-- open main row -->
+    <div class="row">
+      <!-- open side bar col -->
+      <div class="col-md-3">
+        <!-- open image row -->
+        <div id="pic-row" class="row top">
+
+        </div>
+        <div id="contact" class="row">
+
+        </div>
+      </div>
+      <!-- open main col -->
+      <div class="col-md-9">
+        <!-- open name row -->
+        <div id="name-row" class="row top">
+
+        </div>
+        <!-- open body row -->
+        <div class="row">
+          <!-- open body col -->
+          <div class="col-md-12">
+            <!-- open btn row -->
+            <div class="row">
+              <div class="col-md-6">
+                <button id="pVoteBtn" type="button" class="btn btn-primary btn-lg btn-block">Party Vote</button>
+              </div>
+              <div class="col-md-6">
+                <button id="mVoteBtn" type="button" class="btn btn-primary btn-lg btn-block">Missed Vote</button>
+              </div>
+            </div>
+
+            <!-- open donut row -->
+            <div class="row doRow">
+              <h3 id="doID"></h3>
+              <!-- open first col -->
+              <div id="memDo" class="col-md-4 donut">
+
+              </div>
+              <!-- open second col -->
+              <div id="partyDo" class="col-md-4 donut">
+
+              </div>
+              <!-- open third col -->
+              <div id="chamDo" class="col-md-4 donut">
+
+              </div>
+            </div>
+            <!-- open hist row -->
+            <div class="row">
+              <h3 id="histID"></h3>
+              <div class="chart">
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
 
@@ -111,12 +172,68 @@
   $(document).ready(function() {
 
     var memID;
+    var detailInfo;
 
     // get the detailed data from the API
     $.get("/api/member", function(data) {
       console.log(data);
+      detailInfo = data;
       memID = data.congressNum;
       console.log(memID);
+
+      // should probably put everything in here
+      // create the image
+      var img = $('<img>');
+      img.attr({
+        src: detailInfo.photo,
+        alt: "Picture of " + detailInfo.name,
+        class: "primary-image"
+      });
+
+      $('#pic-row').append(img);
+
+      // create the name
+      var name = $('<h2/>');
+      name.attr("class", "name");
+      name.text(detailInfo.title + " " + detailInfo.name);
+
+      $('#name-row').append(name);
+
+      // contact Information
+      var fb = $('<a/>');
+      fb.attr({
+        href: detailInfo.contact.facebook,
+        target: "_blank",
+        class: "btn"
+      });
+      fb.text("facebook");
+
+      $('#contact').append(fb);
+
+      var twit = $('<a/>');
+      twit.attr({
+        href: detailInfo.contact.twitter,
+        target: "_blank",
+        class: "btn"
+      });
+      twit.text("Twitter");
+
+      $('#contact').append(twit);
+
+      var web = $('<a/>');
+      web.attr({
+        href: detailInfo.contact.website,
+        target: "_blank",
+        class: "btn"
+      });
+      web.text("Website");
+
+      $('#contact').append(web);
+
+      var phone = $('<p/>');
+      phone.text(detailInfo.contact.phone);
+
+      $('#contact').append(phone);
     });
 
     // get the clean data from the server
@@ -125,7 +242,29 @@
       cleanData = data;
       console.log(cleanData);
       stats();
-    })
+
+      // trigger the charts
+      $('#pVoteBtn').on('click', function() {
+        $('#memDo').empty();
+        $('#partyDo').empty();
+        $('#chamDo').empty();
+        $('.chart').empty();
+
+        $('#doID').text("How often does " + detailInfo.title + " " + detailInfo.name + " vote with their party?");
+        pctPartyVote(memID);
+        memDonut(memID, "party");
+      });
+
+      $('#mVoteBtn').on('click', function() {
+        $('#memDo').empty();
+        $('#partyDo').empty();
+        $('#chamDo').empty();
+
+        $('#doID').text("How often does " + detailInfo.title + " " + detailInfo.name + " miss votes?");
+        pctPartyVote(memID);
+        memDonut(memID, "miss");
+      });
+    });
   });
 </script>
 </body>
