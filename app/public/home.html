@@ -85,7 +85,11 @@
 		<input type="text" placeholder="Enter a Zipcode" id="zipcodeBar"> </input>
 		<button id="ZipcodeButton">Search</button>
 	</div>
+	<div class="table">
+		<table class="choose">
 
+		</table>
+	</div>
 
 </section>
 </body>
@@ -124,6 +128,34 @@
 								console.log(data);
 								$(location).attr('href', '/results');
 							});
+						} else {
+							for (var i = 0; i < data.length; i++) {
+								var row = $('<tr/>');
+
+								var name = $('<td/>');
+								name.text(data[i].name);
+								name.attr({
+									"data-id": data[i].id,
+									"class": "pick"
+								});
+
+								var state = $('<tr/>');
+								state.text(data[i].state);
+
+								row.append(name);
+								row.append(state);
+
+								$('.choose').append(row);
+							};
+
+							$('.pick').on('click', function() {
+								var id = $(this).attr("data-id");
+								$.post("/api/id", {object: id})
+								.done(function(data) {
+									console.log(data);
+									$(location).attr('href', '/results');
+								});
+							})
 						};
 						// alert("Getting Information.");
 					});

@@ -192,3 +192,9 @@ width:40%;
   display: block;
   position: relative;
 }
+
+.table {
+  margin: auto;
+  background-color: white;
+  border: 5px black;
+}

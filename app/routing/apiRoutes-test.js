@@ -109,6 +109,7 @@ module.exports = function(app) {
   // user triggered search
   app.post("/api/search", function(req, res) {
     var initialRes = [];
+    var secondRes = [];
     var searchQ = req.body.object;
     // console.log(searchQ);
 
@@ -118,7 +119,20 @@ module.exports = function(app) {
         initialRes.push(cleanData[i]);
       };
     };
-    res.json(initialRes);
+    if (initialRes.length > 1) {
+      for (var i = 0; i < initialRes.length; i++) {
+        if (initialRes[i].first_name === searchQ[0]) {
+          secondRes.push(initialRes[i]);
+        };
+      };
+      if (secondRes.length > 0) {
+        res.json(secondRes);
+      } else {
+        res.json(initialRes);
+      };
+    } else {
+      res.json(initialRes);
+    };
   });
 
   // get a specific member
