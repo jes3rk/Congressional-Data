@@ -171,7 +171,7 @@ function pctPartyVote(id) {
   // append the svg object to the body of the page
   // append a 'group' element to 'svg'
   // moves the 'group' element to the top left margin
-  var svg = d3.select("div.chart").append("svg")
+  var svg = d3.select("histDiv").append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
@@ -185,7 +185,7 @@ function pctPartyVote(id) {
           .style("opacity", 1)
 
   // Define the div for the tooltip
-  var div = d3.select("body").append("div")
+  var div = d3.select("div.chart").append("div")
       .attr("class", "tooltip")
       .style("opacity", 0);
 
@@ -282,7 +282,7 @@ function pctMissVote(id) {
           .style("opacity", 1)
 
   // Define the div for the tooltip
-  var div = d3.select("body").append("div")
+  var div = d3.select("div.chart").append("div")
       .attr("class", "tooltip")
       .style("opacity", 0);
 
@@ -442,7 +442,7 @@ function partyDonut(party, q) {
   };
 
   // create the chart for the individual
-  var svg = d3.select('.partyAvg')
+  var svg = d3.select('#partyDo')
       .append('svg')
       .attr('width', width)
       .attr('height', height)
@@ -467,7 +467,7 @@ function partyDonut(party, q) {
       });
 
   // tooltip
-  var tooltip = d3.select('.partyAvg')
+  var tooltip = d3.select('#partyDo')
       .append('div')
       .attr('class', 'tooltip');
 
@@ -625,8 +625,8 @@ function chamberDonut(chamber, q) {
           .range(['green', 'yellow']);
   };
 
-  // create the chart for the individual
-  var svg = d3.select('.chamberAvg')
+  // create the chart for the chamber
+  var svg = d3.select('#chamDo')
       .append('svg')
       .attr('width', width)
       .attr('height', height)
@@ -651,7 +651,7 @@ function chamberDonut(chamber, q) {
       });
 
   // tooltip
-  var tooltip = d3.select('.chamberAvg')
+  var tooltip = d3.select('#chamDo')
       .append('div')
       .attr('class', 'tooltip');
 
@@ -789,7 +789,7 @@ function memDonut(id, target) {
   };
 
   // create the chart for the individual
-  var svg = d3.select('.individual')
+  var svg = d3.select('#memDo')
       .append('svg')
       .attr('width', width)
       .attr('height', height)
@@ -814,7 +814,7 @@ function memDonut(id, target) {
       });
 
   // tooltip
-  var tooltip = d3.select('.individual')
+  var tooltip = d3.select('#memDo')
       .append('div')
       .attr('class', 'tooltip');
 
