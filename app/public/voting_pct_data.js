@@ -26,43 +26,6 @@ var statsD = {
   }
 };
 
-// function dataCleaner() {
-//   // ... for the house
-//   for (var i = 0; i < houseData.length; i++) {
-//     var obj = {
-//       id: houseData[i].id,
-//       name: "Rep. " + houseData[i].first_name + " " + houseData[i].last_name,
-//       state: houseData[i].state,
-//       chamber: "house",
-//       party: houseData[i].party,
-//       partyVote: houseData[i].votes_with_party_pct,
-//       missVote: houseData[i].missed_votes_pct
-//     };
-//     if (houseData[i].votes_with_party_pct !== undefined || houseData[i].missed_votes_pct === undefined) {
-//       cleanData.push(obj);
-//     } else {
-//       rejectData.push(obj);
-//     };
-//   };
-//   // ... for the senate
-//   for (var i = 0; i < senateData.length; i++) {
-//     var obj = {
-//       id: senateData[i].id,
-//       name: "Sen. " + senateData[i].first_name + " " + senateData[i].last_name,
-//       state: senateData[i].state,
-//       chamber: "senate",
-//       party: senateData[i].party,
-//       partyVote: senateData[i].votes_with_party_pct,
-//       missVote: senateData[i].missed_votes_pct
-//     };
-//     if (senateData[i].votes_with_party_pct !== undefined || senateData[i].missed_votes_pct === undefined) {
-//       cleanData.push(obj);
-//     } else {
-//       rejectData.push(obj);
-//     };
-//   };
-// }
-
 function stats() {
   // takes in cleanData
   // arranges useful stats into arrays and objects for recall
