@@ -144,7 +144,7 @@
 $("#ZipcodeButton").on("click", function(event){
 	event.preventDefault();
 	var ZipCode = $("#zipcodeBar").val().trim();
-	var queryURL = "http://whoismyrepresentative.com/getall_mems.php?zip=" + ZipCode + "&output=json"
+	var queryURL = "https://whoismyrepresentative.com/getall_mems.php?zip=" + ZipCode + "&output=json"
 	var name =[];
 //performing Ajax request
 	$.ajax ({
