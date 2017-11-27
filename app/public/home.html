@@ -110,7 +110,12 @@
 						console.log(data);
 						if (data.length === 1) {
 							memID = data[0].id;
-							detailCall();
+							// detailCall();
+							$.post("/api/id", {object: memID})
+							.done(function(data) {
+								console.log(data);
+								$(location).attr('href', '/results');
+							});
 						};
 						// alert("Getting Information.");
 					});
