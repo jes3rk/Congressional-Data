@@ -171,7 +171,7 @@ function pctPartyVote(id) {
   // append the svg object to the body of the page
   // append a 'group' element to 'svg'
   // moves the 'group' element to the top left margin
-  var svg = d3.select("histDiv").append("svg")
+  var svg = d3.select("div.chart").append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
@@ -186,7 +186,7 @@ function pctPartyVote(id) {
 
   // Define the div for the tooltip
   var div = d3.select("div.chart").append("div")
-      .attr("class", "tooltip")
+      .attr("class", "tooltip histTip")
       .style("opacity", 0);
 
   // group the data for the bars
@@ -220,7 +220,7 @@ function pctPartyVote(id) {
           div.html(function() {
             var nameArr = [];
             for (var i = 0; i < d.length; i++) {
-              nameArr.push(d[i].name + "(" + d[i].party + "-" + d[i].state + ")");
+              nameArr.push(" " + d[i].name + "(" + d[i].party + "-" + d[i].state + ")");
             };
             return nameArr;
           })
@@ -283,7 +283,7 @@ function pctMissVote(id) {
 
   // Define the div for the tooltip
   var div = d3.select("div.chart").append("div")
-      .attr("class", "tooltip")
+      .attr("class", "tooltip histTip")
       .style("opacity", 0);
 
   // group the data for the bars
@@ -317,7 +317,7 @@ function pctMissVote(id) {
           div.html(function() {
             var nameArr = [];
             for (var i = 0; i < d.length; i++) {
-              nameArr.push(d[i].name + "(" + d[i].party + "-" + d[i].state + ")");
+              nameArr.push(" " + d[i].name + "(" + d[i].party + "-" + d[i].state + ")");
             };
             return nameArr;
           })
@@ -356,7 +356,7 @@ function partyDonut(party, q) {
             },
             {
               label: "The average Repblican voted ",
-              count: 1-d3.mean([statsR.house.missed.mean, statsR.senate.missed.mean])
+              count: 100-d3.mean([statsR.house.missed.mean, statsR.senate.missed.mean])
             }
           ];
         break;
@@ -368,8 +368,8 @@ function partyDonut(party, q) {
               count: d3.mean([statsR.house.party.mean, statsR.senate.party.mean])
             },
             {
-              label: "The average Repblican voted with their party",
-              count: 1-d3.mean([statsR.house.party.mean, statsR.senate.party.mean])
+              label: "The average Repblican voted against their party",
+              count: 100-d3.mean([statsR.house.party.mean, statsR.senate.party.mean])
             }
           ];
         break;
@@ -540,7 +540,7 @@ function chamberDonut(chamber, q) {
             },
             {
               label: "The average Represenative voted",
-              count: 1-d3.mean([statsR.house.missed.mean, statsD.house.missed.mean])
+              count: 100-d3.mean([statsR.house.missed.mean, statsD.house.missed.mean])
             }
           ];
         break;
@@ -552,8 +552,8 @@ function chamberDonut(chamber, q) {
               count: d3.mean([statsR.house.party.mean, statsD.house.party.mean])
             },
             {
-              label: "The average Represenative voted with their party",
-              count: 1-d3.mean([statsR.house.party.mean, statsD.house.party.mean])
+              label: "The average Represenative voted against their party",
+              count: 100-d3.mean([statsR.house.party.mean, statsD.house.party.mean])
             }
           ];
         break;

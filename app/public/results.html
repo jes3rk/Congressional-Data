@@ -40,8 +40,8 @@
       document.getElementById("congressdrop3").style.display = "block";
     }
   </script>
-
-<body id="results" style="background-image:url(./images/houseinterior.jpg)">
+<!-- style="background-image:url(./images/houseinterior.jpg)" -->
+<body id="results" >
   <div class="row">
     <div class="col-md-3"></div>
     <div class="col-md-6 center">
@@ -74,7 +74,7 @@
 
         </div>
         <!-- open body row -->
-        <div class="row">
+        <div class="row main">
           <!-- open body col -->
           <div class="col-md-12">
             <!-- open btn row -->
@@ -259,9 +259,10 @@
         $('#memDo').empty();
         $('#partyDo').empty();
         $('#chamDo').empty();
+        $('.chart').empty();
 
         $('#doID').text("How often does " + detailInfo.title + " " + detailInfo.name + " miss votes?");
-        pctPartyVote(memID);
+        pctMissVote(memID);
         memDonut(memID, "miss");
       });
     });
