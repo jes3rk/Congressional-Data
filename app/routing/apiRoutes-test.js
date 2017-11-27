@@ -21,6 +21,8 @@ var senateFin = false;
 var senateData = [];
 var houseData = [];
 
+var memID = "";
+
 // useful variables
 var cleanData = [];
 var rejectData = [];
@@ -120,10 +122,10 @@ module.exports = function(app) {
   });
 
   // get a specific member
-  app.post("/api/member", function(req, res) {
-    var memId = req.body.object;
+  app.get("/api/member", function(req, res) {
+    // var memId = req.body.object;
     var  memUrl = {
-        url: baseUrl + "members/" + memId + ".json",
+        url: baseUrl + "members/" + memID + ".json",
         headers: {'X-API-Key': apiKey.proPublica}
       };
 
@@ -132,7 +134,7 @@ module.exports = function(app) {
 
     // make sure we have clean data on the person
     for (var i = 0; i < cleanData.length; i++) {
-      if (cleanData[i].id === memId) {
+      if (cleanData[i].id === memID) {
         // perform the get call from proPublica
         request.get(memUrl, function(error, response, body) {
           if (!error && response.statusCode === 200) {
@@ -172,4 +174,13 @@ module.exports = function(app) {
   app.get("/api/clean", function(req, res) {
     res.json(cleanData);
   });
-};
+
+  // store the id number of search
+  app.post("/api/id", function(req, res) {
+    var data = req.body;
+    memID = data.object
+    // console.log(req.body);
+    console.log(memID);
+    res.json("done");
+  });
+}; // end of module exports
