@@ -15,7 +15,10 @@
 	  src="https://code.jquery.com/jquery-3.2.1.min.js"
 	  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
 	  crossorigin="anonymous"></script>
-
+<!-- Google Map Link -->
+<script async defer
+		src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap">
+		</script>
 
 
 </head>
@@ -51,6 +54,9 @@
 
 					<p>...The Senate of the United States shall be composed of two Senators from each State, chosen by the Legislature thereof, for six Years; and each Senator shall have one Vote.</p>
 				</div>
+				<div id="map" style="width:400px;height:400px;background:yellow"></div>
+				</div>
+
 			</div>
 		</div class="col-md-3">
 	</div>
@@ -71,6 +77,7 @@
 		</div>
 		<div class="col-md-3"></div>
 	</div>
+
 
 
 
@@ -125,4 +132,38 @@
 		});
 
 </script>
+<script>
+function initMap() {
+	var uluru = {lat: -25.363, lng: 131.044};
+	var map = new google.maps.Map(document.getElementById('map'), {
+		zoom: 4,
+		center: uluru
+	});
+	// Create an array of alphabetical characters used to label the markers.
+  var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+        // Add some markers to the map.
+        // Note: The code uses the JavaScript Array.prototype.map() method to
+        // create an array of markers based on a given "locations" array.
+        // The map() method here has nothing to do with the Google Maps API.
+	var marker = new google.maps.Marker({
+		position: uluru,
+		map: map
+	});
+}
+// Add a marker clusterer to manage the markers.
+
+
+
+
+		</script>
+
+	``</script>
+
+		<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFYEbwUhzaSOHzv6M2gzYBRjCKK4eq96Q&callback=initMap">
+    </script>
+
+		<script src="https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyDFYEbwUhzaSOHzv6M2gzYBRjCKK4eq96Q
+"
 </html>
