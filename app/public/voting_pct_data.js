@@ -218,7 +218,7 @@ function pctPartyVote(id) {
           .duration(200)
           .style("opacity", .9);
           div.html(function() {
-            var nameArr = [];
+            var nameArr = ["(Count = " + d.length + " and Value = " + d.x0.toFixed(1) + "%)"];
             for (var i = 0; i < d.length; i++) {
               nameArr.push(" " + d[i].name + "(" + d[i].party + "-" + d[i].state + ")");
             };
@@ -315,7 +315,7 @@ function pctMissVote(id) {
           .duration(200)
           .style("opacity", .9);
           div.html(function() {
-            var nameArr = [];
+            var nameArr = ["(Count = " + d.length + " and Value = " + d.x0.toFixed(1) + "%)"];
             for (var i = 0; i < d.length; i++) {
               nameArr.push(" " + d[i].name + "(" + d[i].party + "-" + d[i].state + ")");
             };
@@ -351,7 +351,7 @@ function partyDonut(party, q) {
         case "miss":
           dataSet = [
             {
-              label: "The average Republican missed ",
+              label: "The average Republican missed votes ",
               count: d3.mean([statsR.house.missed.mean, statsR.senate.missed.mean])
             },
             {
@@ -384,7 +384,7 @@ function partyDonut(party, q) {
         case "miss":
           dataSet = [
             {
-              label: "The average Democrat missed ",
+              label: "The average Democrat missed votes ",
               count: d3.mean([statsD.house.missed.mean, statsD.senate.missed.mean])
             },
             {
@@ -535,7 +535,7 @@ function chamberDonut(chamber, q) {
         case "miss":
           dataSet = [
             {
-              label: "The average Represenative missed",
+              label: "The average Represenative missed votes",
               count: d3.mean([statsR.house.missed.mean, statsD.house.missed.mean])
             },
             {
@@ -568,7 +568,7 @@ function chamberDonut(chamber, q) {
         case "miss":
           dataSet = [
             {
-              label: "The average Senator missed ",
+              label: "The average Senator missed votes ",
               count: d3.mean([statsR.senate.missed.mean, statsD.senate.missed.mean])
             },
             {
