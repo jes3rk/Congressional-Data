@@ -238,3 +238,13 @@ background-color: green;
   color: black;
   opacity: 0.9
 }
+
+.basic-info {
+background-color: white;
+font-weight: bold;
+}
+
+#contact{
+  background-color: white;
+  font-weight:bold;
+}
