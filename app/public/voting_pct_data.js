@@ -351,11 +351,11 @@ function partyDonut(party, q) {
         case "miss":
           dataSet = [
             {
-              label: "The average Republican missed votes ",
+              label: "The average Repblican voted ",
               count: d3.mean([statsR.house.missed.mean, statsR.senate.missed.mean])
             },
             {
-              label: "The average Repblican voted ",
+              label: "The average Republican missed votes ",
               count: 100-d3.mean([statsR.house.missed.mean, statsR.senate.missed.mean])
             }
           ];
@@ -384,11 +384,11 @@ function partyDonut(party, q) {
         case "miss":
           dataSet = [
             {
-              label: "The average Democrat missed votes ",
+              label: "The average Democrat voted ",
               count: d3.mean([statsD.house.missed.mean, statsD.senate.missed.mean])
             },
             {
-              label: "The average Democrat voted ",
+              label: "The average Democrat missed votes ",
               count: 100-d3.mean([statsD.house.missed.mean, statsD.senate.missed.mean])
             }
           ];
