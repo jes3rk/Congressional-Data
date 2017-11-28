@@ -53,13 +53,18 @@ img.bg{
 .flagPin{
 
   height: 100px;
-  /*transform-origin:50% 50%;
-  animation:2s rotateRight infinite linear;*/
+  -webkit-transform-origin: 50% 0;
+  transform-origin: 50% 0;
+  -webkit-animation: swinging 6.5s ease-in-out forwards infinite;
+  animation: swinging 6.5s ease-in-out forwards infinite;
 }
 
-/*@keyframes rotateRight{
-    100%{ transform:rotate(360deg); }
-}*/
+@keyframes swinging{
+    0%{transform: rotate(5deg);}
+    50%{transform: rotate(-5deg)}
+    100%{transform: rotate(5deg);}
+}
+
 .title{
 color: white;
 font-family: 'Spectral SC', serif;
@@ -116,14 +121,14 @@ opacity: 0.1;
 #manual:hover{
   opacity:1;
     background-color: skyblue;
-}
+  }
 
 /*#congressphoto{
 height:20px;
 width:20px;
 }*/
 
-#datapull{
+/*#datapull{
 text-align: center;
 margin-left: 300px;
 margin-right: 300px;
@@ -133,17 +138,18 @@ width:40%;
 }
 #datapull:hover{
   opacity:1;
-}
+}*/
 
 #turtleButton{
-  background-color:purple;
+  background-color:yellow;
+  opacity: 0.7;
 }
-#seal{
+/*#seal{
 
   max-width: 30px;
   max-width: 30px;
   opacity:0.7;
-}
+}*/
 
 /*#seal:hover{
   transform-origin:50% 50%;
