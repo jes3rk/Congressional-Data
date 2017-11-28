@@ -66,6 +66,9 @@
         <div id="contact" class="row">
 
         </div>
+        <div class="basic-info">
+
+        </div>
       </div>
       <!-- open main col -->
       <div class="col-md-9">
@@ -234,6 +237,26 @@
       phone.text(detailInfo.contact.phone);
 
       $('#contact').append(phone);
+
+      var birth = $('<p/>');
+      birth.text("Born: " + detailInfo.dob);
+
+      $('.basic-info').append(birth);
+
+      var enterCon = $('<p/>');
+      enterCon.text(detailInfo.title + " " + detailInfo.name + " was first sworn in to Congress on: " + detailInfo.roles[detailInfo.roles.length - 1].start_date);
+
+      $('.basic-info').append(enterCon);
+
+      var noTerm = $('<p/>');
+      noTerm.text(detailInfo.title + " " + detailInfo.name + " has served a total of " + detailInfo.roles.length + " terms in Congress");
+
+      $('.basic-info').append(noTerm);
+
+      var noBills = $('<p/>');
+      noBills.text(detailInfo.title + " " + detailInfo.name + " has sponsored " + detailInfo.roles[0].bills_sponsored + " bills and has co-sponsored " + detailInfo.roles[0].bills_cosponsored + " bills in the current term");
+
+      $('.basic-info').append(noBills);
     });
 
     // get the clean data from the server

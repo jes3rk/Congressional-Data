@@ -24,7 +24,7 @@ overflow:hidden;
 }
 
 .thing {
-  background-color: rgba(255, 255, 255, 0.75);
+  /*background-color: rgba(255, 255, 255, 0.75);*/
   width: 90%;
   height: 100%;
   margin: auto;
@@ -197,4 +197,8 @@ width:40%;
   margin: auto;
   background-color: white;
   border: 5px black;
+}
+
+.primary-image {
+  border: 5px black solid;
 }
