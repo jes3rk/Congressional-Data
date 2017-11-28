@@ -44,7 +44,7 @@ function dataCleaner() {
       partyVote: houseData[i].votes_with_party_pct,
       missVote: houseData[i].missed_votes_pct
     };
-    if (houseData[i].votes_with_party_pct !== undefined || houseData[i].missed_votes_pct === undefined) {
+    if (houseData[i].votes_with_party_pct !== undefined && houseData[i].missed_votes_pct !== undefined) {
       cleanData.push(obj);
       // console.log(obj);
     } else {
@@ -65,7 +65,7 @@ function dataCleaner() {
       partyVote: senateData[i].votes_with_party_pct,
       missVote: senateData[i].missed_votes_pct
     };
-    if (senateData[i].votes_with_party_pct !== undefined || senateData[i].missed_votes_pct === undefined) {
+    if (senateData[i].votes_with_party_pct !== undefined && senateData[i].missed_votes_pct !== undefined) {
       cleanData.push(obj);
       // console.log(obj)
     } else {

@@ -185,7 +185,7 @@ function pctPartyVote(id) {
           .style("opacity", 1)
 
   // Define the div for the tooltip
-  var div = d3.select("div.chart").append("div")
+  var div = d3.select("div.tool").append("div")
       .attr("class", "tooltip histTip")
       .style("opacity", 0);
 
@@ -282,7 +282,7 @@ function pctMissVote(id) {
           .style("opacity", 1)
 
   // Define the div for the tooltip
-  var div = d3.select("div.chart").append("div")
+  var div = d3.select("div.tool").append("div")
       .attr("class", "tooltip histTip")
       .style("opacity", 0);
 
