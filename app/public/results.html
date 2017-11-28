@@ -262,7 +262,7 @@
       var noTerm = $('<p/>');
       var termsNoRpt = [];
       for (var i = 0; i < detailInfo.roles.length; i++) {
-        if (detailInfo.roles[i].title === "Representative" || detailInfo.roles[i].title === "Senator") {
+        if (detailInfo.roles[i].title === "Representative" || detailInfo.roles[i].short_title === "Sen.") {
           termsNoRpt.push(detailInfo.roles[i]);
         };
       };
