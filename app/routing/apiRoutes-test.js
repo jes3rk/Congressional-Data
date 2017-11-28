@@ -96,11 +96,11 @@ request.get(senate, function(error, response, body) {
     senateData = initData.results[0].members
     senateFin = true;
     // console.log(senateData.results[0].members);
-  };
+  }
   if (houseFin === true) {
     dataCleaner();
-  };
-});
+  }
+})
 
 
 module.exports = function(app) {
