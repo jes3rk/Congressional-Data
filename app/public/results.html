@@ -238,6 +238,13 @@
 
       $('#contact').append(phone);
 
+      if (detailInfo.roles[0].leadership_role !== null) {
+        var leader = $('<p/>');
+        leader.text("Currently: " + detailInfo.roles[0].leadership_role);
+
+        $('.basic-info').append(leader);
+      };
+
       var birth = $('<p/>');
       birth.text("Born: " + detailInfo.dob);
 
@@ -249,7 +256,13 @@
       $('.basic-info').append(enterCon);
 
       var noTerm = $('<p/>');
-      noTerm.text(detailInfo.title + " " + detailInfo.name + " has served a total of " + detailInfo.roles.length + " terms in Congress");
+      var termsNoRpt = [];
+      for (var i = 0; i < detailInfo.roles.length; i++) {
+        if (detailInfo.roles[i].title === "Representative" || detailInfo.roles[i].title === "Senator") {
+          termsNoRpt.push(detailInfo.roles[i]);
+        };
+      };
+      noTerm.text(detailInfo.title + " " + detailInfo.name + " has served a total of " + termsNoRpt.length + " terms in Congress");
 
       $('.basic-info').append(noTerm);
 
