@@ -14,6 +14,7 @@ overflow:hidden;
 }
 
 #results {
+  background-color: #9310E8;
   text-align: center;
   align-items: center;
   /*background-image:url("../images/houseinterior.jpg");*/
@@ -91,13 +92,13 @@ align-items: center;
 
 
 input[type=text] {
-    width: 200px;
+    width: 150px;
     -webkit-transition: width 0.4s ease-in-out;
     transition: width 0.4s ease-in-out;
 
 }
 
-#constitution{
+/*#constitution{
 background-color: #F1F1D4;
 font-family: 'Great Vibes', cursive;
 opacity: 0.1;
@@ -105,14 +106,16 @@ opacity: 0.1;
 
 #constitution:hover {
     opacity: 1;
-}
+}*/
 
 #manual{
-  background-color: green;
-  opacity:0.4;
+
+  opacity:0.1;
+  text: #FFFFFF;
 }
 #manual:hover{
   opacity:1;
+    background-color: skyblue;
 }
 
 /*#congressphoto{
@@ -142,14 +145,14 @@ width:40%;
   opacity:0.7;
 }
 
-#seal:hover{
+/*#seal:hover{
   transform-origin:50% 50%;
   animation:10s rotate linear;
 }
 
 @keyframes rotate{
     100%{ transform:rotate(360deg); }
-}
+}*/
 
 .donut {
   min-height: 500px;
@@ -198,8 +201,34 @@ width:40%;
   margin: auto;
   background-color: white;
   border: 5px black;
+  max-width: 200px;
+}
+
+.stateRight{
+text-align: right;
+}
+
+.nameLeft{
+  text-align: left;
 }
 
 .primary-image {
   border: 5px black solid;
+}
+
+.footer {
+  opacity: 0.2;
+  background-color: grey;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 20px; /* Set the fixed height of the footer here */
+  line-height: 20px; /* Vertically center the text there */
+  color:#FFFFFF;
+}
+
+.footer:hover {
+background-color: green;
+  color: black;
+  opacity: 0.9
 }

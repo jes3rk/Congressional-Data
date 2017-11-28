@@ -11,10 +11,7 @@
 	<link rel="stylesheet" media="screen" href="https://fontlibrary.org/face/cmu-serif" type="text/css" />
 	<link href="https://fonts.googleapis.com/css?family=Great+Vibes" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Spectral+SC" rel="stylesheet">
-	<script
-	  src="https://code.jquery.com/jquery-3.2.1.min.js"
-	  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-	  crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 
 
 </head>
@@ -22,20 +19,19 @@
 <body id="home" style="background-image:url(./images/capitol.jpg)">
 
 
-		<div class="row">
-			<div class="col-md-3"></div>
-			<div class="col-md-6 center">
-				<div class="title">
-					<img src="./images/usflag1.png" alt="american flag" class="flagPin">
-					<h2>CongressWatch</h2>
-					<img src="./images/usflag2.png" alt="american flag" class="flagPin">
-				</div>
+	<div class="row">
+		<div class="col-md-3"></div>
+		<div class="col-md-6 center">
+			<div class="title">
+				<img src="./images/usflag1.png" alt="american flag" class="flagPin" id="flagPinL">
+				<h2>CongressWatch</h2>
+				<img src="./images/usflag2.png" alt="american flag" class="flagPin id="flagPinR"">
 			</div>
-			<div class="col-md-3"></div>
 		</div>
+		<div class="col-md-3"></div>
+	</div>
 
-		</br>
-
+	<!--
 		<div class="row">
 			<div class="col-md-3"></div>
 			<div class="col-md-6">
@@ -49,65 +45,77 @@
 					</p>
 
 					<p>...The Senate of the United States shall be composed of two Senators from each State, chosen by the Legislature thereof, for six Years; and each Senator shall have one Vote.</p>
-				</div>
+				</div> -->
 
 
+	</div>
+	</div class="col-md-3">
+	</div>
+	<!-- </br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br> -->
+	<section id="functionalbar">
+		<div class="row">
+			<div class="col-md-3"></div>
+			<div class="col-md-6">
+				<div id="manual">Using our service, you can look up your congressman and see how they've voted, how often they've voted, and how often they've supported their party. Enter the name of a currently serving representative or senator in the searchbox below.</div>
 			</div>
-		</div class="col-md-3">
-	</div>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-</br>
-<section id="functionalbar">
-	<div class="row">
-		<div class="col-md-3"></div>
-		<div class="col-md-6">
-			<div id="manual">Using our service, you can look up your congressman and see how they've voted, how often they've voted, and how often they've supported their party.</div>
+			<div class="col-md-3"></div>
 		</div>
-		<div class="col-md-3"></div>
-	</div>
 
 
 
 
-	<div id="searchbar">
-		<input type="text" placeholder="Enter the first and last name of a member of Congress" id="congressBar"> </input>
-		<button id="turtleButton">Search</button>
-	</div>
+		<div id="searchbar">
+			<input type="text" placeholder="Name" id="congressBar"> </input>
+			<button id="turtleButton">Search</button>
+		</div>
 
-	<!-- <div id="Zipcodesearchbar">
+
+
+		<!-- <div id="Zipcodesearchbar">
 		<input type="text" placeholder="Enter a Zipcode" id="zipcodeBar"> </input>
 		<button id="ZipcodeButton">Search</button>
 	</div> -->
-	<div class="table">
-		<table class="choose">
+		<div class="table">
+			<table class="choose">
 
-		</table>
-	</div>
+			</table>
+		</div>
 
-</section>
+	</section>
+
+
+	<footer class="footer">
+		<div class="container">
+			<span>A project by Rain, Alex and Joseph. ProPublica resources used in accordance with terms of service. No right or claim of ownership is asserted by use.</span>
+		</div>
+	</footer>
+
 </body>
 <script type="text/javascript">
-
 	var testID = "G000584";
 	var memID = "";
 	var click = 0;
 
 	// function for detailed API call
 	function detailCall() {
-		$.post("/api/member", {object: memID})
-			.done(function(data){
+		$.post("/api/member", {
+				object: memID
+			})
+			.done(function(data) {
 				console.log(data);
-		});
+			});
 	};
 	// Question: What does this code do?
 	$("#turtleButton").on("click", function(event) {
+		$(".choose").empty();
 		event.preventDefault();
 		var initSearch = $("#congressBar").val().split(" ");
 		var congressSearch = [];
@@ -117,82 +125,93 @@
 		console.log(congressSearch)
 
 		if (click < 1) {
-			$.post("/api/search", {object: congressSearch})
-					.done(function(data) {
-						console.log(data);
-						if (data.length === 1) {
-							memID = data[0].id;
-							// detailCall();
-							$.post("/api/id", {object: memID})
+			$.post("/api/search", {
+					object: congressSearch
+				})
+				.done(function(data) {
+					console.log(data);
+					if (data.length === 1) {
+						memID = data[0].id;
+						// detailCall();
+						$.post("/api/id", {
+								object: memID
+							})
 							.done(function(data) {
 								console.log(data);
 								$(location).attr('href', '/results');
 							});
-						} else {
-							for (var i = 0; i < data.length; i++) {
-								var row = $('<tr/>');
+					} else {
+						for (var i = 0; i < data.length; i++) {
+							var row = $('<tr/>');
 
-								var name = $('<td/>');
-								name.text(data[i].name);
-								name.attr({
-									"data-id": data[i].id,
-									"class": "pick"
-								});
+							var name = $('<td/>');
+							name.text(data[i].name);
+							name.attr({
+								"data-id": data[i].id,
+								"class": "pick nameLeft"
+							});
 
+<<<<<<< HEAD
 								var state = $('<td/>');
 								state.text(data[i].state);
+=======
+							var state = $('<td/>');
+							state.text(data[i].state);
+							state.attr({
+								"class": "stateRight"
+>>>>>>> 14ce12c3624210254b8df215551028761da5029b
 
-								row.append(name);
-								row.append(state);
+							})
+							row.append(name);
+							row.append(state);
 
-								$('.choose').append(row);
-							};
+							$('.choose').append(row);
+						};
 
-							$('.pick').on('click', function() {
-								var id = $(this).attr("data-id");
-								$.post("/api/id", {object: id})
+						$('.pick').on('click', function() {
+							var id = $(this).attr("data-id");
+							$.post("/api/id", {
+									object: id
+								})
 								.done(function(data) {
 									console.log(data);
 									$(location).attr('href', '/results');
 								});
-							})
-						};
-						// alert("Getting Information.");
-					});
+						})
+					};
+					// alert("Getting Information.");
+				});
 
 			click = 0;
 		};
 	});
-// Fill in the button for user interface
-		$("#detailBtn").on("click", function(event){
-			event.preventDefault();
-			detailCall();
-		});
-
+	// Fill in the button for user interface
+	$("#detailBtn").on("click", function(event) {
+		event.preventDefault();
+		detailCall();
+	});
 </script>
 <script>
-
-//===================Get API from Who Is============================
-// $("#ZipcodeButton").on("click", function(event){
-// 	event.preventDefault();
-// 	var ZipCode = $("#zipcodeBar").val().trim();
-// 	var queryURL = "https://whoismyrepresentative.com/getall_mems.php?zip=" + ZipCode + "&output=json";
-// 	var name =[];
-// //performing Ajax request
-// 	$.ajax ({
-//     dataType: "json",
-// 		url: queryURL,
-// 		method:"GET"
-// 	}).done(function(response){
-// 		var data = response.data;
-// 		for (i = 0; i < data.results.length; i++) {
-// 			name.push(data.results[i].name);
-// 		}
-//
-// 	})
-//
-// });
-
-		</script>
+	//===================Get API from Who Is============================
+	// $("#ZipcodeButton").on("click", function(event){
+	// 	event.preventDefault();
+	// 	var ZipCode = $("#zipcodeBar").val().trim();
+	// 	var queryURL = "https://whoismyrepresentative.com/getall_mems.php?zip=" + ZipCode + "&output=json";
+	// 	var name =[];
+	// //performing Ajax request
+	// 	$.ajax ({
+	//     dataType: "json",
+	// 		url: queryURL,
+	// 		method:"GET"
+	// 	}).done(function(response){
+	// 		var data = response.data;
+	// 		for (i = 0; i < data.results.length; i++) {
+	// 			name.push(data.results[i].name);
+	// 		}
+	//
+	// 	})
+	//
+	// });
+</script>
 
 </html>
