@@ -81,10 +81,10 @@
 		<button id="turtleButton">Search</button>
 	</div>
 
-	<div id="Zipcodesearchbar">
+	<!-- <div id="Zipcodesearchbar">
 		<input type="text" placeholder="Enter a Zipcode" id="zipcodeBar"> </input>
 		<button id="ZipcodeButton">Search</button>
-	</div>
+	</div> -->
 	<div class="table">
 		<table class="choose">
 
@@ -173,27 +173,25 @@
 <script>
 
 //===================Get API from Who Is============================
-$("#ZipcodeButton").on("click", function(event){
-	event.preventDefault();
-	var ZipCode = $("#zipcodeBar").val().trim();
-	var queryURL = "https://whoismyrepresentative.com/getall_mems.php?zip=" + ZipCode + "&output=json"
-	var name =[];
-//performing Ajax request
-	$.ajax ({
-    dataType: "json",
-		url: queryURL,
-		method: "GET"
-	}).done(function(response){
-		var data = response.data;
-		for (i = 0; i < data.results.length; i++) {
-			name.push(data.results[i].name);
-		}
-
-	})
-
-});
-
-
+// $("#ZipcodeButton").on("click", function(event){
+// 	event.preventDefault();
+// 	var ZipCode = $("#zipcodeBar").val().trim();
+// 	var queryURL = "https://whoismyrepresentative.com/getall_mems.php?zip=" + ZipCode + "&output=json";
+// 	var name =[];
+// //performing Ajax request
+// 	$.ajax ({
+//     dataType: "json",
+// 		url: queryURL,
+// 		method:"GET"
+// 	}).done(function(response){
+// 		var data = response.data;
+// 		for (i = 0; i < data.results.length; i++) {
+// 			name.push(data.results[i].name);
+// 		}
+//
+// 	})
+//
+// });
 
 		</script>
 
