@@ -25,7 +25,7 @@
 
   <!-- D3 -->
   <script src="https://d3js.org/d3.v4.min.js"></script>
-  <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+  <script src="https://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
 
   <script "text/javascript">
     function show() {
@@ -67,6 +67,9 @@
 
         </div>
         <div class="basic-info">
+
+        </div>
+        <div class="tool">
 
         </div>
       </div>
@@ -114,6 +117,10 @@
               </div>
             </div>
           </div>
+        </div>
+        <!-- Citation Row -->
+        <div class="row">
+          <h3>All data is sourced from the <a href="https://www.propublica.org/datastore/api/propublica-congress-api" target="_blank">ProPublica Congress API</a></h3>
         </div>
       </div>
     </div>
@@ -238,6 +245,13 @@
 
       $('#contact').append(phone);
 
+      if (detailInfo.roles[0].leadership_role !== null) {
+        var leader = $('<p/>');
+        leader.text("Currently: " + detailInfo.roles[0].leadership_role);
+
+        $('.basic-info').append(leader);
+      };
+
       var birth = $('<p/>');
       birth.text("Born: " + detailInfo.dob);
 
@@ -249,7 +263,13 @@
       $('.basic-info').append(enterCon);
 
       var noTerm = $('<p/>');
-      noTerm.text(detailInfo.title + " " + detailInfo.name + " has served a total of " + detailInfo.roles.length + " terms in Congress");
+      var termsNoRpt = [];
+      for (var i = 0; i < detailInfo.roles.length; i++) {
+        if (detailInfo.roles[i].title === "Representative" || detailInfo.roles[i].short_title === "Sen.") {
+          termsNoRpt.push(detailInfo.roles[i]);
+        };
+      };
+      noTerm.text(detailInfo.title + " " + detailInfo.name + " has served a total of " + termsNoRpt.length + " terms in Congress");
 
       $('.basic-info').append(noTerm);
 
