@@ -5,6 +5,13 @@ var chambers = ["house", "senate"];
 var path = require("path");
 var request = require("request");
 
+var express = require("express");
+var app = express();
+var exphbs = require("express-handlebars");
+
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
+
 var house = {
     url: baseUrl + congressNum + '/' + chambers[0] + '/members.json',
     headers: {'X-API-Key': apiKey}
@@ -154,7 +161,7 @@ module.exports = function(app) {
             var basic = data.results[0];
             // console.log(body);
             // Cleaning the data to make life easier and lower load times
-            dets = {
+            var dets = {
               name: basic.first_name + " " + basic.last_name,
               first_name: basic.first_name,
               last_name: basic.last_name,
