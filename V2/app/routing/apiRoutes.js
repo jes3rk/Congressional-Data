@@ -1,4 +1,4 @@
-var apiKey = require("../data/keys.js");
+var apiKey = "NpjePSNP3ovrBFufOHvGfsX43BDQrce4HkWHoTyi";
 var baseUrl = "https://api.propublica.org/congress/v1/"
 var congressNum = "115";
 var chambers = ["house", "senate"];
@@ -7,12 +7,12 @@ var request = require("request");
 
 var house = {
     url: baseUrl + congressNum + '/' + chambers[0] + '/members.json',
-    headers: {'X-API-Key': apiKey.proPublica}
+    headers: {'X-API-Key': apiKey}
   };
 
 var  senate = {
     url: baseUrl + congressNum + '/' + chambers[1] + '/members.json',
-    headers: {'X-API-Key': apiKey.proPublica}
+    headers: {'X-API-Key': apiKey}
   };
 
 var houseFin = false;
@@ -21,14 +21,9 @@ var senateFin = false;
 var senateData = [];
 var houseData = [];
 
-var memID = "";
-
 // useful variables
 var cleanData = [];
 var rejectData = [];
-
-// var initialRes = [];
-var memDetail = {};
 
 function dataCleaner() {
   // ... for the house
@@ -99,14 +94,11 @@ request.get(senate, function(error, response, body) {
   }
   if (houseFin === true) {
     dataCleaner();
-  }
-})
-
+  };
+});
 
 module.exports = function(app) {
-
-
-  // user triggered search
+  // initial search based on the user entered data
   app.post("/api/search", function(req, res) {
     var initialRes = [];
     var secondRes = [];
@@ -135,20 +127,26 @@ module.exports = function(app) {
     };
   });
 
-  // get a specific member
-  app.get("/api/member", function(req, res) {
-    // var memId = req.body.object;
+  // additional call to bring down the clean data for analysis
+  app.get("/api/clean", function(req, res) {
+    res.json(cleanData);
+  });
+
+  function memDetail(id) {
+
+  };
+
+  app.get("/member/:ref", function(req, res) {
+    // Grab the id from the url
+    var ref = req.params.ref;
+    // Generate the API call URL
     var  memUrl = {
-        url: baseUrl + "members/" + memID + ".json",
-        headers: {'X-API-Key': apiKey.proPublica}
+        url: baseUrl + "members/" + ref + ".json",
+        headers: {'X-API-Key': apiKey}
       };
-
-    // console.log(memId);
-    // console.log(memUrl);
-
     // make sure we have clean data on the person
     for (var i = 0; i < cleanData.length; i++) {
-      if (cleanData[i].id === memID) {
+      if (cleanData[i].id === ref) {
         // perform the get call from proPublica
         request.get(memUrl, function(error, response, body) {
           if (!error && response.statusCode === 200) {
@@ -156,7 +154,7 @@ module.exports = function(app) {
             var basic = data.results[0];
             // console.log(body);
             // Cleaning the data to make life easier and lower load times
-            memDetail = {
+            dets = {
               name: basic.first_name + " " + basic.last_name,
               first_name: basic.first_name,
               last_name: basic.last_name,
@@ -172,29 +170,16 @@ module.exports = function(app) {
                 twitter: "https://www.twitter.com/" + basic.twitter_account,
                 website: basic.url,
                 phone: basic.roles[0].phone
-              }
+              };
             };
-            // console.log(memDetail);
-            res.json(memDetail);
+            // console.log(dets);
+            // res.json(memDetail);
           } else {
             console.log(error);
           };
         });
       };
-    };
+    }; // End of the for loop
   });
 
-  // additional call to bring down the clean data for analysis
-  app.get("/api/clean", function(req, res) {
-    res.json(cleanData);
-  });
-
-  // store the id number of search
-  app.post("/api/id", function(req, res) {
-    var data = req.body;
-    memID = data.object
-    // console.log(req.body);
-    console.log(memID);
-    res.json("done");
-  });
-}; // end of module exports
+};

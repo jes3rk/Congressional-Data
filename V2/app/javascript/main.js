@@ -1,7 +1,25 @@
+function detailedInfo() {
+  var memID;
+  var detailInfo;
+
+  $.get("/api/member", function(data) {
+    console.log(data);
+    detailInfo = data;
+    memID = data.congressNum;
+    console.log(memID);
+
+  displayBasic();
+};
+
+function displayBasic() {
+
+};
+
 $(document).ready(function() {
   $('select').material_select();
 
   $('#searchGo').on('click touch', function() {
+    var memID;
     event.preventDefault();
     // Grab the user text
     var userText = $('#search').val().split(" ");
@@ -19,15 +37,18 @@ $(document).ready(function() {
         if (data.length === 1) {
           // Meaning only one reuslt is returned
           memID = data[0].id;
-          // Make the second API call and redirect
-          $.post("/api/id", {
-              object: memID
-            })
-            .done(function(data) {
-              console.log(data);
-              $(location).attr('href', '/results');
-            });
+          // Make the second API call using the id generated from the search engine
+          // $.post("/api/id", {
+          //     object: memID
+          //   })
+          //   .done(function(data) {
+          //     // console.log(data);
+          //     // Auto redirect into the reuslts page
+          //     $(location).attr('href', '/results');
+          //   });
         } else {
+          // Generates a table for users to select the correct result
+          // Shouldn't be needed
           for (var i = 0; i < data.length; i++) {
             var row = $('<tr/>');
 
@@ -35,15 +56,12 @@ $(document).ready(function() {
             name.text(data[i].name);
             name.attr({
               "data-id": data[i].id,
-              "class": "pick nameLeft"
+              "class": "pick"
             });
 
             var state = $('<td/>');
             state.text(data[i].state);
-            state.attr({
-              "class": "stateRight"
 
-            })
             row.append(name);
             row.append(state);
 
