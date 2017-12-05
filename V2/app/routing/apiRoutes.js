@@ -98,7 +98,7 @@ request.get(senate, function(error, response, body) {
     senateData = initData.results[0].members
     senateFin = true;
     // console.log(senateData.results[0].members);
-  }
+  };
   if (houseFin === true) {
     dataCleaner();
   };
@@ -163,6 +163,7 @@ module.exports = function(app) {
             // Cleaning the data to make life easier and lower load times
             var dets = {
               name: basic.first_name + " " + basic.last_name,
+              prop_name: dets.title + " " + dets.name + ", (" + dets.party + " - " + dets.roles[0].state + ")",
               first_name: basic.first_name,
               last_name: basic.last_name,
               congressNum: basic.member_id,
@@ -177,10 +178,11 @@ module.exports = function(app) {
                 twitter: "https://www.twitter.com/" + basic.twitter_account,
                 website: basic.url,
                 phone: basic.roles[0].phone
-              };
+              }
             };
             // console.log(dets);
             // res.json(memDetail);
+            res.render("results", dets);
           } else {
             console.log(error);
           };

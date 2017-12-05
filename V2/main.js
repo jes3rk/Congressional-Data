@@ -7,7 +7,7 @@ function detailedInfo() {
     detailInfo = data;
     memID = data.congressNum;
     console.log(memID);
-
+  });
   displayBasic();
 };
 
@@ -46,6 +46,7 @@ $(document).ready(function() {
           //     // Auto redirect into the reuslts page
           //     $(location).attr('href', '/results');
           //   });
+          $(location).attr('href', '/member/' + memID);
         } else {
           // Generates a table for users to select the correct result
           // Shouldn't be needed
@@ -67,6 +68,7 @@ $(document).ready(function() {
 
             $('.choose').append(row);
           };
-      });
+      }
+    });
   });
 });
