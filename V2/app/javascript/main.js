@@ -15,6 +15,10 @@ function displayBasic() {
 
 };
 
+function memberReady() {
+  $('.collapsible').collapsible();
+};
+
 $(document).ready(function() {
   $('select').material_select();
 
