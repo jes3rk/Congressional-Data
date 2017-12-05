@@ -31,6 +31,7 @@ var houseData = [];
 // useful variables
 var cleanData = [];
 var rejectData = [];
+var dets;
 
 function dataCleaner() {
   // ... for the house
@@ -139,7 +140,7 @@ module.exports = function(app) {
 
   // additional call to bring down the clean data for analysis
   app.get("/api/clean", function(req, res) {
-    res.json(cleanData);
+    res.json([cleanData, dets]);
   });
 
   function memDetail(id) {
@@ -149,6 +150,7 @@ module.exports = function(app) {
   app.get("/congress/member/:ref", function(req, res) {
     // Grab the id from the url
     var ref = req.params.ref;
+    // console.log("Getting: " + ref);
     // Generate the API call URL
     var  memUrl = {
         url: baseUrl + "members/" + ref + ".json",
@@ -158,6 +160,7 @@ module.exports = function(app) {
     for (var i = 0; i < cleanData.length; i++) {
       if (cleanData[i].id === ref) {
         // perform the get call from proPublica
+        // console.log("Url: " + memUrl);
         request.get(memUrl, function(error, response, body) {
           if (!error && response.statusCode === 200) {
             var data = JSON.parse(body);
@@ -170,7 +173,7 @@ module.exports = function(app) {
                 roles.push(basic.roles[i]);
               };
             };
-            var dets = {
+             dets = {
               name: basic.first_name + " " + basic.last_name,
               prop_name: basic.roles[0].short_title + " " + basic.first_name + " " + basic.last_name + " (" + basic.current_party + " - " + basic.roles[0].state + ")",
               first_name: basic.first_name,
@@ -192,9 +195,9 @@ module.exports = function(app) {
             // console.log(dets);
             // res.json(memDetail);
 
-            app.get("/api/congress/memberDets", function(req, res) {
-              res.json(dets);
-            });
+            // app.get("/api/congress/memberDets", function(req, res) {
+            //   res.json(dets);
+            // });
 
             res.render("results", dets);
           } else {

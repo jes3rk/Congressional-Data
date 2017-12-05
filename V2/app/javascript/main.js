@@ -1,19 +1,4 @@
-// function detailedInfo() {
-//   var memID;
-//   var detailInfo;
-//
-//   $.get("/api/member", function(data) {
-//     console.log(data);
-//     detailInfo = data;
-//     memID = data.congressNum;
-//     console.log(memID);
-//   });
-//   displayBasic();
-// };
-//
-// function displayBasic() {
-//
-// };
+var details;
 
 function memberReady() {
   $('.collapsible').collapsible();
@@ -21,15 +6,12 @@ function memberReady() {
   // Get the clean data
   $.get("/api/clean")
     .done(function(data) {
-      var cleanData = data;
+      cleanData = data[0];
+      details = data[1];
+      // console.log(details);
+      stats();
+      votingDonut(details.congressNum);
     });
-
-  // Get the member details
-  // $.get("/api/congress/memberDets")
-  //   .done(function(data) {
-  //     var detailInfo = data;
-  //     console.log(detailInfo);
-  //   });
 };
 
 $(document).ready(function() {
@@ -75,6 +57,10 @@ $(document).ready(function() {
 
             $('.choose').append(row);
           };
+          // Redirect from the table of results
+          $('td').on('click touch', function() {
+            $(location).attr('href', '/congress/member/' + $(this).attr("data-id"));
+          });
       };
     });
   });
