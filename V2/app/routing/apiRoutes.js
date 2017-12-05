@@ -163,7 +163,7 @@ module.exports = function(app) {
             // Cleaning the data to make life easier and lower load times
             var dets = {
               name: basic.first_name + " " + basic.last_name,
-              prop_name: dets.title + " " + dets.name + ", (" + dets.party + " - " + dets.roles[0].state + ")",
+              prop_name: basic.roles[0].short_title + " " + basic.first_name + " " + basic.last_name + ", (" + basic.current_party + " - " + basic.roles[0].state + ")",
               first_name: basic.first_name,
               last_name: basic.last_name,
               congressNum: basic.member_id,
@@ -182,6 +182,8 @@ module.exports = function(app) {
             };
             // console.log(dets);
             // res.json(memDetail);
+            app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+            app.set("view engine", "handlebars");
             res.render("results", dets);
           } else {
             console.log(error);
