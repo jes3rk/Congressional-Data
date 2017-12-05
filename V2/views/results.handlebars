@@ -4,10 +4,22 @@
     <!-- sidebar col -->
     <div class="col s12 m4">
       <img class="headshot" src={{photo}} alt={{name}}>
-      <a class="waves-effect waves-light btn" href={{contact.facebook}}>Facebook</a>
-      <a class="waves-effect waves-light btn" href={{contact.twitter}}>Twitter</a>
-      <a class="waves-effect waves-light btn" href={{contact.website}}>Website</a>
-      <p>{{contact.phone}}</p>
+      <h5>{{prop_name}}</h5>
+      <!-- contact row -->
+      <div class="row">
+        <div class="col s12 m12">
+          <!-- top row -->
+          <div class="row">
+            <a class="waves-effect waves-light btn contact-btn" href={{contact.facebook}} target="_blank">Facebook</a>
+            <a class="waves-effect waves-light btn contact-btn" href={{contact.twitter}} target="_blank">Twitter</a>
+          </div>
+          <!-- bottom row -->
+          <div class="row">
+            <a class="waves-effect waves-light btn contact-btn" href={{contact.website}} target="_blank">Website</a>
+            <h5>Office Phone: {{contact.phone}}</h5>
+          </div>
+        </div>
+      </div>
     </div>
     <!-- primary content col -->
     <div class="col s12 m8">
