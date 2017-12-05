@@ -146,7 +146,7 @@ module.exports = function(app) {
 
   };
 
-  app.get("/member/:ref", function(req, res) {
+  app.get("/congress/member/:ref", function(req, res) {
     // Grab the id from the url
     var ref = req.params.ref;
     // Generate the API call URL
@@ -164,6 +164,12 @@ module.exports = function(app) {
             var basic = data.results[0];
             // console.log(body);
             // Cleaning the data to make life easier and lower load times
+            var roles = [];
+            for (var i = 0; i < basic.roles.length; i++) {
+              if (basic.roles[i].short_title === "Rep." || basic.roles[i].short_title === "Sen.") {
+                roles.push(basic.roles[i]);
+              };
+            };
             var dets = {
               name: basic.first_name + " " + basic.last_name,
               prop_name: basic.roles[0].short_title + " " + basic.first_name + " " + basic.last_name + " (" + basic.current_party + " - " + basic.roles[0].state + ")",
@@ -175,7 +181,7 @@ module.exports = function(app) {
               gender: basic.gender,
               dob: basic.date_of_birth,
               title: basic.roles[0].short_title,
-              roles: basic.roles,
+              roles: roles,
               contact: {
                 facebook: "https://www.facebook.com/" + basic.facebook_account,
                 twitter: "https://www.twitter.com/" + basic.twitter_account,
@@ -185,6 +191,10 @@ module.exports = function(app) {
             };
             // console.log(dets);
             // res.json(memDetail);
+
+            app.get("/api/congress/memberDets", function(req, res) {
+              res.json(dets);
+            });
 
             res.render("results", dets);
           } else {

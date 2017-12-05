@@ -2,7 +2,7 @@
   <!-- open primary body row -->
   <div class="row">
     <!-- sidebar col -->
-    <div class="col s12 m4">
+    <div class="col s12 m3">
       <img class="headshot" src={{photo}} alt={{name}}>
       <h5>{{prop_name}}</h5>
       <!-- contact row -->
@@ -22,17 +22,41 @@
       </div>
     </div>
     <!-- primary content col -->
-    <div class="col s12 m8">
+    <div class="col s12 m9">
       <!-- name row -->
       <div class="row">
-        <h1>{{prop_name}}</h1>
+        <h2>{{prop_name}}</h2>
       </div>
       <!-- main row -->
       <div class="row">
         <ul class="collapsible" data-collapsible="accordion">
           <li>
-            <div class="collapsible-header"><h5>Biography</h5></div>
-            <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+            <div class="collapsible-header"><h5>About {{name}}</h5></div>
+            <div class="collapsible-body">
+              <p>Born: {{dob}}</p>
+              <!-- Create new accordion for all of the congressional terms -->
+              <ul class="collapsible" data-collapsible="accordion">
+                {{#each roles}}
+                  <li>
+                    <div class="collapsible-header">Congress: {{congress}}</div>
+                    <div class="collapsible-body">
+                      <div class="row">
+                        <div class="col s6 m6">
+                          <p>Chamber: {{chamber}}</p>
+                          <p>Term Start: {{start_date}}</p>
+                          <p>Term End: {{end_date}}</p>
+                        </div>
+                        <div class="col s6 m6">
+                          <p>State: {{state}}</p>
+                          <p>Bills Sponsored: {{bills_sponsored}}</p>
+                          <p>Bills Cosponsored: {{bills_cosponsored}}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                {{/each}}
+              </ul>
+            </div>
           </li>
           <li>
             <div class="collapsible-header"><h5>Party Voting</h5></div>

@@ -1,22 +1,35 @@
-function detailedInfo() {
-  var memID;
-  var detailInfo;
-
-  $.get("/api/member", function(data) {
-    console.log(data);
-    detailInfo = data;
-    memID = data.congressNum;
-    console.log(memID);
-  });
-  displayBasic();
-};
-
-function displayBasic() {
-
-};
+// function detailedInfo() {
+//   var memID;
+//   var detailInfo;
+//
+//   $.get("/api/member", function(data) {
+//     console.log(data);
+//     detailInfo = data;
+//     memID = data.congressNum;
+//     console.log(memID);
+//   });
+//   displayBasic();
+// };
+//
+// function displayBasic() {
+//
+// };
 
 function memberReady() {
   $('.collapsible').collapsible();
+
+  // Get the clean data
+  $.get("/api/clean")
+    .done(function(data) {
+      var cleanData = data;
+    });
+
+  // Get the member details
+  // $.get("/api/congress/memberDets")
+  //   .done(function(data) {
+  //     var detailInfo = data;
+  //     console.log(detailInfo);
+  //   });
 };
 
 $(document).ready(function() {
@@ -39,18 +52,8 @@ $(document).ready(function() {
       .done(function(data) {
         // Check the length of the data returned
         if (data.length === 1) {
-          // Meaning only one reuslt is returned
-          memID = data[0].id;
-          // Make the second API call using the id generated from the search engine
-          // $.post("/api/id", {
-          //     object: memID
-          //   })
-          //   .done(function(data) {
-          //     // console.log(data);
-          //     // Auto redirect into the reuslts page
-          //     $(location).attr('href', '/results');
-          //   });
-          $(location).attr('href', '/member/' + memID);
+          // Redirect to the member results page based on the memebr
+          $(location).attr('href', '/congress/member/' + data[0].id);
         } else {
           // Generates a table for users to select the correct result
           // Shouldn't be needed
@@ -72,7 +75,7 @@ $(document).ready(function() {
 
             $('.choose').append(row);
           };
-      }
+      };
     });
   });
 });
