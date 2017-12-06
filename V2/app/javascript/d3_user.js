@@ -190,7 +190,7 @@ function votingDonut(id) {
     default:
       var color = d3.scaleOrdinal()
           .domain(dataSet)
-          .range(['yellow', 'green']);
+          .range(['purple', 'green']);
   };
 
   var width = 360;
@@ -364,7 +364,16 @@ function votingDonut(id) {
             ];
             break;
           default:
-
+            dataSet = [
+              {
+                label: "There is no reliable data on independents",
+                count: 1
+              },
+              {
+                label: "There is no reliable data on independents",
+                count: 1
+              }
+            ];
         };
         break;
     };
@@ -372,6 +381,247 @@ function votingDonut(id) {
   	var pie = d3.pie()
   		.value(function(d) { return d.count; })(dataSet);
   	path = d3.select(".party-chart").selectAll("path").data(pie); // Compute the new angles
+  	path.transition().duration(500).attrTween("d", arcTween); // Smooth transition with arcTween
+  	d3.selectAll("text").data(pie).transition().duration(500).attrTween("transform", labelarcTween) // Smooth transition with labelarcTween
+    .text(function(d) { return d.data.count.toFixed(2) + "%";}); // recomputing the centroid and translating the text accordingly.
+
+    makeLegend();
+  };
+
+  d3.selectAll('.party-btn')
+      .on('click touch', function() {
+        change(d3.select(this).attr("data-val"));
+      });
+};
+
+function missedDonut(id) {
+  // id is the id of the congressperson you want to find
+
+  // find data from id
+  var member = {};
+  for (var i = 0; i < cleanData.length; i++) {
+    if (cleanData[i].id === id) {
+      member = cleanData[i];
+    };
+  };
+  // console.log(member);
+
+  var dataSet = [
+    {
+      label: member.name + " missed a vote",
+      count: member.missVote
+    },
+    {
+      label: member.name + " voted",
+      count: 100-member.missVote
+    }
+  ];
+
+  switch (member.party) {
+    case "R":
+      var color = d3.scaleOrdinal()
+          .domain([dataSet[0].label, dataSet[1].label])
+          .range(['darkGreen', 'black']);
+      break;
+    case "D":
+      var color = d3.scaleOrdinal()
+          .domain([dataSet[0].label, dataSet[1].label])
+          .range(['black', 'darkGreen']);
+      break;
+    default:
+      var color = d3.scaleOrdinal()
+          .domain(dataSet)
+          .range(['purple', 'green']);
+  };
+
+  var width = 360;
+  var height = 360;
+  var radius = Math.min(width, height) / 2;
+  var donutWidth = 75;
+
+  var arc = d3.arc()
+      .innerRadius(radius - donutWidth)
+      .outerRadius(radius);
+
+  var labelArc = d3.arc()
+    	.outerRadius(radius - 40)
+    	.innerRadius(radius - 40);
+
+
+  var pie = d3.pie()
+	  .value(function(d) { return d.count; })(dataSet);
+
+  var svg = d3.select(".vote-chart")
+  	.append("svg")
+  	.attr("width", width)
+   	.attr("height", height)
+   		.append("g")
+   		.attr("transform", "translate(" + width/2 + "," + height/2 +")"); // Moving the center point. 1/2 the width and 1/2 the height
+
+  var g = svg.selectAll("arc")
+ 	  .data(pie)
+  	.enter().append("g")
+  	.attr("class", "arc");
+
+  g.append("path")
+  	.attr("d", arc)
+  	.style("fill", function(d) { return color(d.data.label);})
+    .each(function(d) { this._current = d; }); // store the initial angles
+
+  g.append("text")
+  	.attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
+  	.text(function(d) { return d.data.count.toFixed(2) + "%";})
+  	.style("fill", "#fff")
+    .each(function(d) { this._current = d; }); // store the initial angles
+
+  // make a legend
+  function makeLegend() {
+    var legend = $('.vote-tooltip');
+    legend.empty();
+    for (var i = 0; i < dataSet.length; i++) {
+      var row = $('<div/>');
+      row.attr("class", "row");
+
+      var textCol = $('<div/>');
+      textCol.attr("class", "col s6 m6");
+
+      var svgCol = $('<div/>');
+      svgCol.attr("class", "col s6 m6");
+
+      var label = dataSet[i].label + " " + dataSet[i].count.toFixed(2) + "% of the time.";
+
+      var svg = $('<svg/>');
+      svg.attr({
+        "width": "120",
+        "height": "120"
+      });
+
+      var rect = $('<rect/>');
+      rect.attr({
+        "width": "25",
+        "height": "25",
+        "style": color.range[i]
+      });
+
+      svg.append(rect);
+
+      textCol.append(label);
+      svgCol.append(svg);
+      row.append(textCol).append(svgCol);
+      legend.append(row);
+    };
+  };
+
+  makeLegend();
+
+  // add in transitory functions
+  function arcTween(a) {
+      var i = d3.interpolate(this._current, a);
+      this._current = i(0);
+      return function(t) {
+        return arc(i(t));
+      };
+  }
+
+  function labelarcTween(a) {
+      var i = d3.interpolate(this._current, a);
+      this._current = i(0);
+      return function(t) {
+        return "translate(" + labelArc.centroid(i(t)) + ")";
+      };
+  }
+
+  function change(val) {
+    // console.log(val);
+    // check the passed value from the button to determine the dataset
+    switch (val) {
+      // for the inidividual
+      case "member":
+        dataSet = [
+          {
+            label: member.name + " missed a vote",
+            count: member.missVote
+          },
+          {
+            label: member.name + " voted",
+            count: 100-member.missVote
+          }
+        ];
+        break;
+      // for the chamber, it gets a little more complicated
+      case "chamber":
+        switch (details.roles[0].chamber) {
+          case "Senate":
+            dataSet = [
+              {
+                label: "The average Senator missed votes ",
+                count: d3.mean([statsR.senate.missed.mean, statsD.senate.missed.mean])
+              },
+              {
+                label: "The average Senator voted ",
+                count: 100-d3.mean([statsR.senate.missed.mean, statsD.senate.missed.mean])
+              }
+            ];
+            break;
+          case "House":
+            dataSet = [
+              {
+                label: "The average Representative missed votes",
+                count: d3.mean([statsR.house.missed.mean, statsD.house.missed.mean])
+              },
+              {
+                label: "The average Represenative voted",
+                count: 100-d3.mean([statsR.house.missed.mean, statsD.house.missed.mean])
+              }
+            ];
+            break;
+        };
+        break;
+      // for the party, it's still complicated
+      case "party":
+        switch (details.party) {
+          case "R":
+            dataSet = [
+              {
+                label: "The average Republican missed votes ",
+                count: d3.mean([statsR.house.missed.mean, statsR.senate.missed.mean])
+              },
+              {
+                label: "The average Republican voted ",
+                count: 100-d3.mean([statsR.house.missed.mean, statsR.senate.missed.mean])
+              }
+            ];
+            break;
+          case "D":
+            dataSet = [
+              {
+                label: "The average Democrat missed votes ",
+                count: d3.mean([statsD.house.missed.mean, statsD.senate.missed.mean])
+              },
+              {
+                label: "The average Democrat voted ",
+                count: 100-d3.mean([statsD.house.missed.mean, statsD.senate.missed.mean])
+              }
+            ];
+            break;
+          default:
+            dataSet = [
+              {
+                label: "There is no reliable data on independents",
+                count: 1
+              },
+              {
+                label: "There is no reliable data on independents",
+                count: 1
+              }
+            ];
+        };
+        break;
+    };
+
+  	var pie = d3.pie()
+  		.value(function(d) { return d.count; })(dataSet);
+  	path = d3.select(".vote-chart").selectAll("path").data(pie); // Compute the new angles
   	path.transition().duration(500).attrTween("d", arcTween); // Smooth transition with arcTween
   	d3.selectAll("text").data(pie).transition().duration(500).attrTween("transform", labelarcTween) // Smooth transition with labelarcTween
     .text(function(d) { return d.data.count.toFixed(2) + "%";}); // recomputing the centroid and translating the text accordingly.

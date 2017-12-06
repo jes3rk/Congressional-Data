@@ -58,7 +58,7 @@
               </ul>
             </div>
           </li>
-          <li>
+          <li id="party-voting">
             <div class="collapsible-header"><h5>Party Voting</h5></div>
             <div class="collapsible-body">
               <h5>How often does {{prop_name}} vote with their party?</h5>
@@ -71,23 +71,32 @@
 
                   </div>
                   <div class="row btn-row">
-                    <a class="waves-effect waves-light btn vote-btn pie-btn" data-val="member">{{name}}</a>
-                    <a class="waves-effect waves-light btn vote-btn pie-btn" data-val="party">Party</a>
-                    <a class="waves-effect waves-light btn vote-btn pie-btn" data-val="chamber">Chamber</a>
+                    <a class="waves-effect waves-light btn party-btn pie-btn" data-val="member">{{name}}</a>
+                    <a class="waves-effect waves-light btn party-btn pie-btn" data-val="party">Party</a>
+                    <a class="waves-effect waves-light btn party-btn pie-btn" data-val="chamber">Chamber</a>
                   </div>
                 </div>
               </div>
             </div>
           </li>
-          <li>
+          <li id="missed-votes">
             <div class="collapsible-header"><h5>Missed and Attended Votes</h5></div>
             <div class="collapsible-body">
               <h5>How often does {{prop_name}} actually vote?</h5>
-              <div class="vote-chart">
+              <div class="row">
+                <div class="vote-chart col s12 m6">
 
-              </div>
-              <div class="vote-tooltip">
+                </div>
+                <div class="col s12 m6">
+                  <div class="row vote-tooltip">
 
+                  </div>
+                  <div class="row btn-row">
+                    <a class="waves-effect waves-light btn vote-btn pie-btn" data-val="member">{{name}}</a>
+                    <a class="waves-effect waves-light btn vote-btn pie-btn" data-val="party">Party</a>
+                    <a class="waves-effect waves-light btn vote-btn pie-btn" data-val="chamber">Chamber</a>
+                  </div>
+                </div>
               </div>
             </div>
           </li>

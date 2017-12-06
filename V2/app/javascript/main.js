@@ -10,8 +10,24 @@ function memberReady() {
       details = data[1];
       console.log(details);
       stats();
-      votingDonut(details.congressNum);
     });
+
+  $('li').on('click touch', function() {
+    if ($(this).attr("class") !== "active") {
+      switch ($(this).attr("id")) {
+        case "party-voting":
+          $('.vote-chart').empty();
+          $('.party-chart').empty();
+          votingDonut(details.congressNum);
+          break;
+        case "missed-votes":
+          $('.party-chart').empty();
+          $('.vote-chart').empty();
+          missedDonut(details.congressNum);
+          break;
+      };
+    };
+  });
 };
 
 $(document).ready(function() {
