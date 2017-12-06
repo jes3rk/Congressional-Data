@@ -1,29 +1,18 @@
 {
-  "name": "congresswatch",
+  "name": "congressionalsearch",
   "version": "1.0.0",
-  "description": "This app shows the user various facts and contact points about any U.S. Congressional Representative or Senator.",
+  "description": "A search engine for members of Congress. How do your reps stack up?",
   "main": "server.js",
-  "directories": {
-    "test": "test"
-  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/jes3rk/project-2.git"
-  },
-  "author": "",
+  "author": "Joseph Schefer",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/jes3rk/project-2/issues"
-  },
-  "homepage": "https://github.com/jes3rk/project-2#readme",
   "dependencies": {
     "body-parser": "^1.18.2",
-    "cors-anywhere": "^0.4.0",
     "express": "^4.16.2",
+    "express-handlebars": "^3.0.0",
     "path": "^0.12.7",
     "request": "^2.83.0"
   }

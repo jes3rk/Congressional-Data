@@ -1,0 +1,59 @@
+body {
+  background-color: lightBlue;
+}
+
+.container {
+  width: 95%;
+}
+
+.contact-btn {
+  width: 40%;
+  margin: auto;
+  text-align: center;
+}
+
+.name {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.headshot {
+  border: 5px solid black;
+}
+
+ul.collapsible {
+  margin-top: 0px;
+}
+
+li {
+  background-color: white;
+}
+
+.collapsible-header {
+  background-color: rgba(255, 0, 0, 0.5);
+}
+
+.congress {
+  background-color: rgba(150, 150, 150, 0.5);
+}
+
+.block {
+  width: 82%;
+}
+
+.input-field {
+  background-color: white;
+}
+
+input:not([type]), input[type=text]:not(.browser-default), input[type=password]:not(.browser-default), input[type=email]:not(.browser-default), input[type=url]:not(.browser-default), input[type=time]:not(.browser-default), input[type=date]:not(.browser-default), input[type=datetime]:not(.browser-default), input[type=datetime-local]:not(.browser-default), input[type=tel]:not(.browser-default), input[type=number]:not(.browser-default), input[type=search]:not(.browser-default), textarea.materialize-textarea {
+  margin: 0 0 0 0;
+}
+
+#searchGo {
+  margin-top: 20px;
+}
+
+.foot {
+  width: 100%;
+  margin: auto;
+}

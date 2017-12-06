@@ -1,22 +1,27 @@
 var express = require("express");
 var bodyParser = require("body-parser");
-var path = require("path");
+var path = require("path")
 
 var app = express();
-// var exphbs = require("express-handlebars");
-//
-// app.engine("handlebars", exphbs({ defaultLayout: "main" }));
-// app.set("view engine", "handlebars");
 
-var PORT = process.env.PORT || 8000;
+
+var PORT = process.env.PORT || 3000;
 
 // Make bodyParser work
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, '/app')));
+app.use(express.static(path.join(__dirname, '/app/public')));
 
-require("./app/routing/apiRoutes")(app);
+
+// Search for and find the routes
+// require("./app/routing/apiRoutes")(app);
+require("./app/routing/apiRoutes-test")(app);
 require("./app/routing/htmlRoutes")(app);
+
+// app.post("/api/congress", function(req, res){
+//   preventDefault()
+// });
+
 
 // Listener
 app.listen(PORT, function() {

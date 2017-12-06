@@ -1,10 +1,12 @@
 <div class="container">
   <!-- open primary body row -->
   <div class="row">
+    <div class="name">
+      <h2>{{prop_name}}</h2>
+    </div>
     <!-- sidebar col -->
     <div class="col s12 m3">
       <img class="headshot" src={{photo}} alt={{name}}>
-      <h5>{{prop_name}}</h5>
       <!-- contact row -->
       <div class="row">
         <div class="col s12 m12">
@@ -15,7 +17,7 @@
           </div>
           <!-- bottom row -->
           <div class="row">
-            <a class="waves-effect waves-light btn contact-btn" href={{contact.website}} target="_blank">Website</a>
+            <a class="waves-effect waves-light btn contact-btn block" href={{contact.website}} target="_blank">Website</a>
             <h5>Office Phone: {{contact.phone}}</h5>
           </div>
         </div>
@@ -23,10 +25,6 @@
     </div>
     <!-- primary content col -->
     <div class="col s12 m9">
-      <!-- name row -->
-      <div class="row">
-        <h2>{{prop_name}}</h2>
-      </div>
       <!-- main row -->
       <div class="row">
         <ul class="collapsible" data-collapsible="accordion">
@@ -36,9 +34,10 @@
               <p>Born: {{dob}}</p>
               <!-- Create new accordion for all of the congressional terms -->
               <ul class="collapsible" data-collapsible="accordion">
+                <!-- dynamically populate the data -->
                 {{#each roles}}
                   <li>
-                    <div class="collapsible-header">Congress: {{congress}}</div>
+                    <div class="collapsible-header congress">Congress: {{congress}}</div>
                     <div class="collapsible-body">
                       <div class="row">
                         <div class="col s6 m6">
@@ -63,6 +62,8 @@
             <div class="collapsible-body">
               <h5>How often does {{prop_name}} vote with their party?</h5>
               <div class="row">
+                <p>Does your Represenative simply hold the party line or vote in your best interests? Use the chart below to compare your Represenatives with members of their party and the chamber they currently sit in.</p>
+                <!-- charts and tooltips to be added with D3 -->
                 <div class="party-chart col s12 m6">
 
                 </div>
@@ -84,6 +85,8 @@
             <div class="collapsible-body">
               <h5>How often does {{prop_name}} actually vote?</h5>
               <div class="row">
+                <p>Whether or not your Represenatives actually vote while in office is an important measure of their efficacy in representing their constituents. Use the chart below to compare your Represenatives with members of their party and the chamber they currently sit in.</p>
+                <!-- charts and tooltips to be added with D3 -->
                 <div class="vote-chart col s12 m6">
 
                 </div>
