@@ -163,7 +163,7 @@ function votingDonut(id) {
       member = cleanData[i];
     };
   };
-  console.log(member);
+  // console.log(member);
 
   var dataSet = [
     {
@@ -224,18 +224,163 @@ function votingDonut(id) {
 
   g.append("path")
   	.attr("d", arc)
-  	.style("fill", function(d) { return color(d.data.label);});
+  	.style("fill", function(d) { return color(d.data.label);})
+    .each(function(d) { this._current = d; }); // store the initial angles
 
   g.append("text")
   	.attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
   	.text(function(d) { return d.data.count.toFixed(2) + "%";})
-  	.style("fill", "#fff");
+  	.style("fill", "#fff")
+    .each(function(d) { this._current = d; }); // store the initial angles
 
-  function change() {
+  // make a legend
+  function makeLegend() {
+    var legend = $('.party-tooltip');
+    legend.empty();
+    for (var i = 0; i < dataSet.length; i++) {
+      var row = $('<div/>');
+      row.attr("class", "row");
+
+      var textCol = $('<div/>');
+      textCol.attr("class", "col s6 m6");
+
+      var svgCol = $('<div/>');
+      svgCol.attr("class", "col s6 m6");
+
+      var label = dataSet[i].label + " " + dataSet[i].count.toFixed(2) + "% of the time.";
+
+      var svg = $('<svg/>');
+      svg.attr({
+        "width": "120",
+        "height": "120"
+      });
+
+      var rect = $('<rect/>');
+      rect.attr({
+        "width": "25",
+        "height": "25",
+        "style": color.range[i]
+      });
+
+      svg.append(rect);
+
+      textCol.append(label);
+      svgCol.append(svg);
+      row.append(textCol).append(svgCol);
+      legend.append(row);
+    };
+  };
+
+  makeLegend();
+
+  // add in transitory functions
+  function arcTween(a) {
+      var i = d3.interpolate(this._current, a);
+      this._current = i(0);
+      return function(t) {
+        return arc(i(t));
+      };
+  }
+
+  function labelarcTween(a) {
+      var i = d3.interpolate(this._current, a);
+      this._current = i(0);
+      return function(t) {
+        return "translate(" + labelArc.centroid(i(t)) + ")";
+      };
+  }
+
+  function change(val) {
+    // console.log(val);
+    // check the passed value from the button to determine the dataset
+    switch (val) {
+      // for the inidividual
+      case "member":
+        dataSet = [
+          {
+            label: member.name + " voted with their party",
+            count: member.partyVote
+          },
+          {
+            label: member.name + " voted against their party",
+            count: 100-member.partyVote
+          }
+        ];
+        break;
+      // for the chamber, it gets a little more complicated
+      case "chamber":
+        switch (details.roles[0].chamber) {
+          case "Senate":
+            dataSet = [
+              {
+                label: "The average Senator voted with their party",
+                count: d3.mean([statsR.senate.party.mean, statsD.senate.party.mean])
+              },
+              {
+                label: "The average Senator voted against their party",
+                count: 100-d3.mean([statsR.senate.party.mean, statsD.senate.party.mean])
+              }
+            ];
+            break;
+          case "House":
+            dataSet = [
+              {
+                label: "The average Representative voted with their party",
+                count: d3.mean([statsR.house.party.mean, statsD.house.party.mean])
+              },
+              {
+                label: "The average Represenative voted against their party",
+                count: 100-d3.mean([statsR.house.party.mean, statsD.house.party.mean])
+              }
+            ];
+            break;
+        };
+        break;
+      // for the party, it's still complicated
+      case "party":
+        switch (details.party) {
+          case "R":
+            dataSet = [
+              {
+                label: "The average Republican voted with their party",
+                count: d3.mean([statsR.house.party.mean, statsR.senate.party.mean])
+              },
+              {
+                label: "The average Republican voted against their party",
+                count: 100-d3.mean([statsR.house.party.mean, statsR.senate.party.mean])
+              }
+            ];
+            break;
+          case "D":
+            dataSet = [
+              {
+                label: "The average Democrat voted with their party",
+                count: d3.mean([statsD.house.party.mean, statsD.senate.party.mean])
+              },
+              {
+                label: "The average Democrat voted against their party",
+                count: 100-d3.mean([statsD.house.party.mean, statsD.senate.party.mean])
+              }
+            ];
+            break;
+          default:
+
+        };
+        break;
+    };
+
   	var pie = d3.pie()
   		.value(function(d) { return d.count; })(dataSet);
-  	path = d3.select("#pie").selectAll("path").data(pie); // Compute the new angles
-  	path.attr("d", arc); // redrawing the path
-  	d3.selectAll("text").data(pie).attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; }); // recomputing the centroid and translating the text accordingly.
+  	path = d3.select(".party-chart").selectAll("path").data(pie); // Compute the new angles
+  	path.transition().duration(500).attrTween("d", arcTween); // Smooth transition with arcTween
+  	d3.selectAll("text").data(pie).transition().duration(500).attrTween("transform", labelarcTween) // Smooth transition with labelarcTween
+    .text(function(d) { return d.data.count.toFixed(2) + "%";}); // recomputing the centroid and translating the text accordingly.
+
+    makeLegend();
   };
+
+  d3.selectAll('.vote-btn')
+      .on('click touch', function() {
+        change(d3.select(this).attr("data-val"));
+      });
 };

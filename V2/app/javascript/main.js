@@ -8,7 +8,7 @@ function memberReady() {
     .done(function(data) {
       cleanData = data[0];
       details = data[1];
-      // console.log(details);
+      console.log(details);
       stats();
       votingDonut(details.congressNum);
     });
