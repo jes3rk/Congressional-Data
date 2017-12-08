@@ -40,6 +40,9 @@
                     <div class="collapsible-header congress">Congress: {{congress}}</div>
                     <div class="collapsible-body">
                       <div class="row">
+                        {{#if roles[0].leadership_role}}
+                          <h5>{{roles[0].leadership_role}}</h5>
+                        {{/if}}
                         <div class="col s6 m6">
                           <p>Chamber: {{chamber}}</p>
                           <p>Term Start: {{start_date}}</p>
