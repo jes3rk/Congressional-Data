@@ -22,15 +22,39 @@
       </div>
       <!-- input row -->
       <div class="row">
-        <form class="col s12 m12">
+        <form class="col s12 m4">
           <div class="row">
             <div class="input-field">
               <input placeholder="Ex. Paul Ryan" id="search" type="text" class="validate">
               <label for="first_name">Search Query</label>
             </div>
-            <a class="waves-effect waves-light btn" id="searchGo">Search</a>
+            <a class="waves-effect waves-light btn" id="searchGo">Search People</a>
           </div>
         </form>
+        <!-- second column -->
+        <div class="col s12 m8">
+          <!-- top row for chart -->
+          <div class="row">
+            <!-- chart col -->
+            <div class="col s12 m8">
+              <h3 id="primary-title"></h3>
+              <h4 id="secondary-title"></h4>
+              <div class="chart-div">
+
+              </div>
+            </div>
+            <!-- caption col -->
+            <div class="col s12 m4">
+              <h4 id="results"></h4>
+              <div class="caption-col">
+
+              </div>
+            </div>
+          </div>
+          <div class="row btn-row">
+
+          </div>
+        </div>
         <div class="row">
           <!-- Only relevant if more than one result is returned -->
           <table class="choose"></table>
