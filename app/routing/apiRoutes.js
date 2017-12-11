@@ -137,14 +137,7 @@ module.exports = function(app) {
 
   app.get("/api/recentVotes", function(req, res) {
     // create the urls for the api calls
-    var houseRecentUrl = {
-      url: "https://api.propublica.org/congress/v1/house/votes/recent.json",
-      headers: {'X-API-Key': apiKey}
-    };
-    var senateRecentUrl = {
-      url: "https://api.propublica.org/congress/v1/senate/votes/recent.json",
-      headers: {'X-API-Key': apiKey}
-    };
+    res.json([recentHouseVotes, recentSenateVotes])
   });
 
   app.engine("handlebars", exphbs({ defaultLayout: "main" }));

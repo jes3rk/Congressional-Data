@@ -3,24 +3,10 @@ var houseRecent;
 var senateRecent;
 
 function grabRecentVotes() {
-  var houseUrl = "https://api.propublica.org/congress/v1/house/votes/recent.json";
-  var senateUrl = "https://api.propublica.org/congress/v1/senate/votes/recent.json";
-  var apiKey = "NpjePSNP3ovrBFufOHvGfsX43BDQrce4HkWHoTyi";
-
-  $.ajax({
-    url: houseUrl,
-    headers: {"X-API-Key": apiKey}
-  }).then(function(data) {
+  $.get("/api/recentVotes").done(function(data) {
     // console.log(data);
-    houseRecent = data.results.votes;
-  });
-
-  $.ajax({
-    url: senateUrl,
-    headers: {"X-API-Key": apiKey}
-  }).then(function(data) {
-    // console.log(data);
-    senateRecent = data.results.votes;
+    houseRecent = data[0];
+    senateRecent = data[1];
   });
 };
 
