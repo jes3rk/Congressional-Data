@@ -635,8 +635,8 @@ function missedDonut(id) {
       });
 };
 
-function sunBurstGen(roll) {
-  var 
+function sunBurstGen(roll_id) {
+
 
 
   var width = 960,
@@ -651,7 +651,7 @@ function sunBurstGen(roll) {
 
   var color = d3.scale.category20c();
 
-  var svg = d3.select("body").append("svg")
+  var svg = d3.select(".chart-div").append("svg")
       .attr("width", width)
       .attr("height", height)
     .append("g")

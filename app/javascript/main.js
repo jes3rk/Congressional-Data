@@ -2,11 +2,24 @@ var details;
 var houseRecent;
 var senateRecent;
 
+function recentProcess(obj) {
+  for (var i = 0; i < obj.length; i++) {
+    houseRecent = {
+      number: obj[i].bill.number,
+      title: obj[i].description,
+      
+    }
+  }
+};
+
 function grabRecentVotes() {
   $.get("/api/recentVotes").done(function(data) {
     // console.log(data);
-    houseRecent = data[0];
-    senateRecent = data[1];
+    // houseRecent = data[0];
+    // senateRecent = data[1];
+    console.log(houseRecent);
+    console.log(senateRecent);
+
   });
 };
 
