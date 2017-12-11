@@ -22,11 +22,23 @@ var  senate = {
     headers: {'X-API-Key': apiKey}
   };
 
+var houseRecentUrl = {
+  url: "https://api.propublica.org/congress/v1/house/votes/recent.json",
+  headers: {'X-API-Key': apiKey}
+  };
+var senateRecentUrl = {
+  url: "https://api.propublica.org/congress/v1/senate/votes/recent.json",
+  headers: {'X-API-Key': apiKey}
+  };
+
 var houseFin = false;
 var senateFin = false;
 
 var senateData = [];
 var houseData = [];
+
+var recentHouseVotes;
+var recentSenateVotes;
 
 // useful variables
 var cleanData = [];
@@ -105,7 +117,35 @@ request.get(senate, function(error, response, body) {
   };
 });
 
+  // ... recent vote data for the house
+request.get(houseRecentUrl, function(error, response, body) {
+  if (!error && response.statusCode === 200) {
+    var initData = JSON.parse(body);
+    recentHouseVotes = initData.results.votes;
+  };
+});
+
+  // ... recent vote data for the senate
+request.get(senateRecentUrl, function(error, response, body) {
+  if (!error && response.statusCode === 200) {
+    var initData = JSON.parse(body);
+    recentSenateVotes = initData.results.votes;
+  };
+});
+
 module.exports = function(app) {
+
+  app.get("/api/recentVotes", function(req, res) {
+    // create the urls for the api calls
+    var houseRecentUrl = {
+      url: "https://api.propublica.org/congress/v1/house/votes/recent.json",
+      headers: {'X-API-Key': apiKey}
+    };
+    var senateRecentUrl = {
+      url: "https://api.propublica.org/congress/v1/senate/votes/recent.json",
+      headers: {'X-API-Key': apiKey}
+    };
+  });
 
   app.engine("handlebars", exphbs({ defaultLayout: "main" }));
   app.set("view engine", "handlebars");
