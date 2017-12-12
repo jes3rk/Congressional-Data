@@ -7,19 +7,65 @@ function recentProcess(obj) {
     houseRecent = {
       number: obj[i].bill.number,
       title: obj[i].description,
-      
+
     }
   }
 };
 
 function grabRecentVotes() {
   $.get("/api/recentVotes").done(function(data) {
-    // console.log(data);
     // houseRecent = data[0];
     // senateRecent = data[1];
-    console.log(houseRecent);
-    console.log(senateRecent);
+    // Data Structure:
+    //   root level: yes, no, no-show,
+    //   for each root: break down Dems, Reps, and independents
 
+    // iterate through both parts of the array data
+    for (var i = 0; i < data.length; i++) {
+      // iterate through the selected data[i]
+      for (var j = 0; j < data[i].length; j++) {
+        var arr = data[i];
+        var obj = {
+          roll_call: arr[j].roll_call,
+          bill_num: arr[j].bill.number,
+          title: arr[j].description,
+          description: arr[j].bill.title,
+          action: arr[j].bill.latest_action,
+          result: arr[j].result,
+          date: arr[j].date,
+          time: arr[j].time,
+          votes: {
+            name: "Total",
+            children: [
+              {
+                name: "YEA",
+                children: [
+                  { name: "Democrats", size: arr[j].democratic.yes },
+                  { name: "Republicans", size: arr[j].republican.yes },
+                  { name: "Independents", size: arr[j].indpendent.yes }
+                ]
+              },
+              {
+                name: "NAY",
+                children: [
+                  { name: "Democrats", size: arr[j].democratic.no },
+                  { name: "Republicans", size: arr[j].republican.no },
+                  { name: "Independents", size: arr[j].indpendent.no }
+                ]
+              },
+              {
+                name: "Not Present",
+                children: [
+                  { name: "Democrats", size: arr[j].democratic.not_voting },
+                  { name: "Republicans", size: arr[j].republican.not_voting },
+                  { name: "Independents", size: arr[j].indpendent.not_voting }
+                ]
+              }
+            ]
+          } // end of the votes object
+        };
+      };
+    };
   });
 };
 
