@@ -680,7 +680,31 @@ function recentDonut(target, id) {
       .data(partition(root).descendants())
     .enter().append("path")
       .attr("d", arc)
-      .style("fill", function(d) { return color((d.children ? d : d.parent).data.name); })
+      // .style("fill", function(d) { return color((d.children ? d : d.parent).data.name); })
+      .style("fill", function(d) {
+        switch (d.data.name) {
+          case "YEA":
+            return "green";
+            break;
+          case "NAY":
+            return "yellow";
+            break;
+          case "Democrats":
+            return "blue";
+            break;
+          case "Republicans":
+            return "red";
+            break;
+          case "Independents":
+            return "purple";
+            break;
+          case "Not Present":
+            return "black";
+            break;
+          default:
+            return "white";
+        };
+      })
       .on("click", click)
     .append("title")
       .text(function(d) { return d.data.name + "\n" + formatNumber(d.value); });
