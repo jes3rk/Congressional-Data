@@ -643,8 +643,8 @@ function recentDonut(target, id) {
     };
   };
 
-  var width = 960,
-      height = 700,
+  var width = 500,
+      height = 370,
       radius = (Math.min(width, height) / 2) - 10;
 
   var formatNumber = d3.format(",d");
@@ -654,9 +654,6 @@ function recentDonut(target, id) {
 
   var y = d3.scaleSqrt()
       .range([0, radius]);
-
-  // var color = d3.scaleOrdinal(["white", "green", "yellow", "black", "purple"]);
-  var color = d3.scaleOrdinal(d3.schemeCategory20c);
 
   var partition = d3.partition();
 
@@ -684,10 +681,10 @@ function recentDonut(target, id) {
       .style("fill", function(d) {
         switch (d.data.name) {
           case "YEA":
-            return "green";
+            return "#0099E8";
             break;
           case "NAY":
-            return "yellow";
+            return "#BE05E8";
             break;
           case "Democrats":
             return "blue";
@@ -710,6 +707,7 @@ function recentDonut(target, id) {
       .text(function(d) { return d.data.name + "\n" + formatNumber(d.value); });
 
   function click(d) {
+    caption(d);
     svg.transition()
         .duration(750)
         .tween("scale", function() {
@@ -723,4 +721,20 @@ function recentDonut(target, id) {
   }
 
   d3.select(self.frameElement).style("height", height + "px");
-}
+
+  function caption(d) {
+    console.log(d);
+    var heading = $('<h3/>');
+    heading.text("Resutls for " + dataSet.bill_num + " " + dataSet.title);
+
+    for (var i = 0; i < d.data.children.length; i++) {
+      // make my variables
+      var name = d.data.children[i].name;
+      var size = d.data.children[i].size;
+      var total = d.data.value;
+
+
+    };
+  };
+
+};

@@ -74,7 +74,7 @@ function grabRecentVotes() {
       };
     };
     // make generation call
-    recentDonut(houseRecent, 673);
+    recentDonut(houseRecent, 670);
   });
 };
 
