@@ -14,8 +14,6 @@ function recentProcess(obj) {
 
 function grabRecentVotes() {
   $.get("/api/recentVotes").done(function(data) {
-    // houseRecent = data[0];
-    // senateRecent = data[1];
     // Data Structure:
     //   root level: yes, no, no-show,
     //   for each root: break down Dems, Reps, and independents
@@ -75,6 +73,8 @@ function grabRecentVotes() {
         };
       };
     };
+    // make generation call
+    recentDonut(houseRecent, 673);
   });
 };
 
