@@ -1,6 +1,6 @@
 var details;
-var houseRecent;
-var senateRecent;
+var houseRecent = [];
+var senateRecent = [];
 
 function recentProcess(obj) {
   for (var i = 0; i < obj.length; i++) {
@@ -28,6 +28,7 @@ function grabRecentVotes() {
         var obj = {
           roll_call: arr[j].roll_call,
           bill_num: arr[j].bill.number,
+          chamber: arr[j].chamber,
           title: arr[j].description,
           description: arr[j].bill.title,
           action: arr[j].bill.latest_action,
@@ -42,7 +43,7 @@ function grabRecentVotes() {
                 children: [
                   { name: "Democrats", size: arr[j].democratic.yes },
                   { name: "Republicans", size: arr[j].republican.yes },
-                  { name: "Independents", size: arr[j].indpendent.yes }
+                  { name: "Independents", size: arr[j].independent.yes }
                 ]
               },
               {
@@ -50,7 +51,7 @@ function grabRecentVotes() {
                 children: [
                   { name: "Democrats", size: arr[j].democratic.no },
                   { name: "Republicans", size: arr[j].republican.no },
-                  { name: "Independents", size: arr[j].indpendent.no }
+                  { name: "Independents", size: arr[j].independent.no }
                 ]
               },
               {
@@ -58,11 +59,19 @@ function grabRecentVotes() {
                 children: [
                   { name: "Democrats", size: arr[j].democratic.not_voting },
                   { name: "Republicans", size: arr[j].republican.not_voting },
-                  { name: "Independents", size: arr[j].indpendent.not_voting }
+                  { name: "Independents", size: arr[j].independent.not_voting }
                 ]
               }
             ]
           } // end of the votes object
+        };
+        switch (arr[j].chamber) {
+          case "House":
+            houseRecent.push(obj);
+            break;
+          case "Senate":
+            senateRecent.push(obj);
+            break;
         };
       };
     };
