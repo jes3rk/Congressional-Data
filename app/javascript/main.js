@@ -12,6 +12,28 @@ function recentProcess(obj) {
   }
 };
 
+function initCaption(target, id) {
+  for (var i = 0; i < target.length; i++) {
+    if (target[i].roll_call === id) {
+      $('#results').text(target[i].bill_num + " " + target[i].title);
+      var col = $('.caption-col');
+      col.prepend($('<h6/>').text(target[i].action));
+      col.append($('<svg/>').attr({
+        "width": "50",
+        "height": "50",
+        "viewBox": "0 0 120 120"
+      })
+        .append($(document.createElementNS('http://www.w3.org/2000/svg', 'rect')).attr({
+          "x": "10",
+          "y": "10",
+          "width": "100",
+          "height": "100",
+          "fill": "#0099E8"
+        })));
+    };
+  };
+};
+
 function grabRecentVotes() {
   $.get("/api/recentVotes").done(function(data) {
     // Data Structure:
@@ -33,6 +55,11 @@ function grabRecentVotes() {
           result: arr[j].result,
           date: arr[j].date,
           time: arr[j].time,
+          total_votes: {
+            yes: arr[j].total.yes,
+            no: arr[j].total.no,
+            not_voting: parseInt(arr[j].total.not_voting)
+          },
           votes: {
             name: "Total",
             children: [
@@ -75,6 +102,8 @@ function grabRecentVotes() {
     };
     // make generation call
     recentDonut(houseRecent, 670);
+    initCaption(houseRecent, 670);
+
   });
 };
 
