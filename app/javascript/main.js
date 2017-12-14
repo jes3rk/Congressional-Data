@@ -101,8 +101,16 @@ function grabRecentVotes() {
       };
     };
     // make generation call
-    recentDonut(houseRecent, 670);
-    initCaption(houseRecent, 670);
+    // recentDonut(houseRecent, 670);
+    // initCaption(houseRecent, 670);
+    while (true) {
+      setTimeout(function() {
+        setTimeout(function() {
+          var num = Math.floor(Math.random() * houseRecent[0].bill_num) + 
+          recentDonut(houseRecent, num)
+        }, 2500)
+      }, 5000)
+    }
 
   });
 };

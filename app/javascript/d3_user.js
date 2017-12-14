@@ -670,6 +670,9 @@ function recentDonut(target, id) {
     .append("g")
       .attr("transform", "translate(" + width / 2 + "," + (height / 2) + ")");
 
+
+
+
   var root = d3.hierarchy(dataSet);
   root.sum(function(d) { return d.size; });
 
