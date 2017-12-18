@@ -1,4 +1,119 @@
 var details;
+var houseRecent = [];
+var senateRecent = [];
+
+function recentProcess(obj) {
+  for (var i = 0; i < obj.length; i++) {
+    houseRecent = {
+      number: obj[i].bill.number,
+      title: obj[i].description,
+
+    }
+  }
+};
+
+function initCaption(target, id) {
+  for (var i = 0; i < target.length; i++) {
+    if (target[i].roll_call === id) {
+      $('#results').text(target[i].bill_num + " " + target[i].title);
+      var col = $('.caption-col');
+      col.prepend($('<h6/>').text(target[i].action));
+      col.append($('<svg/>').attr({
+        "width": "50",
+        "height": "50",
+        "viewBox": "0 0 120 120"
+      })
+        .append($(document.createElementNS('http://www.w3.org/2000/svg', 'rect')).attr({
+          "x": "10",
+          "y": "10",
+          "width": "100",
+          "height": "100",
+          "fill": "#0099E8"
+        })));
+    };
+  };
+};
+
+function grabRecentVotes() {
+  $.get("/api/recentVotes").done(function(data) {
+    // Data Structure:
+    //   root level: yes, no, no-show,
+    //   for each root: break down Dems, Reps, and independents
+
+    // iterate through both parts of the array data
+    for (var i = 0; i < data.length; i++) {
+      // iterate through the selected data[i]
+      for (var j = 0; j < data[i].length; j++) {
+        var arr = data[i];
+        var obj = {
+          roll_call: arr[j].roll_call,
+          bill_num: arr[j].bill.number,
+          chamber: arr[j].chamber,
+          title: arr[j].description,
+          description: arr[j].bill.title,
+          action: arr[j].bill.latest_action,
+          result: arr[j].result,
+          date: arr[j].date,
+          time: arr[j].time,
+          total_votes: {
+            yes: arr[j].total.yes,
+            no: arr[j].total.no,
+            not_voting: parseInt(arr[j].total.not_voting)
+          },
+          votes: {
+            name: "Total",
+            children: [
+              {
+                name: "YEA",
+                children: [
+                  { name: "Democrats", size: arr[j].democratic.yes },
+                  { name: "Republicans", size: arr[j].republican.yes },
+                  { name: "Independents", size: arr[j].independent.yes }
+                ]
+              },
+              {
+                name: "NAY",
+                children: [
+                  { name: "Democrats", size: arr[j].democratic.no },
+                  { name: "Republicans", size: arr[j].republican.no },
+                  { name: "Independents", size: arr[j].independent.no }
+                ]
+              },
+              {
+                name: "Not Present",
+                children: [
+                  { name: "Democrats", size: arr[j].democratic.not_voting },
+                  { name: "Republicans", size: arr[j].republican.not_voting },
+                  { name: "Independents", size: arr[j].independent.not_voting }
+                ]
+              }
+            ]
+          } // end of the votes object
+        };
+        switch (arr[j].chamber) {
+          case "House":
+            houseRecent.push(obj);
+            break;
+          case "Senate":
+            senateRecent.push(obj);
+            break;
+        };
+      };
+    };
+    // make generation call
+    // recentDonut(houseRecent, 670);
+    // initCaption(houseRecent, 670);
+    while (true) {
+      setTimeout(function() {
+        setTimeout(function() {
+          var num = Math.floor(Math.random() * houseRecent[0].bill_num) + 
+          recentDonut(houseRecent, num)
+        }, 2500)
+      }, 5000)
+    }
+
+  });
+};
 
 function search() {
   var memID;
@@ -79,6 +194,8 @@ function memberReady() {
 };
 
 $(document).ready(function() {
+  grabRecentVotes();
+
   $('select').material_select();
 
   $('#searchGo').on('click touch', function() {
