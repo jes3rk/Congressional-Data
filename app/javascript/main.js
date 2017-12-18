@@ -8,11 +8,13 @@ function recentProcess(obj) {
       number: obj[i].bill.number,
       title: obj[i].description,
 
-    }
-  }
+    };
+  };
 };
 
 function initCaption(target, id) {
+  $('#results').empty();
+  $('.caption-col').empty();
   for (var i = 0; i < target.length; i++) {
     if (target[i].roll_call === id) {
       $('#results').text(target[i].bill_num + " " + target[i].title);
@@ -101,17 +103,31 @@ function grabRecentVotes() {
       };
     };
     // make generation call
-    // recentDonut(houseRecent, 670);
-    // initCaption(houseRecent, 670);
-    while (true) {
-      setTimeout(function() {
-        setTimeout(function() {
-          var num = Math.floor(Math.random() * houseRecent[0].bill_num) + 
-          recentDonut(houseRecent, num)
-        }, 2500)
-      }, 5000)
-    }
+    recentDonut(houseRecent, 670);
+    initCaption(houseRecent, 670);
+    // while (true) {
+    //   setTimeout(function() {
+    //     setTimeout(function() {
+    //       var num = Math.floor(Math.random() * houseRecent[0].bill_num) +
+    //       recentDonut(houseRecent, num)
+    //     }, 2500)
+    //   }, 5000)
+    // }
 
+    repeatDonut();
+    function repeatDonut() {
+      setTimeout(function() {
+        $('.chart-div').empty();
+        var firstBill = houseRecent[0].roll_call;
+        var lastBill = houseRecent[houseRecent.length - 1].roll_call;
+        // console.log(roll_call);
+        var num = Math.floor(Math.random() * (firstBill - lastBill) + lastBill);
+        console.log(num);
+        recentDonut(houseRecent, num);
+        initCaption(houseRecent, num);
+        repeatDonut();
+      }, 10000);
+    };
   });
 };
 
