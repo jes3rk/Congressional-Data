@@ -680,8 +680,6 @@ function recentDonut(target, id) {
       .data(partition(root).descendants())
     .enter().append("path")
       .attr("d", arc)
-      // .attr("id")
-      // .style("fill", function(d) { return color((d.children ? d : d.parent).data.name); })
       .style("fill", function(d) {
         switch (d.data.name) {
           case "YEA":
