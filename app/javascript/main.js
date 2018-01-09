@@ -19,7 +19,9 @@ function initCaption(target, id) {
     if (target[i].roll_call === id) {
       $('#results').text(target[i].bill_num + " " + target[i].title);
       var col = $('.caption-col');
-      col.prepend($('<h6/>').text(target[i].action));
+      col.append($('<h5/>').text(target[i].date))
+      col.append($('<h6/>').text("Action: " + target[i].action));
+      col.append($('<h6/>').text("Description of the bill: " + target[i].description));
       // col.append($('<svg/>').attr({
       //   "width": "50",
       //   "height": "50",
@@ -119,7 +121,7 @@ function grabRecentVotes() {
       setTimeout(function() {
         $('.chart-div').empty();
         var num = calls[Math.floor(Math.random() * calls.length)];
-        console.log(num);
+        // console.log(num);
         recentDonut(houseRecent, num);
         initCaption(houseRecent, num);
         repeatDonut();
