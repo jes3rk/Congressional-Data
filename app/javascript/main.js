@@ -20,18 +20,22 @@ function initCaption(target, id) {
       $('#results').text(target[i].bill_num + " " + target[i].title);
       var col = $('.caption-col');
       col.prepend($('<h6/>').text(target[i].action));
-      col.append($('<svg/>').attr({
-        "width": "50",
-        "height": "50",
-        "viewBox": "0 0 120 120"
-      })
-        .append($(document.createElementNS('http://www.w3.org/2000/svg', 'rect')).attr({
-          "x": "10",
-          "y": "10",
-          "width": "100",
-          "height": "100",
-          "fill": "#0099E8"
-        })));
+      // col.append($('<svg/>').attr({
+      //   "width": "50",
+      //   "height": "50",
+      //   "viewBox": "0 0 120 120"
+      // })
+      //   .append($(document.createElementNS('http://www.w3.org/2000/svg', 'rect')).attr({
+      //     "x": "10",
+      //     "y": "10",
+      //     "width": "100",
+      //     "height": "100",
+      //     "fill": "#0099E8"
+      //   })));
+      var total = target[i].total_votes.yes + target[i].total_votes.no + target[i].total_votes.not_voting;
+      col.append($('<p/>').text("Yes votes: " + target[i].total_votes.yes + " or " + ((target[i].total_votes.yes / total) * 100).toFixed(2) + "%"))
+      col.append($('<p/>').text("No votes: " + target[i].total_votes.no + " or " + ((target[i].total_votes.no / total) * 100).toFixed(2) + "%"))
+      col.append($('<p/>').text("Non voting members " + target[i].total_votes.not_voting + " or " + ((target[i].total_votes.not_voting / total) * 100).toFixed(2) + "%"))
     };
   };
 };
@@ -103,25 +107,18 @@ function grabRecentVotes() {
       };
     };
     // make generation call
-    recentDonut(houseRecent, 670);
-    initCaption(houseRecent, 670);
-    // while (true) {
-    //   setTimeout(function() {
-    //     setTimeout(function() {
-    //       var num = Math.floor(Math.random() * houseRecent[0].bill_num) +
-    //       recentDonut(houseRecent, num)
-    //     }, 2500)
-    //   }, 5000)
-    // }
+    recentDonut(houseRecent, houseRecent[0].roll_call);
+    initCaption(houseRecent, houseRecent[0].roll_call);
 
     repeatDonut();
     function repeatDonut() {
+      var calls = [];
+      for (var i = 0; i < houseRecent.length; i++) {
+        calls.push(houseRecent[i].roll_call)
+      };
       setTimeout(function() {
         $('.chart-div').empty();
-        var firstBill = houseRecent[0].roll_call;
-        var lastBill = houseRecent[houseRecent.length - 1].roll_call;
-        // console.log(roll_call);
-        var num = Math.floor(Math.random() * (firstBill - lastBill) + lastBill);
+        var num = calls[Math.floor(Math.random() * calls.length)];
         console.log(num);
         recentDonut(houseRecent, num);
         initCaption(houseRecent, num);
