@@ -1,6 +1,8 @@
 # Congressional-Data
 What are your Representatives in Congress up to? Using this simple tool, you can get useful information about every currently sitting member of Congress. Currently, the page displays contact information, bill sponsorship/cosponsorship, how often they vote with their party, and how often they miss votes.
 
+Deployed Version: https://congressional-data.herokuapp.com/
+
 ## Dependencies
 There are a number of dependencies required to run this app locally. All can be installed with ```npm install```. To install manually, you need to add the following packages:
 * ```body-parser```
